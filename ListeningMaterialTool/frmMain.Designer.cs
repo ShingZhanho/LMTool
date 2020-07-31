@@ -61,7 +61,9 @@ namespace ListeningMaterialTool {
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmTutorial = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoView = new LibVLCSharp.WinForms.VideoView();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.videoView)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -142,25 +144,27 @@ namespace ListeningMaterialTool {
             // tsmExport
             // 
             this.tsmExport.Name = "tsmExport";
-            this.tsmExport.Size = new System.Drawing.Size(152, 22);
+            this.tsmExport.Size = new System.Drawing.Size(180, 22);
             this.tsmExport.Text = "匯出檔案";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // smtReset
             // 
             this.smtReset.Name = "smtReset";
-            this.smtReset.Size = new System.Drawing.Size(152, 22);
+            this.smtReset.Size = new System.Drawing.Size(180, 22);
             this.smtReset.Text = "重設所有內容";
+            this.smtReset.Click += new System.EventHandler(this.smtReset_Click);
             // 
             // smtExit
             // 
             this.smtExit.Name = "smtExit";
-            this.smtExit.Size = new System.Drawing.Size(152, 22);
+            this.smtExit.Size = new System.Drawing.Size(180, 22);
             this.smtExit.Text = "結束";
+            this.smtExit.Click += new System.EventHandler(this.smtExit_Click);
             // 
             // smtSequence
             // 
@@ -316,11 +320,23 @@ namespace ListeningMaterialTool {
             this.tsmAbout.Size = new System.Drawing.Size(180, 22);
             this.tsmAbout.Text = "關於";
             // 
+            // videoView
+            // 
+            this.videoView.BackColor = System.Drawing.Color.Black;
+            this.videoView.Location = new System.Drawing.Point(365, 31);
+            this.videoView.MediaPlayer = null;
+            this.videoView.Name = "videoView";
+            this.videoView.Size = new System.Drawing.Size(75, 23);
+            this.videoView.TabIndex = 7;
+            this.videoView.Text = "videoView1";
+            this.videoView.Visible = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 377);
+            this.Controls.Add(this.videoView);
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnUp);
             this.Controls.Add(this.btnRemove);
@@ -333,10 +349,13 @@ namespace ListeningMaterialTool {
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(766, 416);
             this.Name = "frmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "聆聽材料實用工具";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.videoView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -377,5 +396,6 @@ namespace ListeningMaterialTool {
         private Button btnUp;
         private Button btnDown;
         private ToolStripMenuItem tsmAbout;
+        private LibVLCSharp.WinForms.VideoView videoView;
     }
 }

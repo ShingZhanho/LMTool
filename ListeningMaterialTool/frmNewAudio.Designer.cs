@@ -203,6 +203,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmNewAudio";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "新增音訊";
             ((System.ComponentModel.ISupportInitialize)(this.audioProgress)).EndInit();
             this.ResumeLayout(false);
