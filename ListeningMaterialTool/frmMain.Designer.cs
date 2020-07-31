@@ -60,6 +60,7 @@ namespace ListeningMaterialTool {
             this.檢查更新ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmTutorial = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -280,6 +281,7 @@ namespace ListeningMaterialTool {
             // tsmChkUpdate
             // 
             this.tsmChkUpdate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmAbout,
             this.檢查更新ToolStripMenuItem,
             this.toolStripSeparator2,
             this.tsmTutorial});
@@ -303,6 +305,12 @@ namespace ListeningMaterialTool {
             this.tsmTutorial.Name = "tsmTutorial";
             this.tsmTutorial.Size = new System.Drawing.Size(180, 22);
             this.tsmTutorial.Text = "使用教學";
+            // 
+            // tsmAbout
+            // 
+            this.tsmAbout.Name = "tsmAbout";
+            this.tsmAbout.Size = new System.Drawing.Size(180, 22);
+            this.tsmAbout.Text = "關於";
             // 
             // frmMain
             // 
@@ -364,5 +372,6 @@ namespace ListeningMaterialTool {
         private Button btnRemove;
         private Button btnUp;
         private Button btnDown;
+        private ToolStripMenuItem tsmAbout;
     }
 }
