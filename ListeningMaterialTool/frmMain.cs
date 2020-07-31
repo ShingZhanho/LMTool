@@ -78,6 +78,9 @@ namespace ListeningMaterialTool {
                 lblTotalTime.Text = $"總時長：{MsToTime(totalMs)}";
             }
             tsmExport.Enabled = listPending.Items.Count != 0;
+
+            // Scroll to bottom
+            listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
 
         private string MsToTime(long ms) {
