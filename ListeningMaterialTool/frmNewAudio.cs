@@ -37,6 +37,7 @@ namespace ListeningMaterialTool {
 
         private void btnConfirm_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.OK;
+            Close();
         }
 
         private LibVLC libVlc;

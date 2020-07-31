@@ -19,7 +19,7 @@ namespace ListeningMaterialTool {
             InitializeComponent();
         }
 
-        private bool isExported = false; // Indicates if all the changes are exported to a file
+        private bool isExported = true; // Indicates if all the changes are exported to a file
 
         private void frmMain_Load(object sender, EventArgs e) {
             
@@ -38,18 +38,20 @@ namespace ListeningMaterialTool {
             frmNewAudio newAudio = new frmNewAudio();
             if (newAudio.ShowDialog() == DialogResult.OK) { // Clicks on OK, add item
                 ListViewItem lstItem = new ListViewItem();
-                lstItem.Name = listPending.Items.Count.ToString(); // Number
-                lstItem.SubItems.Add(Path.GetFileName(newAudio.FilePath)); // Filename
-                TimeSpan ts = TimeSpan.FromSeconds(newAudio.SecIn);
-                lstItem.SubItems.Add(string.Format("{0:D2}:{1:D2}:{2:D2}",
-                    ts.Hours, ts.Minutes, ts.Seconds));       // In time
-                ts = TimeSpan.FromSeconds(newAudio.SecOut);
-                lstItem.SubItems.Add(string.Format("{0:D2}:{1:D2}:{2:D2}",
-                    ts.Hours, ts.Minutes, ts.Seconds));       // Out time
-                ts = TimeSpan.FromSeconds(newAudio.SecOut - newAudio.SecIn);
-                lstItem.SubItems.Add(string.Format("{0:D2}:{1:D2}:{2:D2}",
-                    ts.Hours, ts.Minutes, ts.Seconds));       // Duration
+                lstItem.Name = (listPending.Items.Count + 1).ToString();                       // Number
+                lstItem.SubItems.Add(Path.GetFileName(newAudio.FilePath));           // Filename
+                lstItem.SubItems.Add(string.Format(MsToTime(newAudio.SecIn)));       // In time
+                lstItem.SubItems.Add(MsToTime(newAudio.SecOut));                     // Out time
+                lstItem.SubItems.Add(MsToTime(newAudio.SecOut - newAudio.SecIn));    // Duration
+                listPending.Items.Add(lstItem);
+                isExported = false;
             }
+        }
+
+        private string MsToTime(long ms) {
+            TimeSpan ts = TimeSpan.FromMilliseconds(ms);
+            return string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D3}",
+                ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
         }
 
         private void smtReset_Click(object sender, EventArgs e) {
