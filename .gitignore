@@ -17,3 +17,8 @@ riderModule.iml
 .vs/ListeningMaterialTool/v16/Server/sqlite3/storage.ide
 .vs/ListeningMaterialTool/v16/Server/sqlite3/storage.ide-shm
 .vs/ListeningMaterialTool/v16/Server/sqlite3/storage.ide-wal
+.vs/ListeningMaterialTool/v16/Server/sqlite3/storage.ide-shm
+.vs/ListeningMaterialTool/v16/.suo
+*.ide
+*.ide-shm
+*.ide-wal
