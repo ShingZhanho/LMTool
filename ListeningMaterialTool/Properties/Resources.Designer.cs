@@ -63,6 +63,16 @@ namespace ListeningMaterialTool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] built_in_sound {
+            get {
+                object obj = ResourceManager.GetObject("built_in_sound", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] chord {
             get {
                 object obj = ResourceManager.GetObject("chord", resourceCulture);

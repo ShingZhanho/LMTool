@@ -64,6 +64,7 @@ namespace ListeningMaterialTool {
             this.lblTotalTime = new System.Windows.Forms.Label();
             this.tsmRepair = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmRIffmpeg = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtRIGreensleeves = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -344,7 +345,8 @@ namespace ListeningMaterialTool {
             // tsmRepair
             // 
             this.tsmRepair.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmRIffmpeg});
+            this.tsmRIffmpeg,
+            this.smtRIGreensleeves});
             this.tsmRepair.Name = "tsmRepair";
             this.tsmRepair.Size = new System.Drawing.Size(180, 22);
             this.tsmRepair.Text = "修復";
@@ -355,6 +357,13 @@ namespace ListeningMaterialTool {
             this.tsmRIffmpeg.Size = new System.Drawing.Size(191, 22);
             this.tsmRIffmpeg.Text = "重新安裝ffmpeg套件";
             this.tsmRIffmpeg.Click += new System.EventHandler(this.tsmRIffmpeg_Click);
+            // 
+            // smtRIGreensleeves
+            // 
+            this.smtRIGreensleeves.Name = "smtRIGreensleeves";
+            this.smtRIGreensleeves.Size = new System.Drawing.Size(191, 22);
+            this.smtRIGreensleeves.Text = "重置內建聲音檔";
+            this.smtRIGreensleeves.Click += new System.EventHandler(this.smtRIGreensleeves_Click);
             // 
             // frmMain
             // 
@@ -423,5 +432,6 @@ namespace ListeningMaterialTool {
         private Label lblTotalTime;
         private ToolStripMenuItem tsmRepair;
         private ToolStripMenuItem tsmRIffmpeg;
+        private ToolStripMenuItem smtRIGreensleeves;
     }
 }

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ListeningMaterialTool.Properties;
 using WMPLib;
+// ReSharper Disable LocalizableElement
 
 namespace ListeningMaterialTool {
     public partial class frmMain : Form {
@@ -36,6 +37,10 @@ namespace ListeningMaterialTool {
             // finds the ffmpeg
             if (!Directory.Exists($"./ffmpeg-4.3.1-win32-static"))
                 UnzipFfmpeg();
+
+            // finds built in sounds
+            if (!Directory.Exists($"./built_in_sounds"))
+                UnzipSounds();
         }
 
         private void UnzipFfmpeg() {
@@ -85,13 +90,10 @@ namespace ListeningMaterialTool {
             // Plays alert sound and show message
             if (!File.Exists("./res/chord.mp3"))
                 File.WriteAllBytes("./res/chord.mp3", Resources.chord);
-            WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
-            myplayer.URL = "./res/chord.mp3";
-            myplayer.controls.play();
+            Alert();
             DialogResult dialogResult =
                 MessageBox.Show("你確定要重設所有內容？任何未匯出的更改都會丟失。",
                     "警告", MessageBoxButtons.YesNo);
-            myplayer.close();
             if (dialogResult == DialogResult.Yes) {
                 Application.Restart();
             }
@@ -100,13 +102,10 @@ namespace ListeningMaterialTool {
         private void smtExit_Click(object sender, EventArgs e) {
             // Closes if changes not saved
             if (!isExported) { // Changes not saved
-                WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
-                myplayer.URL = "./res/chord.mp3";
-                myplayer.controls.play();
+                Alert();
                 DialogResult dialogResult =
                     MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
                         "警告", MessageBoxButtons.YesNo);
-                myplayer.close();
                 if (dialogResult == DialogResult.Yes)
                     Application.Exit();
                 else 
@@ -118,13 +117,10 @@ namespace ListeningMaterialTool {
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
             // Closes if changes not saved
             if (!isExported && e.CloseReason != CloseReason.ApplicationExitCall) { // Changes not saved
-                WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
-                myplayer.URL = "./res/chord.mp3";
-                myplayer.controls.play();
+                Alert();
                 DialogResult dialogResult =
                     MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
                         "警告", MessageBoxButtons.YesNo);
-                myplayer.close();
                 if (dialogResult == DialogResult.No) {
                     e.Cancel = true;
                     return;
@@ -175,17 +171,43 @@ namespace ListeningMaterialTool {
         }
 
         private void tsmRIffmpeg_Click(object sender, EventArgs e) {
-            WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
-            myplayer.URL = "./res/chord.mp3";
-            myplayer.controls.play();
+            Alert();
             MessageBox.Show(
                 "此工具部分功能依賴ffmpeg運行。" +
                 "如果你在使用應用程式的過程中遇到錯誤，重新安裝有關套件可能有助" +
                 "解決有關問題。", "即將進行修復", MessageBoxButtons.OK);
             UnzipFfmpeg();
-            myplayer.controls.play();
+            Alert();
             MessageBox.Show(
                 "已經重新安裝ffmpeg，現在請再次嘗試", "修復完成", MessageBoxButtons.OK);
+        }
+
+        private void UnzipSounds() {
+            if (Directory.Exists("./built_in_sound"))
+                Directory.Delete("./built_in_sound", true);
+            // unzip ffmpeg dependency
+            File.WriteAllBytes($@"{tempPath}/greensleeves.zip", Resources.built_in_sound);
+            ZipFile.ExtractToDirectory($@"{tempPath}/greensleeves.zip",
+                Application.StartupPath);
+            File.Delete($@"{tempPath}/greensleeves.zip");
+        }
+
+        private void smtRIGreensleeves_Click(object sender, EventArgs e) {
+            Alert();
+            MessageBox.Show(
+                "此工具內置Greensleeves音樂及Beep聲效。" +
+                "如果你在使用應用程式的過程中遇到錯誤，重置有關檔案可能有助" +
+                "解決問題。", "即將進行修復", MessageBoxButtons.OK);
+            UnzipSounds();
+            Alert();
+            MessageBox.Show(
+                "已經重置音效檔，現在請再次嘗試", "修復完成", MessageBoxButtons.OK);
+        }
+
+        private void Alert() {
+            WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
+            myplayer.URL = "./res/chord.mp3";
+            myplayer.controls.play();
         }
     }
 }
