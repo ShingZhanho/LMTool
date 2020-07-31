@@ -7,3 +7,4 @@
 * **完全免費** ！
 ## 如何使用
 ### 下載
+前往[發行版本頁面](https://github.com/ShingZhanho/LMTool/releases)來下載最新版（如果你想使用稳定的版本，請不要**下載**帶有「beta」字眼的版本。
