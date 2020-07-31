@@ -19,17 +19,10 @@ namespace ListeningMaterialTool {
             InitializeComponent();
         }
 
-        private LibVLC libVlc;
-        private MediaPlayer mediaPlayer;
-
-        private bool isExported = true; // Indicates if all the changes are exported to a file
+        private bool isExported = false; // Indicates if all the changes are exported to a file
 
         private void frmMain_Load(object sender, EventArgs e) {
-            // Initialize audio player
-            LibVLCSharp.Shared.Core.Initialize();
-            libVlc = new LibVLC();
-            mediaPlayer = new MediaPlayer(libVlc);
-            videoView.MediaPlayer = mediaPlayer;
+            
 
             // Creates dirs
             if (!Directory.Exists("./res/")) Directory.CreateDirectory("./res/");
@@ -48,14 +41,14 @@ namespace ListeningMaterialTool {
                 lstItem.Name = listPending.Items.Count.ToString(); // Number
                 lstItem.SubItems.Add(Path.GetFileName(newAudio.FilePath)); // Filename
                 TimeSpan ts = TimeSpan.FromSeconds(newAudio.SecIn);
-                lstItem.SubItems.Add(string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                    ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds));       // In time
+                lstItem.SubItems.Add(string.Format("{0:D2}:{1:D2}:{2:D2}",
+                    ts.Hours, ts.Minutes, ts.Seconds));       // In time
                 ts = TimeSpan.FromSeconds(newAudio.SecOut);
-                lstItem.SubItems.Add(string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                    ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds));       // Out time
+                lstItem.SubItems.Add(string.Format("{0:D2}:{1:D2}:{2:D2}",
+                    ts.Hours, ts.Minutes, ts.Seconds));       // Out time
                 ts = TimeSpan.FromSeconds(newAudio.SecOut - newAudio.SecIn);
-                lstItem.SubItems.Add(string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                    ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds));       // Duration
+                lstItem.SubItems.Add(string.Format("{0:D2}:{1:D2}:{2:D2}",
+                    ts.Hours, ts.Minutes, ts.Seconds));       // Duration
             }
         }
 
@@ -69,6 +62,7 @@ namespace ListeningMaterialTool {
             DialogResult dialogResult =
                 MessageBox.Show("你確定要重設所有內容？任何未匯出的更改都會丟失。",
                     "警告", MessageBoxButtons.YesNo);
+            myplayer.close();
             if (dialogResult == DialogResult.Yes) {
                 Application.Restart();
             }
@@ -83,6 +77,7 @@ namespace ListeningMaterialTool {
                 DialogResult dialogResult =
                     MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
                         "警告", MessageBoxButtons.YesNo);
+                myplayer.close();
                 if (dialogResult == DialogResult.Yes)
                     Application.Exit();
                 else 
@@ -100,6 +95,7 @@ namespace ListeningMaterialTool {
                 DialogResult dialogResult =
                     MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
                         "警告", MessageBoxButtons.YesNo);
+                myplayer.close();
                 if (dialogResult == DialogResult.No) {
                     e.Cancel = true;
                     return;
