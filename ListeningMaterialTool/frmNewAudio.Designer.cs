@@ -96,7 +96,7 @@
             // lblSummary
             // 
             this.lblSummary.AutoSize = true;
-            this.lblSummary.Location = new System.Drawing.Point(12, 203);
+            this.lblSummary.Location = new System.Drawing.Point(12, 219);
             this.lblSummary.Name = "lblSummary";
             this.lblSummary.Size = new System.Drawing.Size(83, 90);
             this.lblSummary.TabIndex = 10;
@@ -134,6 +134,7 @@
             this.btnTrimIn.Size = new System.Drawing.Size(40, 40);
             this.btnTrimIn.TabIndex = 7;
             this.btnTrimIn.UseVisualStyleBackColor = true;
+            this.btnTrimIn.Click += new System.EventHandler(this.btnTrimIn_Click);
             // 
             // btnTenBackward
             // 
@@ -146,6 +147,7 @@
             this.btnTenBackward.Size = new System.Drawing.Size(40, 40);
             this.btnTenBackward.TabIndex = 6;
             this.btnTenBackward.UseVisualStyleBackColor = true;
+            this.btnTenBackward.Click += new System.EventHandler(this.btnTenBackward_Click);
             // 
             // btnTrimOut
             // 
@@ -158,6 +160,7 @@
             this.btnTrimOut.Size = new System.Drawing.Size(40, 40);
             this.btnTrimOut.TabIndex = 5;
             this.btnTrimOut.UseVisualStyleBackColor = true;
+            this.btnTrimOut.Click += new System.EventHandler(this.btnTrimOut_Click);
             // 
             // btnTenForward
             // 
@@ -170,6 +173,7 @@
             this.btnTenForward.Size = new System.Drawing.Size(40, 40);
             this.btnTenForward.TabIndex = 4;
             this.btnTenForward.UseVisualStyleBackColor = true;
+            this.btnTenForward.Click += new System.EventHandler(this.btnTenForward_Click);
             // 
             // btnTogglePlay
             // 
@@ -226,6 +230,7 @@
             this.Name = "frmNewAudio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "新增音訊";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmNewAudio_FormClosing);
             this.Load += new System.EventHandler(this.frmNewAudio_Load);
             ((System.ComponentModel.ISupportInitialize)(this.audioProgress)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.audioPlayer)).EndInit();

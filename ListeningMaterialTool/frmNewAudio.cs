@@ -28,8 +28,8 @@ namespace ListeningMaterialTool {
 
         // Return values:
         public string FilePath { get; set; } // Audio file location
-        public int SecIn { get; set; } // In position in milliseconds
-        public int SecOut { get; set; } // Out position in milliseconds
+        public long SecIn { get; set; } // In position in milliseconds
+        public long SecOut { get; set; } // Out position in milliseconds
         public long AudioDuration { get; set; } // Duration of audio
 
         // Needed values when start up:
@@ -160,6 +160,31 @@ namespace ListeningMaterialTool {
         private void audioProgress_MouseUp(object sender, MouseEventArgs e) {
             sliderIsPressed = false;
             mediaPlayer.Time = audioProgress.Value;
+        }
+
+        private void btnTrimIn_Click(object sender, EventArgs e) {
+            SecIn = mediaPlayer.Time;
+            UpdateSummary();
+        }
+
+        private void btnTrimOut_Click(object sender, EventArgs e) {
+            SecOut = mediaPlayer.Time;
+            UpdateSummary();
+        }
+
+        private void btnTenBackward_Click(object sender, EventArgs e) {
+            mediaPlayer.Time -= 10000;
+        }
+
+        private void btnTenForward_Click(object sender, EventArgs e) {
+            mediaPlayer.Time += 10000;
+        }
+
+        private void frmNewAudio_FormClosing(object sender, FormClosingEventArgs e) {
+            // Dispose and stop playback
+            mediaPlayer.Stop();
+            mediaPlayer.Dispose();
+            libVlc.Dispose();
         }
     }
 }
