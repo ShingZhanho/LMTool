@@ -4,4 +4,16 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 /.idea/
-/.vs/
+.vs/
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+.vs/ListeningMaterialTool/v16/.suo
+.vs/ListeningMaterialTool/v16/Server/sqlite3/storage.ide
+.vs/ListeningMaterialTool/v16/Server/sqlite3/storage.ide-shm
+.vs/ListeningMaterialTool/v16/Server/sqlite3/storage.ide-wal
