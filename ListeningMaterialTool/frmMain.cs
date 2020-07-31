@@ -57,6 +57,7 @@ namespace ListeningMaterialTool {
                 isExported = false;
                 lblTotalTime.Text = $"總時長：{MsToTime(totalMs)}";
             }
+            tsmExport.Enabled = listPending.Items.Count != 0;
         }
 
         private string MsToTime(long ms) {
@@ -131,7 +132,9 @@ namespace ListeningMaterialTool {
         }
 
         private void btnRemove_Click(object sender, EventArgs e) {
+            File.Delete(listPending.SelectedItems[0].SubItems[5].Text);
             listPending.Items.Remove(listPending.SelectedItems[0]);
+            tsmExport.Enabled = listPending.Items.Count != 0;
         }
 
         private void btnUp_Click(object sender, EventArgs e) {
@@ -146,6 +149,14 @@ namespace ListeningMaterialTool {
             int index = listPending.Items.IndexOf(listPending.SelectedItems[0]);
             listPending.Items.Remove(listPending.SelectedItems[0]);
             listPending.Items.Insert(index + 1, lstItem);
+        }
+
+        private void smtChkUpdate_Click(object sender, EventArgs e) {
+            Process.Start("https://github.com/ShingZhanho/LMTool/releases");
+        }
+
+        private void tsmTutorial_Click(object sender, EventArgs e) {
+            Process.Start("https://github.com/ShingZhanho/LMTool#readme");
         }
     }
 }

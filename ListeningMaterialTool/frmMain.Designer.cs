@@ -52,9 +52,9 @@ namespace ListeningMaterialTool {
             this.smtGreen240 = new System.Windows.Forms.ToolStripMenuItem();
             this.smtGreen300 = new System.Windows.Forms.ToolStripMenuItem();
             this.smtBeep = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmChkUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.檢查更新ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtChkUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmTutorial = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAppend = new System.Windows.Forms.Button();
@@ -124,7 +124,7 @@ namespace ListeningMaterialTool {
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile,
             this.smtSequence,
-            this.tsmChkUpdate});
+            this.tsmHelp});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(750, 24);
@@ -144,8 +144,9 @@ namespace ListeningMaterialTool {
             // 
             // tsmExport
             // 
+            this.tsmExport.Enabled = false;
             this.tsmExport.Name = "tsmExport";
-            this.tsmExport.Size = new System.Drawing.Size(152, 22);
+            this.tsmExport.Size = new System.Drawing.Size(180, 22);
             this.tsmExport.Text = "匯出檔案";
             // 
             // toolStripSeparator1
@@ -239,39 +240,41 @@ namespace ListeningMaterialTool {
             this.smtBeep.Size = new System.Drawing.Size(139, 22);
             this.smtBeep.Text = "Beep音效";
             // 
-            // tsmChkUpdate
+            // tsmHelp
             // 
-            this.tsmChkUpdate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmAbout,
-            this.檢查更新ToolStripMenuItem,
+            this.smtChkUpdate,
             this.toolStripSeparator2,
             this.tsmTutorial});
-            this.tsmChkUpdate.Name = "tsmChkUpdate";
-            this.tsmChkUpdate.Size = new System.Drawing.Size(45, 20);
-            this.tsmChkUpdate.Text = "幫助";
+            this.tsmHelp.Name = "tsmHelp";
+            this.tsmHelp.Size = new System.Drawing.Size(45, 20);
+            this.tsmHelp.Text = "幫助";
             // 
             // tsmAbout
             // 
             this.tsmAbout.Name = "tsmAbout";
-            this.tsmAbout.Size = new System.Drawing.Size(126, 22);
+            this.tsmAbout.Size = new System.Drawing.Size(180, 22);
             this.tsmAbout.Text = "關於";
             // 
-            // 檢查更新ToolStripMenuItem
+            // smtChkUpdate
             // 
-            this.檢查更新ToolStripMenuItem.Name = "檢查更新ToolStripMenuItem";
-            this.檢查更新ToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
-            this.檢查更新ToolStripMenuItem.Text = "檢查更新";
+            this.smtChkUpdate.Name = "smtChkUpdate";
+            this.smtChkUpdate.Size = new System.Drawing.Size(180, 22);
+            this.smtChkUpdate.Text = "檢查更新";
+            this.smtChkUpdate.Click += new System.EventHandler(this.smtChkUpdate_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(123, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmTutorial
             // 
             this.tsmTutorial.Name = "tsmTutorial";
-            this.tsmTutorial.Size = new System.Drawing.Size(126, 22);
+            this.tsmTutorial.Size = new System.Drawing.Size(180, 22);
             this.tsmTutorial.Text = "使用教學";
+            this.tsmTutorial.Click += new System.EventHandler(this.tsmTutorial_Click);
             // 
             // btnAppend
             // 
@@ -287,7 +290,7 @@ namespace ListeningMaterialTool {
             // 
             // btnRemove
             // 
-            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRemove.Enabled = false;
             this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemove.Location = new System.Drawing.Point(260, 336);
@@ -326,6 +329,7 @@ namespace ListeningMaterialTool {
             // 
             // lblTotalTime
             // 
+            this.lblTotalTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalTime.AutoSize = true;
             this.lblTotalTime.Location = new System.Drawing.Point(544, 341);
             this.lblTotalTime.Name = "lblTotalTime";
@@ -389,8 +393,8 @@ namespace ListeningMaterialTool {
         private ToolStripMenuItem smtGreen240;
         private ToolStripMenuItem smtGreen300;
         private ToolStripMenuItem smtBeep;
-        private ToolStripMenuItem tsmChkUpdate;
-        private ToolStripMenuItem 檢查更新ToolStripMenuItem;
+        private ToolStripMenuItem tsmHelp;
+        private ToolStripMenuItem smtChkUpdate;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem tsmTutorial;
         private Button btnAppend;
