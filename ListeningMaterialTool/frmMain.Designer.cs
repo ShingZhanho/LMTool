@@ -31,60 +31,338 @@ namespace ListeningMaterialTool {
         private void InitializeComponent() {
             this.label1 = new System.Windows.Forms.Label();
             this.listPending = new System.Windows.Forms.ListView();
-            this.audioPlayer = new LibVLCSharp.WinForms.VideoView();
-            ((System.ComponentModel.ISupportInitialize)(this.audioPlayer)).BeginInit();
+            this.clmNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmIn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmOut = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmExport = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.smtReset = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtSequence = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmAdd = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtGreen = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtGreen30 = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtGreen60 = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtGreen120 = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtGreen180 = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtGreen240 = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtGreen300 = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtBeep = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnAppend = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.btnUp = new System.Windows.Forms.Button();
+            this.btnDown = new System.Windows.Forms.Button();
+            this.tsmChkUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.檢查更新ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmTutorial = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(12, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(138, 23);
             this.label1.TabIndex = 0;
-            this.label1.Text = "聆聽材料列表：";
+            this.label1.Text = "聆聽材料清單：";
             // 
             // listPending
             // 
+            this.listPending.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listPending.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clmNum,
+            this.clmFileName,
+            this.clmIn,
+            this.clmOut,
+            this.clmLength});
             this.listPending.HideSelection = false;
-            this.listPending.Location = new System.Drawing.Point(12, 35);
+            this.listPending.Location = new System.Drawing.Point(12, 60);
             this.listPending.Name = "listPending";
-            this.listPending.Size = new System.Drawing.Size(416, 270);
+            this.listPending.Size = new System.Drawing.Size(684, 270);
             this.listPending.TabIndex = 0;
             this.listPending.UseCompatibleStateImageBehavior = false;
+            this.listPending.View = System.Windows.Forms.View.Details;
+            this.listPending.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listPending_ColumnWidthChanging);
             // 
-            // audioPlayer
+            // clmNum
             // 
-            this.audioPlayer.BackColor = System.Drawing.Color.Black;
-            this.audioPlayer.Location = new System.Drawing.Point(236, 12);
-            this.audioPlayer.MediaPlayer = null;
-            this.audioPlayer.Name = "audioPlayer";
-            this.audioPlayer.Size = new System.Drawing.Size(98, 55);
-            this.audioPlayer.TabIndex = 1;
-            this.audioPlayer.Text = "videoView1";
-            this.audioPlayer.Visible = false;
+            this.clmNum.Text = "序號";
+            // 
+            // clmFileName
+            // 
+            this.clmFileName.Text = "檔案名稱";
+            this.clmFileName.Width = 200;
+            // 
+            // clmIn
+            // 
+            this.clmIn.Text = "開始時間";
+            this.clmIn.Width = 130;
+            // 
+            // clmOut
+            // 
+            this.clmOut.Text = "結束時間";
+            this.clmOut.Width = 130;
+            // 
+            // clmLength
+            // 
+            this.clmLength.Text = "長度";
+            this.clmLength.Width = 130;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuFile,
+            this.smtSequence,
+            this.tsmChkUpdate});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(750, 24);
+            this.menuStrip1.TabIndex = 2;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuFile
+            // 
+            this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmExport,
+            this.toolStripSeparator1,
+            this.smtReset,
+            this.smtExit});
+            this.menuFile.Name = "menuFile";
+            this.menuFile.Size = new System.Drawing.Size(45, 20);
+            this.menuFile.Text = "檔案";
+            // 
+            // tsmExport
+            // 
+            this.tsmExport.Name = "tsmExport";
+            this.tsmExport.Size = new System.Drawing.Size(152, 22);
+            this.tsmExport.Text = "匯出檔案";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // smtReset
+            // 
+            this.smtReset.Name = "smtReset";
+            this.smtReset.Size = new System.Drawing.Size(152, 22);
+            this.smtReset.Text = "重設所有內容";
+            // 
+            // smtExit
+            // 
+            this.smtExit.Name = "smtExit";
+            this.smtExit.Size = new System.Drawing.Size(152, 22);
+            this.smtExit.Text = "結束";
+            // 
+            // smtSequence
+            // 
+            this.smtSequence.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmAdd});
+            this.smtSequence.Name = "smtSequence";
+            this.smtSequence.Size = new System.Drawing.Size(71, 20);
+            this.smtSequence.Text = "實用工具";
+            // 
+            // tsmAdd
+            // 
+            this.tsmAdd.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.smtGreen,
+            this.smtBeep});
+            this.tsmAdd.Name = "tsmAdd";
+            this.tsmAdd.Size = new System.Drawing.Size(100, 22);
+            this.tsmAdd.Text = "新增";
+            // 
+            // smtGreen
+            // 
+            this.smtGreen.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.smtGreen30,
+            this.smtGreen60,
+            this.smtGreen120,
+            this.smtGreen180,
+            this.smtGreen240,
+            this.smtGreen300});
+            this.smtGreen.Name = "smtGreen";
+            this.smtGreen.Size = new System.Drawing.Size(139, 22);
+            this.smtGreen.Text = "綠袖子音樂";
+            // 
+            // smtGreen30
+            // 
+            this.smtGreen30.Name = "smtGreen30";
+            this.smtGreen30.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen30.Text = "30秒";
+            // 
+            // smtGreen60
+            // 
+            this.smtGreen60.Name = "smtGreen60";
+            this.smtGreen60.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen60.Text = "1分鐘";
+            // 
+            // smtGreen120
+            // 
+            this.smtGreen120.Name = "smtGreen120";
+            this.smtGreen120.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen120.Text = "2分鐘";
+            // 
+            // smtGreen180
+            // 
+            this.smtGreen180.Name = "smtGreen180";
+            this.smtGreen180.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen180.Text = "3分鐘";
+            // 
+            // smtGreen240
+            // 
+            this.smtGreen240.Name = "smtGreen240";
+            this.smtGreen240.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen240.Text = "4分鐘";
+            // 
+            // smtGreen300
+            // 
+            this.smtGreen300.Name = "smtGreen300";
+            this.smtGreen300.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen300.Text = "5分鐘";
+            // 
+            // smtBeep
+            // 
+            this.smtBeep.Name = "smtBeep";
+            this.smtBeep.Size = new System.Drawing.Size(139, 22);
+            this.smtBeep.Text = "Beep音效";
+            // 
+            // btnAppend
+            // 
+            this.btnAppend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAppend.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAppend.Location = new System.Drawing.Point(12, 336);
+            this.btnAppend.Name = "btnAppend";
+            this.btnAppend.Size = new System.Drawing.Size(242, 28);
+            this.btnAppend.TabIndex = 3;
+            this.btnAppend.Text = "新增音訊到清單中";
+            this.btnAppend.UseVisualStyleBackColor = true;
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemove.Location = new System.Drawing.Point(454, 336);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(242, 28);
+            this.btnRemove.TabIndex = 4;
+            this.btnRemove.Text = "從清單移除所選音訊";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            // 
+            // btnUp
+            // 
+            this.btnUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUp.Location = new System.Drawing.Point(702, 141);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(35, 35);
+            this.btnUp.TabIndex = 5;
+            this.btnUp.Text = "↑";
+            this.btnUp.UseVisualStyleBackColor = true;
+            // 
+            // btnDown
+            // 
+            this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDown.Location = new System.Drawing.Point(702, 219);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(35, 35);
+            this.btnDown.TabIndex = 6;
+            this.btnDown.Text = "↓";
+            this.btnDown.UseVisualStyleBackColor = true;
+            // 
+            // tsmChkUpdate
+            // 
+            this.tsmChkUpdate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.檢查更新ToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.tsmTutorial});
+            this.tsmChkUpdate.Name = "tsmChkUpdate";
+            this.tsmChkUpdate.Size = new System.Drawing.Size(45, 20);
+            this.tsmChkUpdate.Text = "幫助";
+            // 
+            // 檢查更新ToolStripMenuItem
+            // 
+            this.檢查更新ToolStripMenuItem.Name = "檢查更新ToolStripMenuItem";
+            this.檢查更新ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.檢查更新ToolStripMenuItem.Text = "檢查更新";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            // 
+            // tsmTutorial
+            // 
+            this.tsmTutorial.Name = "tsmTutorial";
+            this.tsmTutorial.Size = new System.Drawing.Size(180, 22);
+            this.tsmTutorial.Text = "使用教學";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(761, 450);
+            this.ClientSize = new System.Drawing.Size(750, 377);
+            this.Controls.Add(this.btnDown);
+            this.Controls.Add(this.btnUp);
+            this.Controls.Add(this.btnRemove);
+            this.Controls.Add(this.btnAppend);
             this.Controls.Add(this.listPending);
-            this.Controls.Add(this.audioPlayer);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(766, 416);
             this.Name = "frmMain";
             this.Text = "聆聽材料實用工具";
             this.Load += new System.EventHandler(this.frmMain_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.audioPlayer)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListView listPending;
-        private LibVLCSharp.WinForms.VideoView audioPlayer;
 
         #endregion
+
+        private ColumnHeader clmFileName;
+        private ColumnHeader clmIn;
+        private ColumnHeader clmOut;
+        private ColumnHeader clmLength;
+        private ColumnHeader clmNum;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem menuFile;
+        private ToolStripMenuItem tsmExport;
+        private ToolStripMenuItem smtReset;
+        private ToolStripMenuItem smtExit;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem smtSequence;
+        private ToolStripMenuItem tsmAdd;
+        private ToolStripMenuItem smtGreen;
+        private ToolStripMenuItem smtGreen30;
+        private ToolStripMenuItem smtGreen60;
+        private ToolStripMenuItem smtGreen120;
+        private ToolStripMenuItem smtGreen180;
+        private ToolStripMenuItem smtGreen240;
+        private ToolStripMenuItem smtGreen300;
+        private ToolStripMenuItem smtBeep;
+        private ToolStripMenuItem tsmChkUpdate;
+        private ToolStripMenuItem 檢查更新ToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem tsmTutorial;
+        private Button btnAppend;
+        private Button btnRemove;
+        private Button btnUp;
+        private Button btnDown;
     }
 }

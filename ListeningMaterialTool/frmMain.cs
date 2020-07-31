@@ -18,5 +18,10 @@ namespace ListeningMaterialTool {
         private void frmMain_Load(object sender, EventArgs e) {
             
         }
+
+        private void listPending_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e) {
+            e.Cancel = true;
+            e.NewWidth = listPending.Columns[e.ColumnIndex].Width;
+        }
     }
 }
