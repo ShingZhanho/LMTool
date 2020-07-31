@@ -61,9 +61,8 @@ namespace ListeningMaterialTool {
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.btnDown = new System.Windows.Forms.Button();
-            this.videoView = new LibVLCSharp.WinForms.VideoView();
+            this.lblTotalTime = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.videoView)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -94,10 +93,11 @@ namespace ListeningMaterialTool {
             this.listPending.UseCompatibleStateImageBehavior = false;
             this.listPending.View = System.Windows.Forms.View.Details;
             this.listPending.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listPending_ColumnWidthChanging);
+            this.listPending.SelectedIndexChanged += new System.EventHandler(this.listPending_SelectedIndexChanged);
             // 
             // clmNum
             // 
-            this.clmNum.Text = "序號";
+            this.clmNum.Text = "編號";
             // 
             // clmFileName
             // 
@@ -290,12 +290,13 @@ namespace ListeningMaterialTool {
             this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemove.Enabled = false;
             this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemove.Location = new System.Drawing.Point(454, 336);
+            this.btnRemove.Location = new System.Drawing.Point(260, 336);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(242, 28);
             this.btnRemove.TabIndex = 4;
             this.btnRemove.Text = "從清單移除所選音訊";
             this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // btnUp
             // 
@@ -308,6 +309,7 @@ namespace ListeningMaterialTool {
             this.btnUp.TabIndex = 5;
             this.btnUp.Text = "↑";
             this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
             // 
             // btnDown
             // 
@@ -320,24 +322,24 @@ namespace ListeningMaterialTool {
             this.btnDown.TabIndex = 6;
             this.btnDown.Text = "↓";
             this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
             // 
-            // videoView
+            // lblTotalTime
             // 
-            this.videoView.BackColor = System.Drawing.Color.Black;
-            this.videoView.Location = new System.Drawing.Point(365, 31);
-            this.videoView.MediaPlayer = null;
-            this.videoView.Name = "videoView";
-            this.videoView.Size = new System.Drawing.Size(75, 23);
-            this.videoView.TabIndex = 7;
-            this.videoView.Text = "videoView1";
-            this.videoView.Visible = false;
+            this.lblTotalTime.AutoSize = true;
+            this.lblTotalTime.Location = new System.Drawing.Point(544, 341);
+            this.lblTotalTime.Name = "lblTotalTime";
+            this.lblTotalTime.Size = new System.Drawing.Size(152, 18);
+            this.lblTotalTime.TabIndex = 8;
+            this.lblTotalTime.Text = "總時長：00:00:00.000";
+            this.lblTotalTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 377);
-            this.Controls.Add(this.videoView);
+            this.Controls.Add(this.lblTotalTime);
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnUp);
             this.Controls.Add(this.btnRemove);
@@ -356,7 +358,6 @@ namespace ListeningMaterialTool {
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.videoView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -397,6 +398,6 @@ namespace ListeningMaterialTool {
         private Button btnUp;
         private Button btnDown;
         private ToolStripMenuItem tsmAbout;
-        private LibVLCSharp.WinForms.VideoView videoView;
+        private Label lblTotalTime;
     }
 }

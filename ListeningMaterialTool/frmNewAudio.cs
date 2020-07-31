@@ -28,15 +28,19 @@ namespace ListeningMaterialTool {
 
         // Return values:
         public string FilePath { get; set; } // Audio file location
+        public string RealPath { get; set; } // Real file path inside temp dir
         public long SecIn { get; set; } // In position in milliseconds
         public long SecOut { get; set; } // Out position in milliseconds
         public long AudioDuration { get; set; } // Duration of audio
 
         // Needed values when start up:
         public string TempDir { get; set; } // Identifies where to store the audio file
+        public int seq { get; set; } // sequence of the current file
 
         private void btnConfirm_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.OK;
+            RealPath = $@"{TempDir}\{seq.ToString()}{Path.GetExtension(FilePath)}";
+            File.Copy(FilePath, RealPath);
             Close();
         }
 
