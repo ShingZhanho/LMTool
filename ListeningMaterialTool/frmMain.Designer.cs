@@ -244,10 +244,12 @@ namespace ListeningMaterialTool {
             this.btnAppend.TabIndex = 3;
             this.btnAppend.Text = "新增音訊到清單中";
             this.btnAppend.UseVisualStyleBackColor = true;
+            this.btnAppend.Click += new System.EventHandler(this.btnAppend_Click);
             // 
             // btnRemove
             // 
             this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemove.Enabled = false;
             this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemove.Location = new System.Drawing.Point(454, 336);
             this.btnRemove.Name = "btnRemove";
@@ -259,6 +261,7 @@ namespace ListeningMaterialTool {
             // btnUp
             // 
             this.btnUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUp.Enabled = false;
             this.btnUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUp.Location = new System.Drawing.Point(702, 141);
             this.btnUp.Name = "btnUp";
@@ -270,6 +273,7 @@ namespace ListeningMaterialTool {
             // btnDown
             // 
             this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDown.Enabled = false;
             this.btnDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDown.Location = new System.Drawing.Point(702, 219);
             this.btnDown.Name = "btnDown";

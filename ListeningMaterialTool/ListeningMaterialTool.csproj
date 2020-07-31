@@ -91,10 +91,19 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmNewAudio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewAudio.Designer.cs">
+      <DependentUpon>frmNewAudio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewAudio.resx">
+      <DependentUpon>frmNewAudio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -104,6 +113,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -118,6 +128,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\fast-forward-10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\rewind-10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\trim-in.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\trim-out.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\VideoLAN.LibVLC.Windows.3.0.11\build\VideoLAN.LibVLC.Windows.targets" Condition="Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.11\build\VideoLAN.LibVLC.Windows.targets')" />

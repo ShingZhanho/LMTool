@@ -23,5 +23,10 @@ namespace ListeningMaterialTool {
             e.Cancel = true;
             e.NewWidth = listPending.Columns[e.ColumnIndex].Width;
         }
+
+        private void btnAppend_Click(object sender, EventArgs e) {
+            frmNewAudio newAudio = new frmNewAudio();
+            newAudio.ShowDialog();
+        }
     }
 }
