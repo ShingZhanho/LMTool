@@ -17,5 +17,14 @@ namespace ListeningMaterialTool {
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+        // Return values:
+        public string FilePath { get; set; } // Audio file location
+        public int SecIn { get; set; } // In position in seconds
+        public int SecOut { get; set; } // Out position in seconds
+
+        private void btnConfirm_Click(object sender, EventArgs e) {
+            DialogResult = DialogResult.OK;
+        }
     }
 }

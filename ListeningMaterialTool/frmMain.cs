@@ -22,7 +22,7 @@ namespace ListeningMaterialTool {
         private LibVLC libVlc;
         private MediaPlayer mediaPlayer;
 
-        private bool isExported = false; // Indicates if all the changes are exported to a file
+        private bool isExported = true; // Indicates if all the changes are exported to a file
 
         private void frmMain_Load(object sender, EventArgs e) {
             // Initialize audio player
@@ -43,7 +43,20 @@ namespace ListeningMaterialTool {
 
         private void btnAppend_Click(object sender, EventArgs e) {
             frmNewAudio newAudio = new frmNewAudio();
-            newAudio.ShowDialog();
+            if (newAudio.ShowDialog() == DialogResult.OK) { // Clicks on OK, add item
+                ListViewItem lstItem = new ListViewItem();
+                lstItem.Name = listPending.Items.Count.ToString(); // Number
+                lstItem.SubItems.Add(Path.GetFileName(newAudio.FilePath)); // Filename
+                TimeSpan ts = TimeSpan.FromSeconds(newAudio.SecIn);
+                lstItem.SubItems.Add(string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                    ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds));       // In time
+                ts = TimeSpan.FromSeconds(newAudio.SecOut);
+                lstItem.SubItems.Add(string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                    ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds));       // Out time
+                ts = TimeSpan.FromSeconds(newAudio.SecOut - newAudio.SecIn);
+                lstItem.SubItems.Add(string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                    ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds));       // Duration
+            }
         }
 
         private void smtReset_Click(object sender, EventArgs e) {

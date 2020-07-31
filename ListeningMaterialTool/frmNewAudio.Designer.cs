@@ -26,17 +26,19 @@
             this.btnSelectFile = new System.Windows.Forms.Button();
             this.lblFileName = new System.Windows.Forms.Label();
             this.audioProgress = new System.Windows.Forms.TrackBar();
-            this.btnTogglePlay = new System.Windows.Forms.Button();
-            this.btnTenForward = new System.Windows.Forms.Button();
-            this.btnTrimOut = new System.Windows.Forms.Button();
-            this.btnTenBackward = new System.Windows.Forms.Button();
-            this.btnTrimIn = new System.Windows.Forms.Button();
             this.lblCurrentTime = new System.Windows.Forms.Label();
             this.lblTotalTime = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnTrimIn = new System.Windows.Forms.Button();
+            this.btnTenBackward = new System.Windows.Forms.Button();
+            this.btnTrimOut = new System.Windows.Forms.Button();
+            this.btnTenForward = new System.Windows.Forms.Button();
+            this.btnTogglePlay = new System.Windows.Forms.Button();
+            this.audioPlayer = new LibVLCSharp.WinForms.VideoView();
             ((System.ComponentModel.ISupportInitialize)(this.audioProgress)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.audioPlayer)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSelectFile
@@ -65,70 +67,6 @@
             this.audioProgress.Size = new System.Drawing.Size(666, 45);
             this.audioProgress.TabIndex = 2;
             this.audioProgress.TickStyle = System.Windows.Forms.TickStyle.Both;
-            // 
-            // btnTogglePlay
-            // 
-            this.btnTogglePlay.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTogglePlay.Enabled = false;
-            this.btnTogglePlay.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTogglePlay.Image = global::ListeningMaterialTool.Properties.Resources.play;
-            this.btnTogglePlay.Location = new System.Drawing.Point(319, 132);
-            this.btnTogglePlay.Name = "btnTogglePlay";
-            this.btnTogglePlay.Size = new System.Drawing.Size(50, 50);
-            this.btnTogglePlay.TabIndex = 3;
-            this.btnTogglePlay.UseVisualStyleBackColor = true;
-            // 
-            // btnTenForward
-            // 
-            this.btnTenForward.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.fast_forward_10;
-            this.btnTenForward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnTenForward.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTenForward.Enabled = false;
-            this.btnTenForward.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTenForward.Location = new System.Drawing.Point(422, 137);
-            this.btnTenForward.Name = "btnTenForward";
-            this.btnTenForward.Size = new System.Drawing.Size(40, 40);
-            this.btnTenForward.TabIndex = 4;
-            this.btnTenForward.UseVisualStyleBackColor = true;
-            // 
-            // btnTrimOut
-            // 
-            this.btnTrimOut.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.trim_out;
-            this.btnTrimOut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnTrimOut.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTrimOut.Enabled = false;
-            this.btnTrimOut.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTrimOut.Location = new System.Drawing.Point(515, 137);
-            this.btnTrimOut.Name = "btnTrimOut";
-            this.btnTrimOut.Size = new System.Drawing.Size(40, 40);
-            this.btnTrimOut.TabIndex = 5;
-            this.btnTrimOut.UseVisualStyleBackColor = true;
-            // 
-            // btnTenBackward
-            // 
-            this.btnTenBackward.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.rewind_10;
-            this.btnTenBackward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnTenBackward.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTenBackward.Enabled = false;
-            this.btnTenBackward.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTenBackward.Location = new System.Drawing.Point(226, 137);
-            this.btnTenBackward.Name = "btnTenBackward";
-            this.btnTenBackward.Size = new System.Drawing.Size(40, 40);
-            this.btnTenBackward.TabIndex = 6;
-            this.btnTenBackward.UseVisualStyleBackColor = true;
-            // 
-            // btnTrimIn
-            // 
-            this.btnTrimIn.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.trim_in;
-            this.btnTrimIn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnTrimIn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTrimIn.Enabled = false;
-            this.btnTrimIn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTrimIn.Location = new System.Drawing.Point(133, 137);
-            this.btnTrimIn.Name = "btnTrimIn";
-            this.btnTrimIn.Size = new System.Drawing.Size(40, 40);
-            this.btnTrimIn.TabIndex = 7;
-            this.btnTrimIn.UseVisualStyleBackColor = true;
             // 
             // lblCurrentTime
             // 
@@ -168,6 +106,7 @@
             this.btnConfirm.TabIndex = 11;
             this.btnConfirm.Text = "確定新增到清單";
             this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
             // btnCancel
             // 
@@ -179,12 +118,88 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // btnTrimIn
+            // 
+            this.btnTrimIn.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.trim_in;
+            this.btnTrimIn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnTrimIn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTrimIn.Enabled = false;
+            this.btnTrimIn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnTrimIn.Location = new System.Drawing.Point(133, 137);
+            this.btnTrimIn.Name = "btnTrimIn";
+            this.btnTrimIn.Size = new System.Drawing.Size(40, 40);
+            this.btnTrimIn.TabIndex = 7;
+            this.btnTrimIn.UseVisualStyleBackColor = true;
+            // 
+            // btnTenBackward
+            // 
+            this.btnTenBackward.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.rewind_10;
+            this.btnTenBackward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnTenBackward.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTenBackward.Enabled = false;
+            this.btnTenBackward.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnTenBackward.Location = new System.Drawing.Point(226, 137);
+            this.btnTenBackward.Name = "btnTenBackward";
+            this.btnTenBackward.Size = new System.Drawing.Size(40, 40);
+            this.btnTenBackward.TabIndex = 6;
+            this.btnTenBackward.UseVisualStyleBackColor = true;
+            // 
+            // btnTrimOut
+            // 
+            this.btnTrimOut.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.trim_out;
+            this.btnTrimOut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnTrimOut.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTrimOut.Enabled = false;
+            this.btnTrimOut.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnTrimOut.Location = new System.Drawing.Point(515, 137);
+            this.btnTrimOut.Name = "btnTrimOut";
+            this.btnTrimOut.Size = new System.Drawing.Size(40, 40);
+            this.btnTrimOut.TabIndex = 5;
+            this.btnTrimOut.UseVisualStyleBackColor = true;
+            // 
+            // btnTenForward
+            // 
+            this.btnTenForward.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.fast_forward_10;
+            this.btnTenForward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnTenForward.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTenForward.Enabled = false;
+            this.btnTenForward.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnTenForward.Location = new System.Drawing.Point(422, 137);
+            this.btnTenForward.Name = "btnTenForward";
+            this.btnTenForward.Size = new System.Drawing.Size(40, 40);
+            this.btnTenForward.TabIndex = 4;
+            this.btnTenForward.UseVisualStyleBackColor = true;
+            // 
+            // btnTogglePlay
+            // 
+            this.btnTogglePlay.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTogglePlay.Enabled = false;
+            this.btnTogglePlay.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnTogglePlay.Image = global::ListeningMaterialTool.Properties.Resources.play;
+            this.btnTogglePlay.Location = new System.Drawing.Point(319, 132);
+            this.btnTogglePlay.Name = "btnTogglePlay";
+            this.btnTogglePlay.Size = new System.Drawing.Size(50, 50);
+            this.btnTogglePlay.TabIndex = 3;
+            this.btnTogglePlay.UseVisualStyleBackColor = true;
+            // 
+            // audioPlayer
+            // 
+            this.audioPlayer.BackColor = System.Drawing.Color.Black;
+            this.audioPlayer.Location = new System.Drawing.Point(295, 266);
+            this.audioPlayer.MediaPlayer = null;
+            this.audioPlayer.Name = "audioPlayer";
+            this.audioPlayer.Size = new System.Drawing.Size(75, 23);
+            this.audioPlayer.TabIndex = 13;
+            this.audioPlayer.Text = "videoView1";
+            this.audioPlayer.Visible = false;
+            // 
             // frmNewAudio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 321);
             this.ControlBox = false;
+            this.Controls.Add(this.audioPlayer);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.label1);
@@ -206,6 +221,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "新增音訊";
             ((System.ComponentModel.ISupportInitialize)(this.audioProgress)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.audioPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -226,5 +242,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Button btnCancel;
+        private LibVLCSharp.WinForms.VideoView audioPlayer;
     }
 }
