@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,20 @@ namespace ListeningMaterialTool {
             tempPath = $@"{Path.GetTempPath()}LMTool\{DateTime.Now.ToString()
                 .Replace("/", "").Replace(":","")}";
             Directory.CreateDirectory(tempPath);
+
+            // finds the ffmpeg
+            if (!Directory.Exists($"./ffmpeg-4.3.1-win32-static"))
+                UnzipFfmpeg();
+        }
+
+        private void UnzipFfmpeg() {
+            if (Directory.Exists("./ffmpeg-4.3.1-win32-static"))
+                Directory.Delete("./ffmpeg-4.3.1-win32-static", true);
+            // unzip ffmpeg dependency
+            File.WriteAllBytes($@"{tempPath}/ffmpeg.zip", Resources.ffmpeg_utilities);
+            ZipFile.ExtractToDirectory($@"{tempPath}/ffmpeg.zip",
+                Application.StartupPath);
+            File.Delete($@"{tempPath}/ffmpeg.zip");
         }
 
         private void listPending_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e) {
@@ -157,6 +172,20 @@ namespace ListeningMaterialTool {
 
         private void tsmTutorial_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/ShingZhanho/LMTool#readme");
+        }
+
+        private void tsmRIffmpeg_Click(object sender, EventArgs e) {
+            WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
+            myplayer.URL = "./res/chord.mp3";
+            myplayer.controls.play();
+            MessageBox.Show(
+                "此工具部分功能依賴ffmpeg運行。" +
+                "如果你在使用應用程式的過程中遇到錯誤，重新安裝有關套件可能有助" +
+                "解決有關問題。", "即將進行修復", MessageBoxButtons.OK);
+            UnzipFfmpeg();
+            myplayer.controls.play();
+            MessageBox.Show(
+                "已經重新安裝ffmpeg，現在請再次嘗試", "修復完成", MessageBoxButtons.OK);
         }
     }
 }

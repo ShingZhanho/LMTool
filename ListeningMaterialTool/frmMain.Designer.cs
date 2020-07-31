@@ -62,6 +62,8 @@ namespace ListeningMaterialTool {
             this.btnUp = new System.Windows.Forms.Button();
             this.btnDown = new System.Windows.Forms.Button();
             this.lblTotalTime = new System.Windows.Forms.Label();
+            this.tsmRepair = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmRIffmpeg = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -146,7 +148,7 @@ namespace ListeningMaterialTool {
             // 
             this.tsmExport.Enabled = false;
             this.tsmExport.Name = "tsmExport";
-            this.tsmExport.Size = new System.Drawing.Size(180, 22);
+            this.tsmExport.Size = new System.Drawing.Size(152, 22);
             this.tsmExport.Text = "匯出檔案";
             // 
             // toolStripSeparator1
@@ -171,7 +173,8 @@ namespace ListeningMaterialTool {
             // smtSequence
             // 
             this.smtSequence.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmAdd});
+            this.tsmAdd,
+            this.tsmRepair});
             this.smtSequence.Name = "smtSequence";
             this.smtSequence.Size = new System.Drawing.Size(71, 20);
             this.smtSequence.Text = "實用工具";
@@ -182,7 +185,7 @@ namespace ListeningMaterialTool {
             this.smtGreen,
             this.smtBeep});
             this.tsmAdd.Name = "tsmAdd";
-            this.tsmAdd.Size = new System.Drawing.Size(100, 22);
+            this.tsmAdd.Size = new System.Drawing.Size(180, 22);
             this.tsmAdd.Text = "新增";
             // 
             // smtGreen
@@ -195,7 +198,7 @@ namespace ListeningMaterialTool {
             this.smtGreen240,
             this.smtGreen300});
             this.smtGreen.Name = "smtGreen";
-            this.smtGreen.Size = new System.Drawing.Size(139, 22);
+            this.smtGreen.Size = new System.Drawing.Size(180, 22);
             this.smtGreen.Text = "綠袖子音樂";
             // 
             // smtGreen30
@@ -237,7 +240,7 @@ namespace ListeningMaterialTool {
             // smtBeep
             // 
             this.smtBeep.Name = "smtBeep";
-            this.smtBeep.Size = new System.Drawing.Size(139, 22);
+            this.smtBeep.Size = new System.Drawing.Size(180, 22);
             this.smtBeep.Text = "Beep音效";
             // 
             // tsmHelp
@@ -338,6 +341,21 @@ namespace ListeningMaterialTool {
             this.lblTotalTime.Text = "總時長：00:00:00.000";
             this.lblTotalTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // tsmRepair
+            // 
+            this.tsmRepair.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmRIffmpeg});
+            this.tsmRepair.Name = "tsmRepair";
+            this.tsmRepair.Size = new System.Drawing.Size(180, 22);
+            this.tsmRepair.Text = "修復";
+            // 
+            // tsmRIffmpeg
+            // 
+            this.tsmRIffmpeg.Name = "tsmRIffmpeg";
+            this.tsmRIffmpeg.Size = new System.Drawing.Size(191, 22);
+            this.tsmRIffmpeg.Text = "重新安裝ffmpeg套件";
+            this.tsmRIffmpeg.Click += new System.EventHandler(this.tsmRIffmpeg_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -403,5 +421,7 @@ namespace ListeningMaterialTool {
         private Button btnDown;
         private ToolStripMenuItem tsmAbout;
         private Label lblTotalTime;
+        private ToolStripMenuItem tsmRepair;
+        private ToolStripMenuItem tsmRIffmpeg;
     }
 }
