@@ -68,27 +68,29 @@
             this.audioProgress.Name = "audioProgress";
             this.audioProgress.Size = new System.Drawing.Size(666, 45);
             this.audioProgress.TabIndex = 2;
-            this.audioProgress.TickFrequency = 100;
+            this.audioProgress.TickFrequency = 100000;
             this.audioProgress.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.audioProgress.MouseDown += new System.Windows.Forms.MouseEventHandler(this.audioProgress_MouseDown);
+            this.audioProgress.MouseUp += new System.Windows.Forms.MouseEventHandler(this.audioProgress_MouseUp);
             // 
             // lblCurrentTime
             // 
             this.lblCurrentTime.AutoSize = true;
             this.lblCurrentTime.Location = new System.Drawing.Point(12, 60);
             this.lblCurrentTime.Name = "lblCurrentTime";
-            this.lblCurrentTime.Size = new System.Drawing.Size(64, 18);
+            this.lblCurrentTime.Size = new System.Drawing.Size(92, 18);
             this.lblCurrentTime.TabIndex = 8;
-            this.lblCurrentTime.Text = "00:00:00";
+            this.lblCurrentTime.Text = "00:00:00.000";
             this.lblCurrentTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTotalTime
             // 
             this.lblTotalTime.AutoSize = true;
-            this.lblTotalTime.Location = new System.Drawing.Point(614, 60);
+            this.lblTotalTime.Location = new System.Drawing.Point(586, 60);
             this.lblTotalTime.Name = "lblTotalTime";
-            this.lblTotalTime.Size = new System.Drawing.Size(64, 18);
+            this.lblTotalTime.Size = new System.Drawing.Size(92, 18);
             this.lblTotalTime.TabIndex = 9;
-            this.lblTotalTime.Text = "00:00:00";
+            this.lblTotalTime.Text = "00:00:00.000";
             this.lblTotalTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblSummary
@@ -218,7 +220,7 @@
             this.Controls.Add(this.lblFileName);
             this.Controls.Add(this.btnSelectFile);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmNewAudio";
