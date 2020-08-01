@@ -187,9 +187,13 @@ namespace ListeningMaterialTool {
 
         private void frmNewAudio_FormClosing(object sender, FormClosingEventArgs e) {
             // Dispose and stop playback
-            mediaPlayer.Stop();
-            mediaPlayer.Dispose();
-            libVlc.Dispose();
+            try {
+                mediaPlayer.Stop();
+                mediaPlayer.Dispose();
+                libVlc.Dispose();
+            } catch (Exception exception) {
+                Console.WriteLine(exception);
+            }
         }
     }
 }

@@ -80,7 +80,8 @@ namespace ListeningMaterialTool {
             tsmExport.Enabled = listPending.Items.Count != 0;
 
             // Scroll to bottom
-            listPending.Items[listPending.Items.Count - 1].EnsureVisible();
+            if (listPending.Items.Count != 0)
+                listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
 
         private string MsToTime(long ms) {
