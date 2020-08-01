@@ -84,6 +84,34 @@ namespace ListeningMaterialTool {
                 listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
 
+        private void AppendGreensleeves(int sec) {
+            ListViewItem lstItem = new ListViewItem();
+            lstItem.Text = (listPending.Items.Count + 1).ToString();
+            lstItem.SubItems.Add("綠袖子音樂");
+            lstItem.SubItems.Add(MsToTime(0));
+            lstItem.SubItems.Add(MsToTime(sec * 1000));
+            lstItem.SubItems.Add(MsToTime(sec * 1000));
+            File.Copy(Path.GetFullPath($"./built_in_sound/G_{(sec == 30 ? 30 : sec / 60)}.mp3"), 
+                $"{tempPath}/{lstItem.Text}.mp3");
+            lstItem.SubItems.Add($"{tempPath}/{lstItem.Text}.mp3");
+            listPending.Items.Add(lstItem);
+            totalMs += sec * 1000;
+            lblTotalTime.Text = $"總時長：{MsToTime(totalMs)}";
+            isExported = false;
+            tsmExport.Enabled = true;
+            listPending.Items[listPending.Items.Count - 1].EnsureVisible();
+        }
+
+        private void smtGreensleeves(object sender, EventArgs e) {
+            ToolStripMenuItem smItem = (ToolStripMenuItem) sender;
+            if (smItem == smtGreen30) AppendGreensleeves(30);
+            if (smItem == smtGreen60) AppendGreensleeves(60);
+            if (smItem == smtGreen120) AppendGreensleeves(120);
+            if (smItem == smtGreen180) AppendGreensleeves(180);
+            if (smItem == smtGreen240) AppendGreensleeves(240);
+            if (smItem == smtGreen300) AppendGreensleeves(300);
+        }
+
         private string MsToTime(long ms) {
             TimeSpan ts = TimeSpan.FromMilliseconds(ms);
             return string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D3}",

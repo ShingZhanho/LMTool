@@ -52,6 +52,9 @@ namespace ListeningMaterialTool {
             this.smtGreen240 = new System.Windows.Forms.ToolStripMenuItem();
             this.smtGreen300 = new System.Windows.Forms.ToolStripMenuItem();
             this.smtBeep = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmRepair = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmRIffmpeg = new System.Windows.Forms.ToolStripMenuItem();
+            this.smtRIGreensleeves = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.smtChkUpdate = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,9 +65,6 @@ namespace ListeningMaterialTool {
             this.btnUp = new System.Windows.Forms.Button();
             this.btnDown = new System.Windows.Forms.Button();
             this.lblTotalTime = new System.Windows.Forms.Label();
-            this.tsmRepair = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmRIffmpeg = new System.Windows.Forms.ToolStripMenuItem();
-            this.smtRIGreensleeves = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -208,44 +208,73 @@ namespace ListeningMaterialTool {
             // smtGreen30
             // 
             this.smtGreen30.Name = "smtGreen30";
-            this.smtGreen30.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen30.Size = new System.Drawing.Size(180, 22);
             this.smtGreen30.Text = "30秒";
+            this.smtGreen30.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtGreen60
             // 
             this.smtGreen60.Name = "smtGreen60";
-            this.smtGreen60.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen60.Size = new System.Drawing.Size(180, 22);
             this.smtGreen60.Text = "1分鐘";
+            this.smtGreen60.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtGreen120
             // 
             this.smtGreen120.Name = "smtGreen120";
-            this.smtGreen120.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen120.Size = new System.Drawing.Size(180, 22);
             this.smtGreen120.Text = "2分鐘";
+            this.smtGreen120.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtGreen180
             // 
             this.smtGreen180.Name = "smtGreen180";
-            this.smtGreen180.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen180.Size = new System.Drawing.Size(180, 22);
             this.smtGreen180.Text = "3分鐘";
+            this.smtGreen180.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtGreen240
             // 
             this.smtGreen240.Name = "smtGreen240";
-            this.smtGreen240.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen240.Size = new System.Drawing.Size(180, 22);
             this.smtGreen240.Text = "4分鐘";
+            this.smtGreen240.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtGreen300
             // 
             this.smtGreen300.Name = "smtGreen300";
-            this.smtGreen300.Size = new System.Drawing.Size(106, 22);
+            this.smtGreen300.Size = new System.Drawing.Size(180, 22);
             this.smtGreen300.Text = "5分鐘";
+            this.smtGreen300.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtBeep
             // 
             this.smtBeep.Name = "smtBeep";
             this.smtBeep.Size = new System.Drawing.Size(180, 22);
             this.smtBeep.Text = "Beep音效";
+            // 
+            // tsmRepair
+            // 
+            this.tsmRepair.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmRIffmpeg,
+            this.smtRIGreensleeves});
+            this.tsmRepair.Name = "tsmRepair";
+            this.tsmRepair.Size = new System.Drawing.Size(180, 22);
+            this.tsmRepair.Text = "修復";
+            // 
+            // tsmRIffmpeg
+            // 
+            this.tsmRIffmpeg.Name = "tsmRIffmpeg";
+            this.tsmRIffmpeg.Size = new System.Drawing.Size(191, 22);
+            this.tsmRIffmpeg.Text = "重新安裝ffmpeg套件";
+            this.tsmRIffmpeg.Click += new System.EventHandler(this.tsmRIffmpeg_Click);
+            // 
+            // smtRIGreensleeves
+            // 
+            this.smtRIGreensleeves.Name = "smtRIGreensleeves";
+            this.smtRIGreensleeves.Size = new System.Drawing.Size(191, 22);
+            this.smtRIGreensleeves.Text = "重置內建聲音檔";
+            this.smtRIGreensleeves.Click += new System.EventHandler(this.smtRIGreensleeves_Click);
             // 
             // tsmHelp
             // 
@@ -261,25 +290,25 @@ namespace ListeningMaterialTool {
             // tsmAbout
             // 
             this.tsmAbout.Name = "tsmAbout";
-            this.tsmAbout.Size = new System.Drawing.Size(180, 22);
+            this.tsmAbout.Size = new System.Drawing.Size(126, 22);
             this.tsmAbout.Text = "關於";
             // 
             // smtChkUpdate
             // 
             this.smtChkUpdate.Name = "smtChkUpdate";
-            this.smtChkUpdate.Size = new System.Drawing.Size(180, 22);
+            this.smtChkUpdate.Size = new System.Drawing.Size(126, 22);
             this.smtChkUpdate.Text = "檢查更新";
             this.smtChkUpdate.Click += new System.EventHandler(this.smtChkUpdate_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(123, 6);
             // 
             // tsmTutorial
             // 
             this.tsmTutorial.Name = "tsmTutorial";
-            this.tsmTutorial.Size = new System.Drawing.Size(180, 22);
+            this.tsmTutorial.Size = new System.Drawing.Size(126, 22);
             this.tsmTutorial.Text = "使用教學";
             this.tsmTutorial.Click += new System.EventHandler(this.tsmTutorial_Click);
             // 
@@ -344,29 +373,6 @@ namespace ListeningMaterialTool {
             this.lblTotalTime.TabIndex = 8;
             this.lblTotalTime.Text = "總時長：00:00:00.000";
             this.lblTotalTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tsmRepair
-            // 
-            this.tsmRepair.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmRIffmpeg,
-            this.smtRIGreensleeves});
-            this.tsmRepair.Name = "tsmRepair";
-            this.tsmRepair.Size = new System.Drawing.Size(180, 22);
-            this.tsmRepair.Text = "修復";
-            // 
-            // tsmRIffmpeg
-            // 
-            this.tsmRIffmpeg.Name = "tsmRIffmpeg";
-            this.tsmRIffmpeg.Size = new System.Drawing.Size(191, 22);
-            this.tsmRIffmpeg.Text = "重新安裝ffmpeg套件";
-            this.tsmRIffmpeg.Click += new System.EventHandler(this.tsmRIffmpeg_Click);
-            // 
-            // smtRIGreensleeves
-            // 
-            this.smtRIGreensleeves.Name = "smtRIGreensleeves";
-            this.smtRIGreensleeves.Size = new System.Drawing.Size(191, 22);
-            this.smtRIGreensleeves.Text = "重置內建聲音檔";
-            this.smtRIGreensleeves.Click += new System.EventHandler(this.smtRIGreensleeves_Click);
             // 
             // frmMain
             // 
