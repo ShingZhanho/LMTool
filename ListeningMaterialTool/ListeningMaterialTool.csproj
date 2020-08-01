@@ -16,11 +16,11 @@
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>E:\Desktop\LMTool\</PublishUrl>
+    <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
+    <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
@@ -30,6 +30,7 @@
     <TargetCulture>zh-HK</TargetCulture>
     <ProductName>Listening Material Tool</ProductName>
     <PublisherName>ShingZhanho</PublisherName>
+    <MinimumRequiredVersion>0.1.1.0</MinimumRequiredVersion>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>0.1.1.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
@@ -40,7 +41,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>

@@ -65,6 +65,7 @@ namespace ListeningMaterialTool {
             this.btnUp = new System.Windows.Forms.Button();
             this.btnDown = new System.Windows.Forms.Button();
             this.lblTotalTime = new System.Windows.Forms.Label();
+            this.svfDialog = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -94,7 +95,7 @@ namespace ListeningMaterialTool {
             this.listPending.Location = new System.Drawing.Point(12, 60);
             this.listPending.MultiSelect = false;
             this.listPending.Name = "listPending";
-            this.listPending.Size = new System.Drawing.Size(684, 270);
+            this.listPending.Size = new System.Drawing.Size(684, 418);
             this.listPending.TabIndex = 0;
             this.listPending.UseCompatibleStateImageBehavior = false;
             this.listPending.View = System.Windows.Forms.View.Details;
@@ -152,25 +153,26 @@ namespace ListeningMaterialTool {
             // 
             this.tsmExport.Enabled = false;
             this.tsmExport.Name = "tsmExport";
-            this.tsmExport.Size = new System.Drawing.Size(152, 22);
+            this.tsmExport.Size = new System.Drawing.Size(180, 22);
             this.tsmExport.Text = "匯出檔案";
+            this.tsmExport.Click += new System.EventHandler(this.tsmExport_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // smtReset
             // 
             this.smtReset.Name = "smtReset";
-            this.smtReset.Size = new System.Drawing.Size(152, 22);
+            this.smtReset.Size = new System.Drawing.Size(180, 22);
             this.smtReset.Text = "重設所有內容";
             this.smtReset.Click += new System.EventHandler(this.smtReset_Click);
             // 
             // smtExit
             // 
             this.smtExit.Name = "smtExit";
-            this.smtExit.Size = new System.Drawing.Size(152, 22);
+            this.smtExit.Size = new System.Drawing.Size(180, 22);
             this.smtExit.Text = "結束";
             this.smtExit.Click += new System.EventHandler(this.smtExit_Click);
             // 
@@ -291,25 +293,25 @@ namespace ListeningMaterialTool {
             // tsmAbout
             // 
             this.tsmAbout.Name = "tsmAbout";
-            this.tsmAbout.Size = new System.Drawing.Size(126, 22);
+            this.tsmAbout.Size = new System.Drawing.Size(180, 22);
             this.tsmAbout.Text = "關於";
             // 
             // smtChkUpdate
             // 
             this.smtChkUpdate.Name = "smtChkUpdate";
-            this.smtChkUpdate.Size = new System.Drawing.Size(126, 22);
+            this.smtChkUpdate.Size = new System.Drawing.Size(180, 22);
             this.smtChkUpdate.Text = "檢查更新";
             this.smtChkUpdate.Click += new System.EventHandler(this.smtChkUpdate_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(123, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmTutorial
             // 
             this.tsmTutorial.Name = "tsmTutorial";
-            this.tsmTutorial.Size = new System.Drawing.Size(126, 22);
+            this.tsmTutorial.Size = new System.Drawing.Size(180, 22);
             this.tsmTutorial.Text = "使用教學";
             this.tsmTutorial.Click += new System.EventHandler(this.tsmTutorial_Click);
             // 
@@ -317,7 +319,7 @@ namespace ListeningMaterialTool {
             // 
             this.btnAppend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAppend.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAppend.Location = new System.Drawing.Point(12, 336);
+            this.btnAppend.Location = new System.Drawing.Point(12, 484);
             this.btnAppend.Name = "btnAppend";
             this.btnAppend.Size = new System.Drawing.Size(242, 28);
             this.btnAppend.TabIndex = 3;
@@ -330,7 +332,7 @@ namespace ListeningMaterialTool {
             this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRemove.Enabled = false;
             this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemove.Location = new System.Drawing.Point(260, 336);
+            this.btnRemove.Location = new System.Drawing.Point(260, 484);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(242, 28);
             this.btnRemove.TabIndex = 4;
@@ -356,7 +358,7 @@ namespace ListeningMaterialTool {
             this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDown.Enabled = false;
             this.btnDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDown.Location = new System.Drawing.Point(702, 219);
+            this.btnDown.Location = new System.Drawing.Point(702, 367);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(35, 35);
             this.btnDown.TabIndex = 6;
@@ -368,18 +370,25 @@ namespace ListeningMaterialTool {
             // 
             this.lblTotalTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalTime.AutoSize = true;
-            this.lblTotalTime.Location = new System.Drawing.Point(544, 341);
+            this.lblTotalTime.Location = new System.Drawing.Point(544, 489);
             this.lblTotalTime.Name = "lblTotalTime";
             this.lblTotalTime.Size = new System.Drawing.Size(152, 18);
             this.lblTotalTime.TabIndex = 8;
             this.lblTotalTime.Text = "總時長：00:00:00.000";
             this.lblTotalTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // svfDialog
+            // 
+            this.svfDialog.DefaultExt = "mp3";
+            this.svfDialog.FileName = "Export";
+            this.svfDialog.Filter = "MP3|*.mp3";
+            this.svfDialog.Title = "龨出檔案至...";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 377);
+            this.ClientSize = new System.Drawing.Size(750, 525);
             this.Controls.Add(this.lblTotalTime);
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnUp);
@@ -443,5 +452,6 @@ namespace ListeningMaterialTool {
         private ToolStripMenuItem tsmRepair;
         private ToolStripMenuItem tsmRIffmpeg;
         private ToolStripMenuItem smtRIGreensleeves;
+        private SaveFileDialog svfDialog;
     }
 }

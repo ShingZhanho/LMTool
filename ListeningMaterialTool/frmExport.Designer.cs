@@ -30,7 +30,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.pgbProgress = new System.Windows.Forms.ProgressBar();
             this.lblProgress = new System.Windows.Forms.Label();
-            this.btnSave = new System.Windows.Forms.Button();
+            this.chbOpenDir = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.chbClose = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblStatus
@@ -97,23 +99,48 @@
             this.lblProgress.Text = "正在進行第1步，共2步";
             this.lblProgress.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // btnSave
+            // chbOpenDir
             // 
-            this.btnSave.Enabled = false;
-            this.btnSave.Location = new System.Drawing.Point(47, 428);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(106, 32);
-            this.btnSave.TabIndex = 7;
-            this.btnSave.Text = "儲存至...";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.chbOpenDir.AutoSize = true;
+            this.chbOpenDir.Checked = true;
+            this.chbOpenDir.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbOpenDir.Location = new System.Drawing.Point(47, 427);
+            this.chbOpenDir.Name = "chbOpenDir";
+            this.chbOpenDir.Size = new System.Drawing.Size(132, 22);
+            this.chbOpenDir.TabIndex = 7;
+            this.chbOpenDir.Text = "自動開啟資料夾";
+            this.chbOpenDir.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(44, 406);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 18);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "完成後：";
+            // 
+            // chbClose
+            // 
+            this.chbClose.AutoSize = true;
+            this.chbClose.Checked = true;
+            this.chbClose.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbClose.Location = new System.Drawing.Point(197, 427);
+            this.chbClose.Name = "chbClose";
+            this.chbClose.Size = new System.Drawing.Size(117, 22);
+            this.chbClose.TabIndex = 9;
+            this.chbClose.Text = "關閉這個視窗";
+            this.chbClose.UseVisualStyleBackColor = true;
             // 
             // frmExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1159, 498);
+            this.ClientSize = new System.Drawing.Size(1159, 469);
             this.ControlBox = false;
-            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.chbClose);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.chbOpenDir);
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.pgbProgress);
             this.Controls.Add(this.label2);
@@ -122,11 +149,14 @@
             this.Controls.Add(this.rtbLog);
             this.Controls.Add(this.lblStatus);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmExport";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "匯出檔案";
+            this.Load += new System.EventHandler(this.frmExport_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -141,6 +171,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ProgressBar pgbProgress;
         private System.Windows.Forms.Label lblProgress;
-        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.CheckBox chbOpenDir;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox chbClose;
     }
 }

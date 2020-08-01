@@ -31,7 +31,7 @@ namespace ListeningMaterialTool {
             if (!Directory.Exists($@"{Path.GetTempPath()}\LMTool"))
                 Directory.CreateDirectory($@"{Path.GetTempPath()}LMTool");
             tempPath = $@"{Path.GetTempPath()}LMTool\{DateTime.Now.ToString()
-                .Replace("/", "").Replace(":","")}";
+                .Replace("/", "").Replace(":","").Replace(" ","")}";
             Directory.CreateDirectory(tempPath);
 
             // finds the ffmpeg
@@ -41,6 +41,10 @@ namespace ListeningMaterialTool {
             // finds built in sounds
             if (!Directory.Exists($"./built_in_sounds"))
                 UnzipSounds();
+
+            // finds sound file
+            if (!File.Exists("./res/chord.mp3"))
+                File.WriteAllBytes("./res/chord.mp3", Resources.chord);
         }
 
         private void UnzipFfmpeg() {
@@ -124,8 +128,6 @@ namespace ListeningMaterialTool {
 
         private void smtReset_Click(object sender, EventArgs e) {
             // Plays alert sound and show message
-            if (!File.Exists("./res/chord.mp3"))
-                File.WriteAllBytes("./res/chord.mp3", Resources.chord);
             Alert();
             DialogResult dialogResult =
                 MessageBox.Show("你確定要重設所有內容？任何未匯出的更改都會丟失。",
@@ -264,6 +266,15 @@ namespace ListeningMaterialTool {
             isExported = false;
             tsmExport.Enabled = true;
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();
+        }
+
+        private void tsmExport_Click(object sender, EventArgs e) {
+            if (svfDialog.ShowDialog() == DialogResult.Cancel) return;
+            frmExport exportForm = new frmExport();
+            exportForm.TempPath = tempPath;
+            exportForm.ProcessList = listPending.Items;
+            exportForm.SavePath = svfDialog.FileName;
+            exportForm.ShowDialog();
         }
     }
 }
