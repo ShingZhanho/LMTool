@@ -20,12 +20,17 @@ namespace ListeningMaterialTool {
             InitializeComponent();
         }
 
+        private const string VersionCode = "v0.1 (beta)";
+
         private long totalMs = 0;
         private bool isExported = true; // Indicates if all the changes are exported to a file
         private string tempPath;
         private int sequence = 0;
 
         private void frmMain_Load(object sender, EventArgs e) {
+            // Shows title
+            Text = $"{Text} {VersionCode}";
+
             // Creates dirs
             if (!Directory.Exists("./res/")) Directory.CreateDirectory("./res/");
             if (!Directory.Exists($@"{Path.GetTempPath()}\LMTool"))
