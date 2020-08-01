@@ -123,8 +123,6 @@
             // chbClose
             // 
             this.chbClose.AutoSize = true;
-            this.chbClose.Checked = true;
-            this.chbClose.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chbClose.Location = new System.Drawing.Point(197, 427);
             this.chbClose.Name = "chbClose";
             this.chbClose.Size = new System.Drawing.Size(117, 22);
