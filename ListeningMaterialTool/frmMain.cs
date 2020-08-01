@@ -86,7 +86,8 @@ namespace ListeningMaterialTool {
 
         private void AppendGreensleeves(int sec) {
             ListViewItem lstItem = new ListViewItem();
-            lstItem.Text = (listPending.Items.Count + 1).ToString();
+            sequence++;
+            lstItem.Text = sequence.ToString();
             lstItem.SubItems.Add("綠袖子音樂");
             lstItem.SubItems.Add(MsToTime(0));
             lstItem.SubItems.Add(MsToTime(sec * 1000));
@@ -248,7 +249,8 @@ namespace ListeningMaterialTool {
         private void smtBeep_Click(object sender, EventArgs e) {
             // append beep sound
             ListViewItem lstItem = new ListViewItem();
-            lstItem.Text = (listPending.Items.Count + 1).ToString();
+            sequence++;
+            lstItem.Text = sequence.ToString();
             lstItem.SubItems.Add("Beep音效");
             lstItem.SubItems.Add(MsToTime(0));
             lstItem.SubItems.Add(MsToTime(839));
