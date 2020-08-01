@@ -369,10 +369,9 @@ namespace ListeningMaterialTool {
             // lblTotalTime
             // 
             this.lblTotalTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTotalTime.AutoSize = true;
-            this.lblTotalTime.Location = new System.Drawing.Point(544, 489);
+            this.lblTotalTime.Location = new System.Drawing.Point(508, 481);
             this.lblTotalTime.Name = "lblTotalTime";
-            this.lblTotalTime.Size = new System.Drawing.Size(152, 18);
+            this.lblTotalTime.Size = new System.Drawing.Size(188, 31);
             this.lblTotalTime.TabIndex = 8;
             this.lblTotalTime.Text = "總時長：00:00:00.000";
             this.lblTotalTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
