@@ -22,3 +22,5 @@ riderModule.iml
 *.ide
 *.ide-shm
 *.ide-wal
+.vs/ListeningMaterialTool/v16/Server/sqlite3/storage.ide
+.vs/ListeningMaterialTool/v16/.suo
