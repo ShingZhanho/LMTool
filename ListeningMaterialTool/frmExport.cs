@@ -85,6 +85,10 @@ namespace ListeningMaterialTool {
 
             // Copy file to destination
             File.Copy($"{_outputPath}/Output.mp3", SavePath);
+            Log("正在儲存檔案");
+
+            // Wait
+            Thread.Sleep(5000);
 
             // Done
             Log("合併完成。請試聽匯出的檔案，如果發現內容有誤，請關閉匯出視窗，然後重試。");
@@ -101,6 +105,8 @@ namespace ListeningMaterialTool {
                     $"{Path.GetDirectoryName(SavePath)}"));
 
             if (chbClose.Checked) Close();
+
+            ControlBox = true;
         }
 
         private void StartFfmpeg(string args) {
