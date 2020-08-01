@@ -28,4 +28,4 @@
 7. 程式會開始處理所有檔案，完成後，程式亦會發出提示的聲音，指示作業已完成。
 
 ### 更多功能
-更多詳細的使用說明，請參閱[Wiki頁面](https://github.com/ShingZhanho/LMTool/wiki)（尚在開發中）。
+更多詳細的使用說明，請參閱[Wiki頁面](https://github.com/ShingZhanho/LMTool/wiki)（已有內容，但仍待完善）。
