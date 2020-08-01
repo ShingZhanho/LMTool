@@ -22,5 +22,41 @@ namespace ListeningMaterialTool.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CacheClear_Auto {
+            get {
+                return ((bool)(this["CacheClear_Auto"]));
+            }
+            set {
+                this["CacheClear_Auto"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CacheClear_OnClose {
+            get {
+                return ((bool)(this["CacheClear_OnClose"]));
+            }
+            set {
+                this["CacheClear_OnClose"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CacheClear_ClearNow {
+            get {
+                return ((bool)(this["CacheClear_ClearNow"]));
+            }
+            set {
+                this["CacheClear_ClearNow"] = value;
+            }
+        }
     }
 }

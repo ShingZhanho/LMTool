@@ -20,7 +20,7 @@ namespace ListeningMaterialTool {
             InitializeComponent();
         }
 
-        private const string VersionCode = "v0.1 (beta)";
+        private const string VersionCode = "v0.2 (beta)";
 
         private long totalMs = 0;
         private bool isExported = true; // Indicates if all the changes are exported to a file
@@ -169,6 +169,18 @@ namespace ListeningMaterialTool {
                     return;
                 }
             }
+
+            // Clear cache
+            if (Settings.Default.CacheClear_OnClose) {
+                foreach (var dir in Directory.GetDirectories(Path.GetDirectoryName(tempPath))) {
+                    Directory.Delete(dir, true);
+                }
+            }
+            if (!Settings.Default.CacheClear_Auto) {
+                Settings.Default.CacheClear_ClearNow = false;
+                Settings.Default.CacheClear_OnClose = false;
+            }
+            Settings.Default.Save();
             Application.Exit();
         }
 
@@ -280,6 +292,15 @@ namespace ListeningMaterialTool {
             exportForm.ProcessList = listPending.Items;
             exportForm.SavePath = svfDialog.FileName;
             exportForm.ShowDialog();
+            isExported = true;
         }
+
+        private void smtClearCache_Click(object sender, EventArgs e) {
+            frmClearCache formClearCache = new frmClearCache();
+            formClearCache.TempPath = Path.GetDirectoryName(tempPath);
+            formClearCache.ShowDialog();
+            if (Settings.Default.CacheClear_ClearNow) Application.Restart();
+        }
+
     }
 }

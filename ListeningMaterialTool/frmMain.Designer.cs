@@ -66,6 +66,8 @@ namespace ListeningMaterialTool {
             this.btnDown = new System.Windows.Forms.Button();
             this.lblTotalTime = new System.Windows.Forms.Label();
             this.svfDialog = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.smtClearCache = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -191,8 +193,8 @@ namespace ListeningMaterialTool {
             this.smtGreen,
             this.smtBeep});
             this.tsmAdd.Name = "tsmAdd";
-            this.tsmAdd.Size = new System.Drawing.Size(180, 22);
-            this.tsmAdd.Text = "新增";
+            this.tsmAdd.Size = new System.Drawing.Size(191, 22);
+            this.tsmAdd.Text = "加入內建音效";
             // 
             // smtGreen
             // 
@@ -260,10 +262,12 @@ namespace ListeningMaterialTool {
             // 
             this.tsmRepair.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmRIffmpeg,
-            this.smtRIGreensleeves});
+            this.smtRIGreensleeves,
+            this.toolStripSeparator3,
+            this.smtClearCache});
             this.tsmRepair.Name = "tsmRepair";
-            this.tsmRepair.Size = new System.Drawing.Size(180, 22);
-            this.tsmRepair.Text = "修復";
+            this.tsmRepair.Size = new System.Drawing.Size(191, 22);
+            this.tsmRepair.Text = "錯誤修正及提升效能";
             // 
             // tsmRIffmpeg
             // 
@@ -383,6 +387,18 @@ namespace ListeningMaterialTool {
             this.svfDialog.Filter = "MP3|*.mp3";
             this.svfDialog.Title = "龨出檔案至...";
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(188, 6);
+            // 
+            // smtClearCache
+            // 
+            this.smtClearCache.Name = "smtClearCache";
+            this.smtClearCache.Size = new System.Drawing.Size(191, 22);
+            this.smtClearCache.Text = "清除暫存檔案";
+            this.smtClearCache.Click += new System.EventHandler(this.smtClearCache_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -452,5 +468,7 @@ namespace ListeningMaterialTool {
         private ToolStripMenuItem tsmRIffmpeg;
         private ToolStripMenuItem smtRIGreensleeves;
         private SaveFileDialog svfDialog;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem smtClearCache;
     }
 }

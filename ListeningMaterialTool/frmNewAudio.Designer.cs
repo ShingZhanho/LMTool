@@ -68,7 +68,7 @@
             this.audioProgress.Name = "audioProgress";
             this.audioProgress.Size = new System.Drawing.Size(666, 45);
             this.audioProgress.TabIndex = 2;
-            this.audioProgress.TickFrequency = 100000;
+            this.audioProgress.TickFrequency = 10000;
             this.audioProgress.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
             this.audioProgress.MouseDown += new System.Windows.Forms.MouseEventHandler(this.audioProgress_MouseDown);
             this.audioProgress.MouseUp += new System.Windows.Forms.MouseEventHandler(this.audioProgress_MouseUp);

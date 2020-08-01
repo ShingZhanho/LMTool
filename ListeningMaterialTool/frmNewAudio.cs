@@ -165,6 +165,7 @@ namespace ListeningMaterialTool {
         private void audioProgress_MouseUp(object sender, MouseEventArgs e) {
             sliderIsPressed = false;
             mediaPlayer.Time = audioProgress.Value;
+            lblCurrentTime.Text = MsToTime(audioProgress.Value);
         }
 
         private void btnTrimIn_Click(object sender, EventArgs e) {
