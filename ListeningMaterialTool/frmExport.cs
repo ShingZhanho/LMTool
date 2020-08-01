@@ -61,7 +61,8 @@ namespace ListeningMaterialTool {
                 // start ffmpeg
                 StartFfmpeg($"-i {item.SubItems[5].Text.Replace("\\","/")} " +
                                 $"-ss {item.SubItems[2].Text} -to {item.SubItems[3].Text} " + 
-                                $"-c copy {_outputPath}/{_currentStep}.mp3");
+                                $"-acodec libmp3lame {_outputPath}/{_currentStep}.mp3");
+                while (!File.Exists($"{_outputPath}/{_currentStep}.mp3")) { int a = 0; }
             }
 
             // generate audio_join.txt
@@ -110,6 +111,7 @@ namespace ListeningMaterialTool {
         }
 
         private void StartFfmpeg(string args) {
+            Debug.Print(args);
             var proc = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = Path.GetFullPath("./ffmpeg-4.3.1-win32-static/bin/ffmpeg.exe"),

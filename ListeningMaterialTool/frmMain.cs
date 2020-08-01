@@ -201,6 +201,7 @@ namespace ListeningMaterialTool {
             File.Delete(listPending.SelectedItems[0].SubItems[5].Text);
             listPending.Items.Remove(listPending.SelectedItems[0]);
             tsmExport.Enabled = listPending.Items.Count != 0;
+            isExported = false;
         }
 
         private void btnUp_Click(object sender, EventArgs e) {
@@ -208,6 +209,7 @@ namespace ListeningMaterialTool {
             int index = listPending.Items.IndexOf(listPending.SelectedItems[0]);
             listPending.Items.Remove(listPending.SelectedItems[0]);
             listPending.Items.Insert(index - 1, lstItem);
+            isExported = false;
         }
 
         private void btnDown_Click(object sender, EventArgs e) {
@@ -215,6 +217,7 @@ namespace ListeningMaterialTool {
             int index = listPending.Items.IndexOf(listPending.SelectedItems[0]);
             listPending.Items.Remove(listPending.SelectedItems[0]);
             listPending.Items.Insert(index + 1, lstItem);
+            isExported = false;
         }
 
         private void smtChkUpdate_Click(object sender, EventArgs e) {
@@ -302,5 +305,27 @@ namespace ListeningMaterialTool {
             if (Settings.Default.CacheClear_ClearNow) Application.Restart();
         }
 
+        private void smtAddSilence_Click(object sender, EventArgs e) {
+            frmAddSilence formSilence = new frmAddSilence();
+            sequence++;
+            formSilence.Sequence = sequence;
+            formSilence.TempPath = tempPath;
+            formSilence.ShowDialog();
+            if (formSilence.DialogResult == DialogResult.OK) {
+                ListViewItem lstItem = new ListViewItem();
+                lstItem.Text = formSilence.Sequence.ToString();
+                lstItem.SubItems.Add("無聲片段");
+                lstItem.SubItems.Add(MsToTime(0));
+                lstItem.SubItems.Add(MsToTime(formSilence.AudioLength));
+                lstItem.SubItems.Add(MsToTime(formSilence.AudioLength));
+                lstItem.SubItems.Add(formSilence.FilePath);
+                listPending.Items.Add(lstItem);
+                totalMs += formSilence.AudioLength;
+                lblTotalTime.Text = $"總時長：{MsToTime(totalMs)}";
+                isExported = false;
+                tsmExport.Enabled = true;
+                listPending.Items[listPending.Items.Count - 1].EnsureVisible();
+            }
+        }
     }
 }
