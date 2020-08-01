@@ -81,9 +81,7 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
-  <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="LibVLCSharp, Version=3.4.6.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\LibVLCSharp.3.4.6\lib\net40\LibVLCSharp.dll</HintPath>

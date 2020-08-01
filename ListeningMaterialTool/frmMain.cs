@@ -91,7 +91,8 @@ namespace ListeningMaterialTool {
             lstItem.SubItems.Add(MsToTime(0));
             lstItem.SubItems.Add(MsToTime(sec * 1000));
             lstItem.SubItems.Add(MsToTime(sec * 1000));
-            File.Copy(Path.GetFullPath($"./built_in_sound/G_{(sec == 30 ? 30 : sec / 60)}.mp3"), 
+            File.Copy(Path.GetFullPath($"./built_in_sound/G_" +
+                                       $"{(sec == 30 ? 30 : sec / 60)}.mp3"), 
                 $"{tempPath}/{lstItem.Text}.mp3");
             lstItem.SubItems.Add($"{tempPath}/{lstItem.Text}.mp3");
             listPending.Items.Add(lstItem);
@@ -111,6 +112,8 @@ namespace ListeningMaterialTool {
             if (smItem == smtGreen240) AppendGreensleeves(240);
             if (smItem == smtGreen300) AppendGreensleeves(300);
         }
+
+        
 
         private string MsToTime(long ms) {
             TimeSpan ts = TimeSpan.FromMilliseconds(ms);
@@ -240,6 +243,25 @@ namespace ListeningMaterialTool {
             WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
             myplayer.URL = "./res/chord.mp3";
             myplayer.controls.play();
+        }
+
+        private void smtBeep_Click(object sender, EventArgs e) {
+            // append beep sound
+            ListViewItem lstItem = new ListViewItem();
+            lstItem.Text = (listPending.Items.Count + 1).ToString();
+            lstItem.SubItems.Add("Beep音效");
+            lstItem.SubItems.Add(MsToTime(0));
+            lstItem.SubItems.Add(MsToTime(839));
+            lstItem.SubItems.Add(MsToTime(839));
+            File.Copy(Path.GetFullPath($"./built_in_sound/Beep.mp3"),
+                $"{tempPath}/{lstItem.Text}.mp3");
+            lstItem.SubItems.Add($"{tempPath}/{lstItem.Text}.mp3");
+            listPending.Items.Add(lstItem);
+            totalMs += 839;
+            lblTotalTime.Text = $"總時長：{MsToTime(totalMs)}";
+            isExported = false;
+            tsmExport.Enabled = true;
+            listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
     }
 }

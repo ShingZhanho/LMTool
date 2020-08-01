@@ -208,42 +208,42 @@ namespace ListeningMaterialTool {
             // smtGreen30
             // 
             this.smtGreen30.Name = "smtGreen30";
-            this.smtGreen30.Size = new System.Drawing.Size(180, 22);
+            this.smtGreen30.Size = new System.Drawing.Size(106, 22);
             this.smtGreen30.Text = "30秒";
             this.smtGreen30.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtGreen60
             // 
             this.smtGreen60.Name = "smtGreen60";
-            this.smtGreen60.Size = new System.Drawing.Size(180, 22);
+            this.smtGreen60.Size = new System.Drawing.Size(106, 22);
             this.smtGreen60.Text = "1分鐘";
             this.smtGreen60.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtGreen120
             // 
             this.smtGreen120.Name = "smtGreen120";
-            this.smtGreen120.Size = new System.Drawing.Size(180, 22);
+            this.smtGreen120.Size = new System.Drawing.Size(106, 22);
             this.smtGreen120.Text = "2分鐘";
             this.smtGreen120.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtGreen180
             // 
             this.smtGreen180.Name = "smtGreen180";
-            this.smtGreen180.Size = new System.Drawing.Size(180, 22);
+            this.smtGreen180.Size = new System.Drawing.Size(106, 22);
             this.smtGreen180.Text = "3分鐘";
             this.smtGreen180.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtGreen240
             // 
             this.smtGreen240.Name = "smtGreen240";
-            this.smtGreen240.Size = new System.Drawing.Size(180, 22);
+            this.smtGreen240.Size = new System.Drawing.Size(106, 22);
             this.smtGreen240.Text = "4分鐘";
             this.smtGreen240.Click += new System.EventHandler(this.smtGreensleeves);
             // 
             // smtGreen300
             // 
             this.smtGreen300.Name = "smtGreen300";
-            this.smtGreen300.Size = new System.Drawing.Size(180, 22);
+            this.smtGreen300.Size = new System.Drawing.Size(106, 22);
             this.smtGreen300.Text = "5分鐘";
             this.smtGreen300.Click += new System.EventHandler(this.smtGreensleeves);
             // 
@@ -252,6 +252,7 @@ namespace ListeningMaterialTool {
             this.smtBeep.Name = "smtBeep";
             this.smtBeep.Size = new System.Drawing.Size(180, 22);
             this.smtBeep.Text = "Beep音效";
+            this.smtBeep.Click += new System.EventHandler(this.smtBeep_Click);
             // 
             // tsmRepair
             // 
