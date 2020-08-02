@@ -20,7 +20,7 @@ namespace ListeningMaterialTool {
             InitializeComponent();
         }
 
-        private const string VersionCode = "v0.2-b";
+        public const string VersionCode = "v1.0-r";
 
         private long totalMs = 0;
         private bool isExported = true; // Indicates if all the changes are exported to a file
@@ -337,6 +337,11 @@ namespace ListeningMaterialTool {
                 int.Parse(time.Split(':')[2].Split('.')[1]),
                 int.Parse(time.Split('.')[1]));
             return (long) ts.TotalMilliseconds;
+        }
+
+        private void tsmAbout_Click(object sender, EventArgs e) {
+            frmAbout formAbout = new frmAbout();
+            formAbout.Show();
         }
     }
 }

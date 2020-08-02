@@ -29,6 +29,7 @@ namespace ListeningMaterialTool {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.label1 = new System.Windows.Forms.Label();
             this.listPending = new System.Windows.Forms.ListView();
             this.clmNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -52,9 +53,13 @@ namespace ListeningMaterialTool {
             this.smtGreen240 = new System.Windows.Forms.ToolStripMenuItem();
             this.smtGreen300 = new System.Windows.Forms.ToolStripMenuItem();
             this.smtBeep = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.smtAddSilence = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmRepair = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmRIffmpeg = new System.Windows.Forms.ToolStripMenuItem();
             this.smtRIGreensleeves = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.smtClearCache = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.smtChkUpdate = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,10 +71,6 @@ namespace ListeningMaterialTool {
             this.btnDown = new System.Windows.Forms.Button();
             this.lblTotalTime = new System.Windows.Forms.Label();
             this.svfDialog = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.smtClearCache = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.smtAddSilence = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -157,26 +158,26 @@ namespace ListeningMaterialTool {
             // 
             this.tsmExport.Enabled = false;
             this.tsmExport.Name = "tsmExport";
-            this.tsmExport.Size = new System.Drawing.Size(180, 22);
+            this.tsmExport.Size = new System.Drawing.Size(152, 22);
             this.tsmExport.Text = "匯出檔案";
             this.tsmExport.Click += new System.EventHandler(this.tsmExport_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // smtReset
             // 
             this.smtReset.Name = "smtReset";
-            this.smtReset.Size = new System.Drawing.Size(180, 22);
+            this.smtReset.Size = new System.Drawing.Size(152, 22);
             this.smtReset.Text = "重設所有內容";
             this.smtReset.Click += new System.EventHandler(this.smtReset_Click);
             // 
             // smtExit
             // 
             this.smtExit.Name = "smtExit";
-            this.smtExit.Size = new System.Drawing.Size(180, 22);
+            this.smtExit.Size = new System.Drawing.Size(152, 22);
             this.smtExit.Text = "結束";
             this.smtExit.Click += new System.EventHandler(this.smtExit_Click);
             // 
@@ -210,7 +211,7 @@ namespace ListeningMaterialTool {
             this.smtGreen240,
             this.smtGreen300});
             this.smtGreen.Name = "smtGreen";
-            this.smtGreen.Size = new System.Drawing.Size(180, 22);
+            this.smtGreen.Size = new System.Drawing.Size(139, 22);
             this.smtGreen.Text = "綠袖子音樂";
             // 
             // smtGreen30
@@ -258,9 +259,21 @@ namespace ListeningMaterialTool {
             // smtBeep
             // 
             this.smtBeep.Name = "smtBeep";
-            this.smtBeep.Size = new System.Drawing.Size(180, 22);
+            this.smtBeep.Size = new System.Drawing.Size(139, 22);
             this.smtBeep.Text = "Beep音效";
             this.smtBeep.Click += new System.EventHandler(this.smtBeep_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(136, 6);
+            // 
+            // smtAddSilence
+            // 
+            this.smtAddSilence.Name = "smtAddSilence";
+            this.smtAddSilence.Size = new System.Drawing.Size(139, 22);
+            this.smtAddSilence.Text = "無聲片段";
+            this.smtAddSilence.Click += new System.EventHandler(this.smtAddSilence_Click);
             // 
             // tsmRepair
             // 
@@ -287,6 +300,18 @@ namespace ListeningMaterialTool {
             this.smtRIGreensleeves.Text = "重置內建聲音檔";
             this.smtRIGreensleeves.Click += new System.EventHandler(this.smtRIGreensleeves_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(188, 6);
+            // 
+            // smtClearCache
+            // 
+            this.smtClearCache.Name = "smtClearCache";
+            this.smtClearCache.Size = new System.Drawing.Size(191, 22);
+            this.smtClearCache.Text = "清除暫存檔案";
+            this.smtClearCache.Click += new System.EventHandler(this.smtClearCache_Click);
+            // 
             // tsmHelp
             // 
             this.tsmHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -303,6 +328,7 @@ namespace ListeningMaterialTool {
             this.tsmAbout.Name = "tsmAbout";
             this.tsmAbout.Size = new System.Drawing.Size(180, 22);
             this.tsmAbout.Text = "關於";
+            this.tsmAbout.Click += new System.EventHandler(this.tsmAbout_Click);
             // 
             // smtChkUpdate
             // 
@@ -391,30 +417,6 @@ namespace ListeningMaterialTool {
             this.svfDialog.Filter = "MP3|*.mp3";
             this.svfDialog.Title = "龨出檔案至...";
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(188, 6);
-            // 
-            // smtClearCache
-            // 
-            this.smtClearCache.Name = "smtClearCache";
-            this.smtClearCache.Size = new System.Drawing.Size(191, 22);
-            this.smtClearCache.Text = "清除暫存檔案";
-            this.smtClearCache.Click += new System.EventHandler(this.smtClearCache_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
-            // 
-            // smtAddSilence
-            // 
-            this.smtAddSilence.Name = "smtAddSilence";
-            this.smtAddSilence.Size = new System.Drawing.Size(180, 22);
-            this.smtAddSilence.Text = "無聲片段";
-            this.smtAddSilence.Click += new System.EventHandler(this.smtAddSilence_Click);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -429,6 +431,7 @@ namespace ListeningMaterialTool {
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(766, 416);
