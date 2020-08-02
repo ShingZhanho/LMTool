@@ -3,6 +3,9 @@
 
 <p align="center"><img src="https://github.com/ShingZhanho/LMTool/blob/master/ReadmeRes/preview-image.png" alt="Preview Image of LMTool" width="800px"/></p>
 
+## :fire: 公開測試版現已發佈 :fire:
+前往[發行版本頁面](https://github.com/ShingZhanho/LMTool/releases)來下載最新的公開測試版。
+
 ## 特色
 * 使用ffmpeg函式庫來合成檔案，增加匯出速度；
 * 簡易、明瞭的使用方式，使用者可以輕鬆掌握使用方法；
