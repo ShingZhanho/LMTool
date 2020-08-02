@@ -4,7 +4,7 @@
 <p align="center"><img src="https://github.com/ShingZhanho/LMTool/blob/master/ReadmeRes/preview-image.png" alt="Preview Image of LMTool" width="800px"/></p>
 
 ## 特色
-* 使用強大的ffmpeg來合成檔案，增加匯出速度；
+* 使用ffmpeg函式庫來合成檔案，增加匯出速度；
 * 簡易、明瞭的使用方式，使用者可以輕鬆掌握使用方法；
 * 內置不同長度的綠袖子等候音樂及[Beep]音效，方便因應實際情況調整錄音長度；
 * **完全免費！**
