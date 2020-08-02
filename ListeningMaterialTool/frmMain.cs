@@ -20,7 +20,7 @@ namespace ListeningMaterialTool {
             InitializeComponent();
         }
 
-        private const string VersionCode = "v0.2 (beta)";
+        private const string VersionCode = "v0.2-b";
 
         private long totalMs = 0;
         private bool isExported = true; // Indicates if all the changes are exported to a file
@@ -28,9 +28,8 @@ namespace ListeningMaterialTool {
         private int sequence = 0;
 
         private void frmMain_Load(object sender, EventArgs e) {
-            // Shows title
-            Text = $"{Text} {VersionCode}";
-
+            // Shows version code if this is a beta version
+            if (VersionCode.Contains("b")) Text = $"{Text} {VersionCode}";
             // Creates dirs
             if (!Directory.Exists("./res/")) Directory.CreateDirectory("./res/");
             if (!Directory.Exists($@"{Path.GetTempPath()}\LMTool"))
@@ -199,6 +198,8 @@ namespace ListeningMaterialTool {
 
         private void btnRemove_Click(object sender, EventArgs e) {
             File.Delete(listPending.SelectedItems[0].SubItems[5].Text);
+            totalMs -= TimeToMs(listPending.SelectedItems[0].SubItems[4].Text);
+            lblTotalTime.Text = $"總時長：{MsToTime(totalMs)}";
             listPending.Items.Remove(listPending.SelectedItems[0]);
             tsmExport.Enabled = listPending.Items.Count != 0;
             isExported = false;
@@ -326,6 +327,16 @@ namespace ListeningMaterialTool {
                 tsmExport.Enabled = true;
                 listPending.Items[listPending.Items.Count - 1].EnsureVisible();
             }
+        }
+
+        // Converts hh:mm:ss.fff to milliseconds
+        private long TimeToMs(string time) {
+            TimeSpan ts = new TimeSpan (0, 
+                int.Parse(time.Split(':')[0]),
+                int.Parse(time.Split(':')[1]),
+                int.Parse(time.Split(':')[2].Split('.')[1]),
+                int.Parse(time.Split('.')[1]));
+            return (long) ts.TotalMilliseconds;
         }
     }
 }
