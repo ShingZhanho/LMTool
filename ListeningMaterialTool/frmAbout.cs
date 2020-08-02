@@ -22,6 +22,8 @@ namespace ListeningMaterialTool {
 
         private void frmAbout_Load(object sender, EventArgs e) {
             label2.Text = $"版本：{frmMain.VersionCode}";
+            
+            AudioTaskItemsCollection collection = new AudioTaskItemsCollection();
         }
     }
 }
