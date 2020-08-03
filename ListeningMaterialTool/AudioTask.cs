@@ -9,7 +9,8 @@ namespace ListeningMaterialTool {
     ///     AudioTaskItem will be used to replace ListViewItem.
     /// </summary>
     public class AudioTaskItem {
-        // Initializers for AudioTaskItem
+        
+        #region Initializers
 
         /// <summary>
         ///     Initializes the AudioTaskItem instance, use this if NOT adding a built-in audio.
@@ -59,6 +60,8 @@ namespace ListeningMaterialTool {
             MsOut = 839; // The beep sound lasts for 839 milliseconds
             Duration = 839;
         }
+
+        #endregion
 
         // Properties
         public int Number { get; private set; }
@@ -150,12 +153,13 @@ namespace ListeningMaterialTool {
         ///     Stores all AudioTaskItems. DO NOT add to this property directly, use AudioTaskItemsCollection.Append().
         /// </summary>
         public List<AudioTaskItem> Items { get; private set; }
+
         private string TempDir { get; set; }
         private int NumberStack { get; set; }
-        
+
         // Constants
         private const string FFMPEG_ARGS_SILENCE = "-f lavfi -i anullsrc=r=11025:cl=mono -t $SECS$ $FILE_TEMP$";
-        
+
         // Methods
 
         #region Methods for modifying List<AudioTaskItem>
@@ -170,11 +174,11 @@ namespace ListeningMaterialTool {
         public List<AudioTaskItem> Append(string filepath, long msIn, long msOut) {
             var item = new AudioTaskItem(filepath, msIn, msOut);
             NumberStack++;
-            
-            File.Copy(filepath, 
+
+            File.Copy(filepath,
                 $"{TempDir}/{NumberStack}.{Path.GetExtension(filepath)}");
-            
-            item.AssignNumber(NumberStack, 
+
+            item.AssignNumber(NumberStack,
                 $"{TempDir}/{NumberStack}.{Path.GetExtension(filepath)}");
             Items.Add(item);
 
@@ -189,10 +193,10 @@ namespace ListeningMaterialTool {
         public List<AudioTaskItem> Append(int length) {
             var item = new AudioTaskItem(length);
             NumberStack++;
-            
+
             File.Copy($"./built_in_soung/G_{length.ToString()}.mp3",
                 $"{TempDir}/{NumberStack}.mp3");
-            
+
             item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.mp3");
             Items.Add(item);
 
@@ -207,14 +211,27 @@ namespace ListeningMaterialTool {
         public List<AudioTaskItem> Append(long length) {
             var item = new AudioTaskItem(length);
             NumberStack++;
-            
+
             // Generate silence audio with ffmpeg
             var ffmpeg = new Ffmpeg("./ffmpeg/ffmpeg.exe");
             ffmpeg.StartFfmpeg(FFMPEG_ARGS_SILENCE
                 .Replace("$SECS$", (length * 1000).ToString()
-                .Replace("$FILE_TEMP$", $"{TempDir}/{NumberStack}.m4a")));
-            
+                    .Replace("$FILE_TEMP$", $"{TempDir}/{NumberStack}.m4a")));
+
             item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.m4a");
+            Items.Add(item);
+
+            return Items;
+        }
+
+        public List<AudioTaskItem> Append() {
+            var item = new AudioTaskItem();
+            NumberStack++;
+
+            File.Copy("./built_in_sound/Beep.mp3",
+                $"{TempDir}/{NumberStack}.mp3");
+
+            item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.mp3");
             Items.Add(item);
 
             return Items;
@@ -231,6 +248,33 @@ namespace ListeningMaterialTool {
                 Items.RemoveAt(i);
                 return Items;
             }
+
+            return Items;
+        }
+
+        /// <summary>
+        ///     Moves the passed in item up or down.
+        /// </summary>
+        /// <param name="itemToMoveUp">The item to be moved.</param>
+        /// <param name="upDown">0 to move down, 1 to move up.</param>
+        /// <returns>The modified list. No effect if upDown is neither 0 nor 1, or item not found.</returns>
+        public List<AudioTaskItem> MoveItem(ListViewItem itemToMoveUp, int upDown) {
+            if (upDown != 0 && upDown != 1) return null;
+            int? index = null;
+            AudioTaskItem newItem = null;
+            foreach (var audioTaskItem in Items) {
+                if (audioTaskItem.Number.ToString() != itemToMoveUp.Text) continue;
+                newItem = audioTaskItem;
+                index = Items.IndexOf(audioTaskItem);
+                break;
+            }
+            if (index == null) return null;
+            
+            Items.RemoveAt(Convert.ToInt32(index));
+            Items.Insert(upDown == 0 
+                ? Convert.ToInt32(index) - 1 
+                : Convert.ToInt32(index) + 1, newItem); // Move up if upDown = 1, otherwise move down.
+
             return Items;
         }
 
