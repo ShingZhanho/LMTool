@@ -153,6 +153,9 @@ namespace ListeningMaterialTool {
         private string TempDir { get; set; }
         private int NumberStack { get; set; }
         
+        // Constants
+        private const string FFMPEG_ARGS_SILENCE = "-f lavfi -i anullsrc=r=11025:cl=mono -t $SECS$ $FILE_TEMP$";
+        
         // Methods
 
         #region Methods for modifying List<AudioTaskItem>
@@ -204,6 +207,15 @@ namespace ListeningMaterialTool {
         public List<AudioTaskItem> Append(long length) {
             var item = new AudioTaskItem(length);
             NumberStack++;
+            
+            // Generate silence audio with ffmpeg
+            var ffmpeg = new Ffmpeg("./ffmpeg/ffmpeg.exe");
+            ffmpeg.StartFfmpeg(FFMPEG_ARGS_SILENCE
+                .Replace("$SECS$", (length * 1000).ToString()
+                .Replace("$FILE_TEMP$", $"{TempDir}/{NumberStack}.m4a")));
+            
+            item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.m4a");
+            Items.Add(item);
 
             return Items;
         }

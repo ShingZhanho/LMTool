@@ -81,7 +81,7 @@ namespace ListeningMaterialTool {
                 $"-safe 0 -f concat -i \"{_outputPath}/audio_join.txt\" " +
                 $"-c copy \"{_outputPath}/Output.mp3\"");
             StartFfmpeg($"-safe 0 -f concat -i \"{_outputPath}/audio_join.txt\" " +
-                        $"-c copy \"{_outputPath}/Output.mp3\"");
+                        $"-acodec libmp3lame \"{_outputPath}/Output.mp3\"");
             while (!File.Exists($"{_outputPath}/Output.mp3")) { int a = 0; }
 
             // Copy file to destination
