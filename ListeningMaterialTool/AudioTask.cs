@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -65,7 +66,7 @@ namespace ListeningMaterialTool {
         // Properties
         public int Number { get; private set; }
         public string Name { get; }
-        public string FilePath { get; }
+        public string FilePath { get; set; }
         public string FilePathInTemp { get; private set; }
         public long MsIn { get; }
         public long MsOut { get; }
@@ -93,7 +94,7 @@ namespace ListeningMaterialTool {
         /// </summary>
         /// <param name="ms">Milliseconds</param>
         /// <returns>String with format hh:mm:ss.fff</returns>
-        private string MsToTimeSpan(long ms) {
+        public string MsToTimeSpan(long ms) {
             var ts = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(ms));
             return $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}.{ts.Milliseconds:D3}";
         }
@@ -103,7 +104,7 @@ namespace ListeningMaterialTool {
         /// </summary>
         /// <param name="time">Time string</param>
         /// <returns>Milliseconds</returns>
-        private long TimeSpanToMs(string time) {
+        public long TimeSpanToMs(string time) {
             var ts = new TimeSpan(
                 0, int.Parse(time.Split(':')[0]),
                 int.Parse(time.Split(':')[1]),
@@ -168,9 +169,11 @@ namespace ListeningMaterialTool {
         private int NumberStack { get; set; }
 
         // Constants
-        private const string FFMPEG_ARGS_SILENCE = "-f lavfi -i anullsrc=r=11025:cl=mono -t $SECS$ $FILE_TEMP$";
+        // DO NOT modify the ffmpeg arguments on the master branch
+        private const string FFMPEG_ARGS_SILENCE = "-f lavfi -i anullsrc=r=11025:cl=mono -t $SECS$ \"$FILE_TEMP$\"";
         private const string FFMPEG_ARGS_TRIM = 
-            "-i $FILE_TEMP$ -ss $TIME_IN$ -to $TIME_OUT$ -acodec libmp3lame $FILE_OUTPUT$";
+            "-i \"$FILE_TEMP$\" -ss $TIME_IN$ -to $TIME_OUT$ -acodec libmp3lame \"$FILE_OUTPUT$\"";
+        private const string FFMPEG_ARGS_JOIN = "-safe 0 -f concat -i \"$PATH_LIST$\" -acodec -libmp3lame \"$PATH_OUTPUT$\"";
 
         // Methods
 
@@ -291,8 +294,8 @@ namespace ListeningMaterialTool {
 
             Items.RemoveAt(Convert.ToInt32(index));
             Items.Insert(upDown == 0
-                ? Convert.ToInt32(index) - 1
-                : Convert.ToInt32(index) + 1, newItem); // Move up if upDown = 1, otherwise move down.
+                ? Convert.ToInt32(index) + 1
+                : Convert.ToInt32(index) - 1, newItem); // Move up if upDown = 1, otherwise move down.
 
             return Items;
         }
@@ -343,12 +346,53 @@ namespace ListeningMaterialTool {
         }
 
         #endregion
-        
+
         /// <summary>
         ///     Exports the whole list to an independent file.
         /// </summary>
         /// <param name="destination">The destination path of the exported audio file.</param>
-        public void ExportToAudio(string destination) { }
+        public async Task ExportToAudio(string destination) {
+            // Creates a output dir
+            var dirNum = 0;
+            var outputDir = "";
+            while (!Directory.Exists($"{TempDir}/output{dirNum}")) {
+                dirNum++;
+                outputDir = $"{TempDir}/output{dirNum}";
+                Directory.CreateDirectory(outputDir);
+            }
+
+            // Creates ffmpeg instance
+            var ffmpeg = new Ffmpeg("./ffmpeg/ffmpeg.exe");
+
+            // Trim audio files
+            foreach (var audioTaskItem in Items) {
+                if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_TRIM
+                        .Replace("$FILE_TEMP$", audioTaskItem.FilePathInTemp.Replace("\\","/"))
+                        .Replace("$TIME_IN$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsIn))
+                        .Replace("$TIME_OUT$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsOut))
+                        .Replace("$FILE_OUTPUT$", $"{outputDir}/{Items.IndexOf(audioTaskItem) + 1}.mp3"),
+                    Properties.Settings.Default.ffmpeg_WaitTimeOut) == false) { // failure signal received
+                    throw new Exception("Error occured while trimming audio. Export ended.");
+                }
+            }
+
+            // Generates join_list.txt
+            var lines = new List<string>();
+            for (int i = 0; i < Directory.GetFiles(outputDir).Length; i++) {
+                lines.Add($"file ./{i}.mp3");
+            }
+            File.WriteAllLines($"{outputDir}/join_list.txt", lines);
+
+            // Joins audio files
+            if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_JOIN
+                .Replace("$PATH_LIST$", $"{outputDir}/join_list.txt")
+                .Replace("$PATH_OUTPUT$", $"{outputDir}/combine.mp3")) == false) { // failure signal received
+                throw new Exception("Error occured while joining audio. Export ended.");
+            }
+
+            // Copies to the destination
+            File.Copy($"{outputDir}/combine.mp3", destination);
+        }
 
         /// <summary>
         ///     Save the list and configurations to a .lmtproj file.
@@ -364,8 +408,9 @@ namespace ListeningMaterialTool {
 
             try {
                 File.WriteAllLines(destination, lines);
+            } catch {
+                // ignored
             }
-            catch { }
 
             return File.Exists(destination) ? Path.GetFullPath(destination) : null;
         }

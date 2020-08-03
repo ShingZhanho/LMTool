@@ -20,14 +20,12 @@ namespace ListeningMaterialTool {
             InitializeComponent();
         }
 
-        public const string VersionCode = "v1.0-r";
+        public const string VersionCode = "v1.2-b";
 
-        private long totalMs = 0;
         private bool isExported = true; // Indicates if all the changes are exported to a file
         private string tempPath;
-        private int sequence = 0;
 
-        private AudioTaskItemsCollection audioList;
+        private AudioTaskItemsCollection _audioList;
 
         private void frmMain_Load(object sender, EventArgs e) {
             // Shows version code if this is a beta version
@@ -41,9 +39,9 @@ namespace ListeningMaterialTool {
                 .Replace("/", "").Replace(":","").Replace(" ","")}";
             Directory.CreateDirectory(tempPath);
 
-            // finds the ffmpeg
-            if (!Directory.Exists($"./ffmpeg-4.3.1-win32-static"))
-                UnzipFfmpeg();
+            //// finds the ffmpeg
+            //if (!Directory.Exists($"./ffmpeg-4.3.1-win32-static"))
+            //    UnzipFfmpeg();
 
             // finds built in sounds
             if (!Directory.Exists($"./built_in_sounds"))
@@ -54,7 +52,7 @@ namespace ListeningMaterialTool {
                 File.WriteAllBytes("./res/chord.mp3", Resources.chord);
             
             // Initialize AudioTaskItemsCollection
-            audioList = new AudioTaskItemsCollection(tempPath);
+            _audioList = new AudioTaskItemsCollection(tempPath);
         }
 
         #region Resources
@@ -95,10 +93,10 @@ namespace ListeningMaterialTool {
             //TODO: Delete sequence property in the form
             if (newAudio.ShowDialog() == DialogResult.OK) { // Clicks on OK, add item
                 // Use new class
-                audioList.Append(newAudio.FilePath, newAudio.SecIn, newAudio.SecOut);
-                audioList.ToListViewItemCollection(listPending);
+                _audioList.Append(newAudio.FilePath, newAudio.SecIn, newAudio.SecOut);
+                _audioList.ToListViewItemCollection(listPending);
                 isExported = false;
-                lblTotalTime.Text = $"總時長：{MsToTime(audioList.totalDuration)}";
+                lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
                 
             }
             tsmExport.Enabled = listPending.Items.Count != 0;
@@ -110,8 +108,8 @@ namespace ListeningMaterialTool {
         // Remove audio from list
         private void btnRemove_Click(object sender, EventArgs e) {
             // Using new classes
-            lblTotalTime.Text = $"總時長：{MsToTime(audioList.totalDuration)}";
-            audioList.ToListViewItemCollection(listPending);
+            lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
+            _audioList.ToListViewItemCollection(listPending);
             tsmExport.Enabled = listPending.Items.Count != 0;
             isExported = false;
         }
@@ -123,8 +121,8 @@ namespace ListeningMaterialTool {
             // listPending.Items.Insert(index - 1, lstItem);
             
             // Using new classes
-            audioList.MoveItem(listPending.SelectedItems[0], 1);
-            audioList.ToListViewItemCollection(listPending);
+            _audioList.MoveItem(listPending.SelectedItems[0], 1);
+            _audioList.ToListViewItemCollection(listPending);
             
             isExported = false;
         }
@@ -136,8 +134,8 @@ namespace ListeningMaterialTool {
             // listPending.Items.Insert(index + 1, lstItem);
             
             // Using new classes 
-            audioList.MoveItem(listPending.SelectedItems[0], 0);
-            audioList.ToListViewItemCollection(listPending);
+            _audioList.MoveItem(listPending.SelectedItems[0], 0);
+            _audioList.ToListViewItemCollection(listPending);
             
             isExported = false;
         }
@@ -219,8 +217,6 @@ namespace ListeningMaterialTool {
                 "已經重新安裝ffmpeg，現在請再次嘗試", "修復完成", MessageBoxButtons.OK);
         }
 
-        
-
         private void smtRIGreensleeves_Click(object sender, EventArgs e) {
             Alert();
             MessageBox.Show(
@@ -248,30 +244,31 @@ namespace ListeningMaterialTool {
             // listPending.Items.Add(lstItem);
             
             // Using new classes
-            audioList.Append();
-            audioList.ToListViewItemCollection(listPending);
+            _audioList.Append();
+            _audioList.ToListViewItemCollection(listPending);
             
-            lblTotalTime.Text = $"總時長：{MsToTime(audioList.totalDuration)}";
+            lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             isExported = false;
             tsmExport.Enabled = true;
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
 
         private void tsmExport_Click(object sender, EventArgs e) {
-            if (!audioList.ListIsValid()) {
+            if (!_audioList.ListIsValid()) {
                 // List is invalid (files are missing)
                 Alert();
                 var s = "";
-                foreach (var invalidItem in audioList.GetInvalidItems())
+                foreach (var invalidItem in _audioList.GetInvalidItems())
                     s += $"音訊編號{invalidItem.Number.ToString()}，{invalidItem.Name}，檔案\n" +
-                         $"　　{invalidItem.FilePath}已丟失 / 已被移動。\n";
-                MessageBox.Show("警告：清單中的某些項目已經失效，程式沒有找到他們的檔案。\n" +
-                                "以下為失效的項目：\n" +
-                                $"{s}在你從清單中刪除他們前，程式將不能匯出檔案。");
+                         $"　　{invalidItem.FilePath}已丟失 / 已被移動。\n\n";
+                MessageBox.Show("警告：清單中的某些項目已經失效，程式沒有找到這些檔案。\n" +
+                                "以下為失效的項目：\n\n" +
+                                $"{s}在你從清單中刪除他們之前，程式將不能匯出檔案。",
+                                "錯誤");
                 return;
             }
             if (svfDialog.ShowDialog() == DialogResult.Cancel) return;
-            var exportForm = new frmExport();
+            var exportForm = new frmExport(_audioList);
             
             // TODO: Rebuild frmExport and rebuild these codes:
             exportForm.TempPath = tempPath;
@@ -289,14 +286,14 @@ namespace ListeningMaterialTool {
         }
 
         private void smtAddSilence_Click(object sender, EventArgs e) {
-            var formSilence = new frmAddSilence(audioList);
+            var formSilence = new frmAddSilence(_audioList);
             formSilence.ShowDialog();
             if (formSilence.DialogResult != DialogResult.OK) return;
                 
             // Using new classes
-            audioList.ToListViewItemCollection(listPending);
+            _audioList.ToListViewItemCollection(listPending);
                 
-            lblTotalTime.Text = $"總時長：{MsToTime(audioList.totalDuration)}";
+            lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             isExported = false;
             tsmExport.Enabled = true;
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();
@@ -307,17 +304,17 @@ namespace ListeningMaterialTool {
             // formAbout.Show();
             
             // Debug code
-            audioList.SaveFile("./save.lmtproj");
+            _audioList.SaveFile("./save.lmtproj");
         }
 
         #endregion
 
         private void AppendGreensleeves(int sec) {
             // Using new classes
-            audioList.Append(sec);
-            audioList.ToListViewItemCollection(listPending);
+            _audioList.Append(sec);
+            _audioList.ToListViewItemCollection(listPending);
             
-            lblTotalTime.Text = $"總時長：{MsToTime(audioList.totalDuration)}";
+            lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             isExported = false;
             tsmExport.Enabled = true;
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();

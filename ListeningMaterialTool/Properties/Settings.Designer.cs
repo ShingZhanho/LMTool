@@ -58,5 +58,17 @@ namespace ListeningMaterialTool.Properties {
                 this["CacheClear_ClearNow"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ffmpeg_WaitTimeOut {
+            get {
+                return ((int)(this["ffmpeg_WaitTimeOut"]));
+            }
+            set {
+                this["ffmpeg_WaitTimeOut"] = value;
+            }
+        }
     }
 }

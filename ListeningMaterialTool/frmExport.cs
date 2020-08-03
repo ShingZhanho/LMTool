@@ -17,15 +17,17 @@ using WMPLib;
 
 namespace ListeningMaterialTool {
     public partial class frmExport : Form {
-        public frmExport() {
+        public frmExport(AudioTaskItemsCollection collection) {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
+            passInList = collection;
         }
 
         // values to receive
         public string SavePath { get; set; } // The path of the exported file
         public string TempPath { get; set; } // The temp path
         public ListView.ListViewItemCollection ProcessList { get; set; } // Trimming queue
+        private AudioTaskItemsCollection passInList;
 
         // private values
         private string _outputPath;
@@ -35,20 +37,22 @@ namespace ListeningMaterialTool {
         // for playing alert
         WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
 
-        private void frmExport_Load(object sender, EventArgs e) {
+        private async void frmExport_Load(object sender, EventArgs e) {
             TempPath = TempPath.Replace("\\", "/");
             // Create a output dir
-            int i = 0;
-            while (Directory.Exists($"{TempPath}/out{i}")) {
-                i++;
-            }
-            Directory.CreateDirectory($"{TempPath}/out{i}");
-            _outputPath = $"{TempPath}/out{i}";
-            _totalSteps = ProcessList.Count + 1;
-            pgbProgress.Maximum = _totalSteps;
-            Log("開始匯出檔案...");
-            Thread thread = new Thread(ExportAudio);
-            thread.Start();
+            //int i = 0;
+            //while (Directory.Exists($"{TempPath}/out{i}")) {
+            //    i++;
+            //}
+            //Directory.CreateDirectory($"{TempPath}/out{i}");
+            //_outputPath = $"{TempPath}/out{i}";
+            //_totalSteps = ProcessList.Count + 1;
+            //pgbProgress.Maximum = _totalSteps;
+            //Log("開始匯出檔案...");
+            //Thread thread = new Thread(ExportAudio);
+            //thread.Start();
+
+            await passInList.ExportToAudio(SavePath);
         }
 
         private void ExportAudio() {

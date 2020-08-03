@@ -60,7 +60,7 @@ namespace ListeningMaterialTool {
             var t = Task.Run(() => {
                 if (waitSeconds == 0) {
                     // timeout = 0: Keep waiting until file exported
-                    while (!File.Exists(filename)) { }
+                    while (!File.Exists(filename.Replace("\"",""))) { }
                     return true;
                 }
                 
