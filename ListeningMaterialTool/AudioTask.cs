@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace ListeningMaterialTool {
     /// <summary>
@@ -63,7 +64,7 @@ namespace ListeningMaterialTool {
         public int Number { get; private set; }
         public string Name { get; }
         public string FilePath { get; }
-        public string FilePathInTemp { get; }
+        public string FilePathInTemp { get; private set; }
         public long MsIn { get; }
         public long MsOut { get; }
         public long Duration { get; }
@@ -115,8 +116,10 @@ namespace ListeningMaterialTool {
         ///     The AudioTaskItemsCollection should call this method to assign number when appending to the list.
         /// </summary>
         /// <param name="number">Number to be assigned.</param>
-        public void AssignNumber(int number) {
+        /// <param name="filePathInTemp">The path of the file in the temp folder.</param>
+        public void AssignNumber(int number, string filePathInTemp) {
             Number = number;
+            FilePathInTemp = filePathInTemp;
         }
     }
 
@@ -130,18 +133,66 @@ namespace ListeningMaterialTool {
         /// <summary>
         ///     Default initializer
         /// </summary>
-        public AudioTaskItemsCollection() { }
+        /// <param name="temp_dir">Path of the temp dir.</param>>
+        public AudioTaskItemsCollection(string temp_dir) {
+            NumberStack = 0;
+        }
 
         /// <summary>
         ///     Load all AudioTaskItems from a file
         /// </summary>
         /// <param name="filename">Path of the file which will be loaded.</param>
-        public AudioTaskItemsCollection(string filename) { }
+        /// <param name="temp_dir">Path of the temp dir.</param>
+        public AudioTaskItemsCollection(string filename, string temp_dir) { }
 
         // Properties
         /// <summary>
         ///     Stores all AudioTaskItems. DO NOT add to this property directly, use AudioTaskItemsCollection.Append().
         /// </summary>
         public List<AudioTaskItem> Items { get; private set; }
+        private string TempDir { get; set; }
+        private int NumberStack { get; set; }
+        
+        // Methods
+
+        #region Methods for modifying List<AudioTaskItem>
+
+        /// <summary>
+        ///     Append a general AudioTaskItem to the list.
+        /// </summary>
+        /// <param name="filepath">Path of file.</param>
+        /// <param name="msIn">In location in milliseconds.</param>
+        /// <param name="msOut">Out location in milliseconds.</param>
+        /// <returns>The modified list.</returns>
+        public List<AudioTaskItem> Append(string filepath, long msIn, long msOut) {
+            var item = new AudioTaskItem(filepath, msIn, msOut);
+            NumberStack++;
+            
+            // Copies file to temp
+            File.Copy(filepath, 
+                $"{TempDir}/{NumberStack.ToString()}.{Path.GetExtension(filepath)}");
+            
+            item.AssignNumber(NumberStack, 
+                $"{TempDir}/{NumberStack.ToString()}.{Path.GetExtension(filepath)}");
+            Items.Add(item);
+
+            return Items;
+        }
+
+        /// <summary>
+        ///     Removes the AudioTaskItem from the list. Have no effect if the item is not exist.
+        /// </summary>
+        /// <param name="itemToRemove">Pass the item to be removed in ListViewItem</param>
+        /// <returns>The modified list.</returns>
+        public List<AudioTaskItem> Remove(ListViewItem itemToRemove) {
+            for (var i = 0; i < Items.Count; i++) {
+                if (Items[i].Number.ToString() != itemToRemove.Text) continue;
+                Items.RemoveAt(i);
+                return Items;
+            }
+            return Items;
+        }
+
+        #endregion
     }
 }
