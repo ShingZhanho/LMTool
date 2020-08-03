@@ -57,15 +57,29 @@ namespace ListeningMaterialTool {
             audioList = new AudioTaskItemsCollection(tempPath);
         }
 
-        private void UnzipFfmpeg() {
+        #region Resources
+
+         private void UnzipFfmpeg() {
             if (Directory.Exists("./ffmpeg-4.3.1-win32-static"))
                 Directory.Delete("./ffmpeg-4.3.1-win32-static", true);
             // unzip ffmpeg dependency
-            File.WriteAllBytes($@"{tempPath}/ffmpeg.zip", Resources.ffmpeg_utilities);
+            //File.WriteAllBytes($@"{tempPath}/ffmpeg.zip", Resources.ffmpeg_utilities);
             ZipFile.ExtractToDirectory($@"{tempPath}/ffmpeg.zip",
                 Application.StartupPath);
             File.Delete($@"{tempPath}/ffmpeg.zip");
         }
+
+        private void UnzipSounds() {
+            if (Directory.Exists("./built_in_sound"))
+                Directory.Delete("./built_in_sound", true);
+            // unzip ffmpeg dependency
+            File.WriteAllBytes($@"{tempPath}/greensleeves.zip", Resources.built_in_sound);
+            ZipFile.ExtractToDirectory($@"{tempPath}/greensleeves.zip",
+                Application.StartupPath);
+            File.Delete($@"{tempPath}/greensleeves.zip");
+        }
+
+        #endregion
 
         private void listPending_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e) {
             // Prevent columns width from being changed
@@ -73,6 +87,8 @@ namespace ListeningMaterialTool {
             e.NewWidth = listPending.Columns[e.ColumnIndex].Width;
         }
 
+        #region Buttons Event Handler
+        // Add audio to list
         private void btnAppend_Click(object sender, EventArgs e) {
             frmNewAudio newAudio = new frmNewAudio();
             newAudio.TempDir = tempPath;
@@ -91,17 +107,61 @@ namespace ListeningMaterialTool {
             if (listPending.Items.Count != 0)
                 listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
-
-        private void AppendGreensleeves(int sec) {
+        // Remove audio from list
+        private void btnRemove_Click(object sender, EventArgs e) {
             // Using new classes
-            audioList.Append(sec);
+            lblTotalTime.Text = $"總時長：{MsToTime(audioList.totalDuration)}";
+            audioList.ToListViewItemCollection(listPending);
+            tsmExport.Enabled = listPending.Items.Count != 0;
+            isExported = false;
+        }
+        // Move item up
+        private void btnUp_Click(object sender, EventArgs e) {
+            // ListViewItem lstItem = listPending.SelectedItems[0];
+            // int index = listPending.Items.IndexOf(listPending.SelectedItems[0]);
+            // listPending.Items.Remove(listPending.SelectedItems[0]);
+            // listPending.Items.Insert(index - 1, lstItem);
+            
+            // Using new classes
+            audioList.MoveItem(listPending.SelectedItems[0], 1);
             audioList.ToListViewItemCollection(listPending);
             
-            lblTotalTime.Text = $"總時長：{MsToTime(audioList.totalDuration)}";
             isExported = false;
-            tsmExport.Enabled = true;
-            listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
+        // Move item down
+        private void btnDown_Click(object sender, EventArgs e) {
+            // ListViewItem lstItem = listPending.SelectedItems[0];
+            // int index = listPending.Items.IndexOf(listPending.SelectedItems[0]);
+            // listPending.Items.Remove(listPending.SelectedItems[0]);
+            // listPending.Items.Insert(index + 1, lstItem);
+            
+            // Using new classes 
+            audioList.MoveItem(listPending.SelectedItems[0], 0);
+            audioList.ToListViewItemCollection(listPending);
+            
+            isExported = false;
+        }
+
+        #endregion
+
+        #region TimeConversion Related
+
+        private string MsToTime(long ms) {
+            var ts = TimeSpan.FromMilliseconds(ms);
+            return $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}.{ts.Milliseconds:D3}";
+        }
+
+        private long TimeToMs(string time) {
+            TimeSpan ts = new TimeSpan (0, 
+                int.Parse(time.Split(':')[0]),
+                int.Parse(time.Split(':')[1]),
+                int.Parse(time.Split(':')[2].Split('.')[1]),
+                int.Parse(time.Split('.')[1]));
+            return (long) ts.TotalMilliseconds;
+        }
+        #endregion
+
+        #region ToolStripMenuItem Event Handler
 
         private void smtGreensleeves(object sender, EventArgs e) {
             ToolStripMenuItem smItem = (ToolStripMenuItem) sender;
@@ -111,11 +171,6 @@ namespace ListeningMaterialTool {
             if (smItem == smtGreen180) AppendGreensleeves(180);
             if (smItem == smtGreen240) AppendGreensleeves(240);
             if (smItem == smtGreen300) AppendGreensleeves(300);
-        }
-        
-        private string MsToTime(long ms) {
-            var ts = TimeSpan.FromMilliseconds(ms);
-            return $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}.{ts.Milliseconds:D3}";
         }
 
         private void smtReset_Click(object sender, EventArgs e) {
@@ -144,80 +199,6 @@ namespace ListeningMaterialTool {
             Application.Exit();
         }
 
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
-            // Closes if changes not saved
-            if (!isExported && e.CloseReason != CloseReason.ApplicationExitCall) { // Changes not saved
-                Alert();
-                DialogResult dialogResult =
-                    MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
-                        "警告", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.No) {
-                    e.Cancel = true;
-                    return;
-                }
-            }
-
-            // Clear cache
-            if (Settings.Default.CacheClear_OnClose) {
-                foreach (var dir in Directory.GetDirectories(Path.GetDirectoryName(tempPath))) {
-                    Directory.Delete(dir, true);
-                }
-            }
-            if (!Settings.Default.CacheClear_Auto) {
-                Settings.Default.CacheClear_ClearNow = false;
-                Settings.Default.CacheClear_OnClose = false;
-            }
-            Settings.Default.Save();
-            Application.Exit();
-        }
-
-        private void listPending_SelectedIndexChanged(object sender, EventArgs e) {
-            if (listPending.SelectedItems.Count == 0) {
-                btnRemove.Enabled = false;
-                btnUp.Enabled = false;
-                btnDown.Enabled = false;
-            } else {
-                btnRemove.Enabled = true;
-                btnUp.Enabled = listPending.SelectedItems[0] != listPending.Items[0];
-                btnDown.Enabled = 
-                    listPending.SelectedItems[0] != listPending.Items[listPending.Items.Count - 1];
-            }
-        }
-
-        private void btnRemove_Click(object sender, EventArgs e) {
-            // Using new classes
-            lblTotalTime.Text = $"總時長：{MsToTime(audioList.totalDuration)}";
-            audioList.ToListViewItemCollection(listPending);
-            tsmExport.Enabled = listPending.Items.Count != 0;
-            isExported = false;
-        }
-
-        private void btnUp_Click(object sender, EventArgs e) {
-            // ListViewItem lstItem = listPending.SelectedItems[0];
-            // int index = listPending.Items.IndexOf(listPending.SelectedItems[0]);
-            // listPending.Items.Remove(listPending.SelectedItems[0]);
-            // listPending.Items.Insert(index - 1, lstItem);
-            
-            // Using new classes
-            audioList.MoveItem(listPending.SelectedItems[0], 1);
-            audioList.ToListViewItemCollection(listPending);
-            
-            isExported = false;
-        }
-
-        private void btnDown_Click(object sender, EventArgs e) {
-            // ListViewItem lstItem = listPending.SelectedItems[0];
-            // int index = listPending.Items.IndexOf(listPending.SelectedItems[0]);
-            // listPending.Items.Remove(listPending.SelectedItems[0]);
-            // listPending.Items.Insert(index + 1, lstItem);
-            
-            // Using new classes 
-            audioList.MoveItem(listPending.SelectedItems[0], 0);
-            audioList.ToListViewItemCollection(listPending);
-            
-            isExported = false;
-        }
-
         private void smtChkUpdate_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/ShingZhanho/LMTool/releases");
         }
@@ -238,15 +219,7 @@ namespace ListeningMaterialTool {
                 "已經重新安裝ffmpeg，現在請再次嘗試", "修復完成", MessageBoxButtons.OK);
         }
 
-        private void UnzipSounds() {
-            if (Directory.Exists("./built_in_sound"))
-                Directory.Delete("./built_in_sound", true);
-            // unzip ffmpeg dependency
-            File.WriteAllBytes($@"{tempPath}/greensleeves.zip", Resources.built_in_sound);
-            ZipFile.ExtractToDirectory($@"{tempPath}/greensleeves.zip",
-                Application.StartupPath);
-            File.Delete($@"{tempPath}/greensleeves.zip");
-        }
+        
 
         private void smtRIGreensleeves_Click(object sender, EventArgs e) {
             Alert();
@@ -258,12 +231,6 @@ namespace ListeningMaterialTool {
             Alert();
             MessageBox.Show(
                 "已經重置音效檔，現在請再次嘗試", "修復完成", MessageBoxButtons.OK);
-        }
-
-        private void Alert() {
-            WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
-            myplayer.URL = "./res/chord.mp3";
-            myplayer.controls.play();
         }
 
         private void smtBeep_Click(object sender, EventArgs e) {
@@ -323,19 +290,8 @@ namespace ListeningMaterialTool {
 
         private void smtAddSilence_Click(object sender, EventArgs e) {
             var formSilence = new frmAddSilence(audioList);
-            // sequence++;
-            // formSilence.Sequence = sequence;
-            // formSilence.TempPath = tempPath;
             formSilence.ShowDialog();
             if (formSilence.DialogResult != DialogResult.OK) return;
-            // ListViewItem lstItem = new ListViewItem();
-            // lstItem.Text = formSilence.Sequence.ToString();
-            // lstItem.SubItems.Add("無聲片段");
-            // lstItem.SubItems.Add(MsToTime(0));
-            // lstItem.SubItems.Add(MsToTime(formSilence.AudioLength));
-            // lstItem.SubItems.Add(MsToTime(formSilence.AudioLength));
-            // lstItem.SubItems.Add(formSilence.FilePath);
-            // listPending.Items.Add(lstItem);
                 
             // Using new classes
             audioList.ToListViewItemCollection(listPending);
@@ -346,22 +302,71 @@ namespace ListeningMaterialTool {
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
 
-        // Converts hh:mm:ss.fff to milliseconds
-        private long TimeToMs(string time) {
-            TimeSpan ts = new TimeSpan (0, 
-                int.Parse(time.Split(':')[0]),
-                int.Parse(time.Split(':')[1]),
-                int.Parse(time.Split(':')[2].Split('.')[1]),
-                int.Parse(time.Split('.')[1]));
-            return (long) ts.TotalMilliseconds;
-        }
-
         private void tsmAbout_Click(object sender, EventArgs e) {
             // frmAbout formAbout = new frmAbout();
             // formAbout.Show();
             
             // Debug code
             audioList.SaveFile("./save.lmtproj");
+        }
+
+        #endregion
+
+        private void AppendGreensleeves(int sec) {
+            // Using new classes
+            audioList.Append(sec);
+            audioList.ToListViewItemCollection(listPending);
+            
+            lblTotalTime.Text = $"總時長：{MsToTime(audioList.totalDuration)}";
+            isExported = false;
+            tsmExport.Enabled = true;
+            listPending.Items[listPending.Items.Count - 1].EnsureVisible();
+        }
+
+        private void listPending_SelectedIndexChanged(object sender, EventArgs e) {
+            if (listPending.SelectedItems.Count == 0) {
+                btnRemove.Enabled = false;
+                btnUp.Enabled = false;
+                btnDown.Enabled = false;
+            } else {
+                btnRemove.Enabled = true;
+                btnUp.Enabled = listPending.SelectedItems[0] != listPending.Items[0];
+                btnDown.Enabled = 
+                    listPending.SelectedItems[0] != listPending.Items[listPending.Items.Count - 1];
+            }
+        }
+        
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
+            // Closes if changes not saved
+            if (!isExported && e.CloseReason != CloseReason.ApplicationExitCall) { // Changes not saved
+                Alert();
+                DialogResult dialogResult =
+                    MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
+                        "警告", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.No) {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            // Clear cache
+            if (Settings.Default.CacheClear_OnClose) {
+                foreach (var dir in Directory.GetDirectories(Path.GetDirectoryName(tempPath))) {
+                    Directory.Delete(dir, true);
+                }
+            }
+            if (!Settings.Default.CacheClear_Auto) {
+                Settings.Default.CacheClear_ClearNow = false;
+                Settings.Default.CacheClear_OnClose = false;
+            }
+            Settings.Default.Save();
+            Application.Exit();
+        }
+        
+        private void Alert() {
+            WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
+            myplayer.URL = "./res/chord.mp3";
+            myplayer.controls.play();
         }
     }
 }

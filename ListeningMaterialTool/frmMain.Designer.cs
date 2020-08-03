@@ -71,6 +71,7 @@ namespace ListeningMaterialTool {
             this.btnDown = new System.Windows.Forms.Button();
             this.lblTotalTime = new System.Windows.Forms.Label();
             this.svfDialog = new System.Windows.Forms.SaveFileDialog();
+            this.btnExport = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -158,26 +159,26 @@ namespace ListeningMaterialTool {
             // 
             this.tsmExport.Enabled = false;
             this.tsmExport.Name = "tsmExport";
-            this.tsmExport.Size = new System.Drawing.Size(152, 22);
+            this.tsmExport.Size = new System.Drawing.Size(180, 22);
             this.tsmExport.Text = "匯出檔案";
             this.tsmExport.Click += new System.EventHandler(this.tsmExport_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // smtReset
             // 
             this.smtReset.Name = "smtReset";
-            this.smtReset.Size = new System.Drawing.Size(152, 22);
+            this.smtReset.Size = new System.Drawing.Size(180, 22);
             this.smtReset.Text = "重設所有內容";
             this.smtReset.Click += new System.EventHandler(this.smtReset_Click);
             // 
             // smtExit
             // 
             this.smtExit.Name = "smtExit";
-            this.smtExit.Size = new System.Drawing.Size(152, 22);
+            this.smtExit.Size = new System.Drawing.Size(180, 22);
             this.smtExit.Text = "結束";
             this.smtExit.Click += new System.EventHandler(this.smtExit_Click);
             // 
@@ -326,26 +327,26 @@ namespace ListeningMaterialTool {
             // tsmAbout
             // 
             this.tsmAbout.Name = "tsmAbout";
-            this.tsmAbout.Size = new System.Drawing.Size(180, 22);
+            this.tsmAbout.Size = new System.Drawing.Size(126, 22);
             this.tsmAbout.Text = "關於";
             this.tsmAbout.Click += new System.EventHandler(this.tsmAbout_Click);
             // 
             // smtChkUpdate
             // 
             this.smtChkUpdate.Name = "smtChkUpdate";
-            this.smtChkUpdate.Size = new System.Drawing.Size(180, 22);
+            this.smtChkUpdate.Size = new System.Drawing.Size(126, 22);
             this.smtChkUpdate.Text = "檢查更新";
             this.smtChkUpdate.Click += new System.EventHandler(this.smtChkUpdate_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(123, 6);
             // 
             // tsmTutorial
             // 
             this.tsmTutorial.Name = "tsmTutorial";
-            this.tsmTutorial.Size = new System.Drawing.Size(180, 22);
+            this.tsmTutorial.Size = new System.Drawing.Size(126, 22);
             this.tsmTutorial.Text = "使用教學";
             this.tsmTutorial.Click += new System.EventHandler(this.tsmTutorial_Click);
             // 
@@ -417,11 +418,24 @@ namespace ListeningMaterialTool {
             this.svfDialog.Filter = "MP3|*.mp3";
             this.svfDialog.Title = "龨出檔案至...";
             // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExport.Enabled = false;
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Location = new System.Drawing.Point(508, 484);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(242, 28);
+            this.btnExport.TabIndex = 9;
+            this.btnExport.Text = "匯出檔案";
+            this.btnExport.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1022, 525);
+            this.Controls.Add(this.btnExport);
             this.Controls.Add(this.lblTotalTime);
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnUp);
@@ -491,5 +505,6 @@ namespace ListeningMaterialTool {
         private ToolStripMenuItem smtClearCache;
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripMenuItem smtAddSilence;
+        private Button btnExport;
     }
 }
