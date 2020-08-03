@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows.Forms;
 
 namespace ListeningMaterialTool {
     
@@ -16,7 +19,11 @@ namespace ListeningMaterialTool {
         /// <param name="msIn">The position where the audio should be started trimming (in ms).</param>
         /// <param name="msOut">The position where the audio should be ended trimming (in ms).</param>
         public AudioTaskItem(string filePath, long msIn, long msOut) {
-            
+            Name = Path.GetFileName(filePath);
+            FilePath = filePath;
+            MsIn = msIn;
+            MsOut = msOut;
+            Duration = msOut - msIn;
         }
 
         /// <summary>
@@ -50,6 +57,44 @@ namespace ListeningMaterialTool {
         public long MsOut { get; private set; }
         public long Duration { get; private set; }
         
+        // Methods
+
+        /// <summary>
+        /// Converts the current AudioTaskItem object to a ListViewItem.
+        /// </summary>
+        /// <returns>Returns a ListViewItem.</returns>
+        public ListViewItem ToListViewItem() {
+            return new ListViewItem {
+                Text = Number.ToString(),
+                SubItems = {
+                    Name, MsToTimeSpan(MsIn), MsToTimeSpan(MsOut), MsToTimeSpan(Duration), FilePath
+                }
+            };
+        }
+
+        /// <summary>
+        /// Converts milliseconds to a string with format hh:mm:ss.fff
+        /// </summary>
+        /// <param name="ms">Milliseconds</param>
+        /// <returns>String with format hh:mm:ss.fff</returns>
+        private string MsToTimeSpan(long ms) {
+            var ts = new TimeSpan(0,0,0,0,Convert.ToInt32(ms));
+            return $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}.{ts.Milliseconds:D3}";
+        }
+
+        /// <summary>
+        /// Converts string with format hh:mm:ss.fff to milliseconds
+        /// </summary>
+        /// <param name="time">Time string</param>
+        /// <returns>Milliseconds</returns>
+        private long TimeSpanToMs(string time) {
+            var ts = new TimeSpan(
+                0, int.Parse(time.Split(':')[0]),
+                int.Parse(time.Split(':')[1]),
+                int.Parse(time.Split(':')[2].Split('.')[0]),
+                int.Parse(time.Split('.')[1]));
+            return (long) ts.TotalMilliseconds;
+        }
     }
 
     
