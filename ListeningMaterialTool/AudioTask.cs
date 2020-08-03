@@ -168,13 +168,42 @@ namespace ListeningMaterialTool {
             var item = new AudioTaskItem(filepath, msIn, msOut);
             NumberStack++;
             
-            // Copies file to temp
             File.Copy(filepath, 
-                $"{TempDir}/{NumberStack.ToString()}.{Path.GetExtension(filepath)}");
+                $"{TempDir}/{NumberStack}.{Path.GetExtension(filepath)}");
             
             item.AssignNumber(NumberStack, 
-                $"{TempDir}/{NumberStack.ToString()}.{Path.GetExtension(filepath)}");
+                $"{TempDir}/{NumberStack}.{Path.GetExtension(filepath)}");
             Items.Add(item);
+
+            return Items;
+        }
+
+        /// <summary>
+        ///     Append Greensleeves audio to the list.
+        /// </summary>
+        /// <param name="length">Length of the Greensleeves audio in seconds.</param>
+        /// <returns>The modified list.</returns>
+        public List<AudioTaskItem> Append(int length) {
+            var item = new AudioTaskItem(length);
+            NumberStack++;
+            
+            File.Copy($"./built_in_soung/G_{length.ToString()}.mp3",
+                $"{TempDir}/{NumberStack}.mp3");
+            
+            item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.mp3");
+            Items.Add(item);
+
+            return Items;
+        }
+
+        /// <summary>
+        ///     Append silence audio to the list.
+        /// </summary>
+        /// <param name="length">Length of the silence audio in milliseconds.</param>
+        /// <returns>The modified list.</returns>
+        public List<AudioTaskItem> Append(long length) {
+            var item = new AudioTaskItem(length);
+            NumberStack++;
 
             return Items;
         }
