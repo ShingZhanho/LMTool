@@ -30,8 +30,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.numMins)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSecs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.numMins)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.numSecs)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -46,11 +46,7 @@
             // numMins
             // 
             this.numMins.Location = new System.Drawing.Point(86, 19);
-            this.numMins.Maximum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
+            this.numMins.Maximum = new decimal(new int[] {5, 0, 0, 0});
             this.numMins.Name = "numMins";
             this.numMins.Size = new System.Drawing.Size(70, 24);
             this.numMins.TabIndex = 1;
@@ -68,11 +64,7 @@
             // numSecs
             // 
             this.numSecs.Location = new System.Drawing.Point(191, 19);
-            this.numSecs.Maximum = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
+            this.numSecs.Maximum = new decimal(new int[] {60, 0, 0, 0});
             this.numSecs.Name = "numSecs";
             this.numSecs.Size = new System.Drawing.Size(70, 24);
             this.numSecs.TabIndex = 3;
@@ -121,28 +113,27 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numMins);
             this.Controls.Add(this.label1);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmAddSilence";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "加入無聲片段";
             this.Load += new System.EventHandler(this.frmAddSilence_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numMins)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSecs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.numMins)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.numSecs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
-        #endregion
-
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numMins;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numSecs;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown numMins;
+        private System.Windows.Forms.NumericUpDown numSecs;
+
+        #endregion
     }
 }

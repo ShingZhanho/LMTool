@@ -9,7 +9,6 @@ namespace ListeningMaterialTool {
     ///     AudioTaskItem will be used to replace ListViewItem.
     /// </summary>
     public class AudioTaskItem {
-        
         #region Initializers
 
         /// <summary>
@@ -124,6 +123,14 @@ namespace ListeningMaterialTool {
             Number = number;
             FilePathInTemp = filePathInTemp;
         }
+
+        /// <summary>
+        ///     Checks if this AudioTaskItem is valid.
+        /// </summary>
+        /// <returns>true if valid, false instead.</returns>
+        public bool ItemIsValid() {
+            return File.Exists(FilePath);
+        }
     }
 
 
@@ -139,6 +146,8 @@ namespace ListeningMaterialTool {
         /// <param name="temp_dir">Path of the temp dir.</param>>
         public AudioTaskItemsCollection(string temp_dir) {
             NumberStack = 0;
+            TempDir = temp_dir;
+            Items = new List<AudioTaskItem>();
         }
 
         /// <summary>
@@ -154,11 +163,14 @@ namespace ListeningMaterialTool {
         /// </summary>
         public List<AudioTaskItem> Items { get; private set; }
 
+        public long totalDuration { get; private set; }
         private string TempDir { get; set; }
         private int NumberStack { get; set; }
 
         // Constants
         private const string FFMPEG_ARGS_SILENCE = "-f lavfi -i anullsrc=r=11025:cl=mono -t $SECS$ $FILE_TEMP$";
+        private const string FFMPEG_ARGS_TRIM = 
+            "-i $FILE_TEMP$ -ss $TIME_IN$ -to $TIME_OUT$ -acodec libmp3lame $FILE_OUTPUT$";
 
         // Methods
 
@@ -176,11 +188,12 @@ namespace ListeningMaterialTool {
             NumberStack++;
 
             File.Copy(filepath,
-                $"{TempDir}/{NumberStack}.{Path.GetExtension(filepath)}");
+                $"{TempDir}/{NumberStack}{Path.GetExtension(filepath)}");
 
             item.AssignNumber(NumberStack,
                 $"{TempDir}/{NumberStack}.{Path.GetExtension(filepath)}");
             Items.Add(item);
+            totalDuration += item.Duration;
 
             return Items;
         }
@@ -199,6 +212,7 @@ namespace ListeningMaterialTool {
 
             item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.mp3");
             Items.Add(item);
+            totalDuration += item.Duration;
 
             return Items;
         }
@@ -220,6 +234,7 @@ namespace ListeningMaterialTool {
 
             item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.m4a");
             Items.Add(item);
+            totalDuration += item.Duration;
 
             return Items;
         }
@@ -233,6 +248,7 @@ namespace ListeningMaterialTool {
 
             item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.mp3");
             Items.Add(item);
+            totalDuration += item.Duration;
 
             return Items;
         }
@@ -245,6 +261,7 @@ namespace ListeningMaterialTool {
         public List<AudioTaskItem> Remove(ListViewItem itemToRemove) {
             for (var i = 0; i < Items.Count; i++) {
                 if (Items[i].Number.ToString() != itemToRemove.Text) continue;
+                totalDuration -= Items[i].Duration;
                 Items.RemoveAt(i);
                 return Items;
             }
@@ -268,11 +285,12 @@ namespace ListeningMaterialTool {
                 index = Items.IndexOf(audioTaskItem);
                 break;
             }
+
             if (index == null) return null;
-            
+
             Items.RemoveAt(Convert.ToInt32(index));
-            Items.Insert(upDown == 0 
-                ? Convert.ToInt32(index) - 1 
+            Items.Insert(upDown == 0
+                ? Convert.ToInt32(index) - 1
                 : Convert.ToInt32(index) + 1, newItem); // Move up if upDown = 1, otherwise move down.
 
             return Items;
@@ -292,6 +310,62 @@ namespace ListeningMaterialTool {
             }
 
             return listItems;
+        }
+
+        #region Methods for checking validation
+
+        /// <summary>
+        ///     Checks if all items in the list is valid.
+        /// </summary>
+        /// <returns>true if all valid, false instead.</returns>
+        public bool ListIsValid() {
+            foreach (var audioTaskItem in Items) {
+                if (audioTaskItem.ItemIsValid()) continue;
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///     Gets the items which are invalid.
+        /// </summary>
+        /// <returns>A list of AudioTaskItems which are invalid.</returns>
+        public List<AudioTaskItem> GetInvalidItems() {
+            var list = new List<AudioTaskItem>();
+            foreach (var audioTaskItem in Items) {
+                if (!audioTaskItem.ItemIsValid()) list.Add(audioTaskItem);
+            }
+
+            return list;
+        }
+
+        #endregion
+        
+        /// <summary>
+        ///     Exports the whole list to an independent file.
+        /// </summary>
+        /// <param name="destination">The destination path of the exported audio file.</param>
+        public void ExportToAudio(string destination) { }
+
+        /// <summary>
+        ///     Save the list and configurations to a .lmtproj file.
+        /// </summary>
+        /// <param name="destination">The destination of the .lmtproj file</param>
+        /// <returns>Returns the full file path if succeeded.</returns>
+        public string SaveFile(string destination) {
+            var lines = new List<string>();
+            foreach (var audioTaskItem in Items) {
+                lines.Add($"{audioTaskItem.Number};{audioTaskItem.FilePath};" +
+                          $"{audioTaskItem.MsIn};{audioTaskItem.MsOut}");
+            }
+
+            try {
+                File.WriteAllLines(destination, lines);
+            }
+            catch { }
+
+            return File.Exists(destination) ? Path.GetFullPath(destination) : null;
         }
     }
 }

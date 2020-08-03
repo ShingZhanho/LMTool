@@ -27,9 +27,12 @@ namespace ListeningMaterialTool {
         private string tempPath;
         private int sequence = 0;
 
+        private AudioTaskItemsCollection audioList;
+
         private void frmMain_Load(object sender, EventArgs e) {
             // Shows version code if this is a beta version
             if (VersionCode.Contains("b")) Text = $"{Text} {VersionCode}";
+            
             // Creates dirs
             if (!Directory.Exists("./res/")) Directory.CreateDirectory("./res/");
             if (!Directory.Exists($@"{Path.GetTempPath()}\LMTool"))
@@ -49,6 +52,9 @@ namespace ListeningMaterialTool {
             // finds sound file
             if (!File.Exists("./res/chord.mp3"))
                 File.WriteAllBytes("./res/chord.mp3", Resources.chord);
+            
+            // Initialize AudioTaskItemsCollection
+            audioList = new AudioTaskItemsCollection(tempPath);
         }
 
         private void UnzipFfmpeg() {
@@ -73,7 +79,7 @@ namespace ListeningMaterialTool {
             sequence++;
             newAudio.seq = sequence;
             if (newAudio.ShowDialog() == DialogResult.OK) { // Clicks on OK, add item
-                ListViewItem lstItem = new ListViewItem();
+                /*ListViewItem lstItem = new ListViewItem();
                 lstItem.Text = newAudio.seq.ToString();                 // Number
                 lstItem.SubItems.Add(Path.GetFileName(newAudio.FilePath));           // Filename
                 lstItem.SubItems.Add(string.Format(MsToTime(newAudio.SecIn)));       // In time
@@ -81,9 +87,14 @@ namespace ListeningMaterialTool {
                 lstItem.SubItems.Add(MsToTime(newAudio.SecOut - newAudio.SecIn));    // Duration
                 lstItem.SubItems.Add(newAudio.RealPath);
                 totalMs += newAudio.SecOut - newAudio.SecIn;
-                listPending.Items.Add(lstItem);
+                listPending.Items.Add(lstItem);*/
+                
+                // Use new class
+                audioList.Append(newAudio.FilePath, newAudio.SecIn, newAudio.SecOut);
+                audioList.ToListViewItemCollection(listPending);
                 isExported = false;
-                lblTotalTime.Text = $"總時長：{MsToTime(totalMs)}";
+                lblTotalTime.Text = $"總時長：{MsToTime(audioList.totalDuration)}";
+                
             }
             tsmExport.Enabled = listPending.Items.Count != 0;
 
@@ -340,8 +351,11 @@ namespace ListeningMaterialTool {
         }
 
         private void tsmAbout_Click(object sender, EventArgs e) {
-            frmAbout formAbout = new frmAbout();
-            formAbout.Show();
+            // frmAbout formAbout = new frmAbout();
+            // formAbout.Show();
+            
+            // Debug code
+            audioList.SaveFile("./save.lmtproj");
         }
     }
 }
