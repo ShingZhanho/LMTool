@@ -11,13 +11,15 @@ using System.Windows.Forms;
 
 namespace ListeningMaterialTool {
     public partial class frmAddSilence : Form {
-        public frmAddSilence() {
+        public frmAddSilence(AudioTaskItemsCollection audioTaskItemsCollection) {
             InitializeComponent();
+            passInList = audioTaskItemsCollection;
         }
 
         // Values needed on start
-        public string TempPath { get; set; } // The temp dir for output
+        // public string TempPath { get; set; } // The temp dir for output
         public int Sequence { get; set; } // For file naming
+        private AudioTaskItemsCollection passInList;
 
         // Values to be returned
         public string FilePath { get; set; } // The path of the silence audio file
@@ -43,23 +45,26 @@ namespace ListeningMaterialTool {
         }
 
         private void btnOK_Click(object sender, EventArgs e) {
-            // Generate audio with ffmpeg
-            var proc = new Process {
-                StartInfo = new ProcessStartInfo {
-                    FileName = "./ffmpeg-4.3.1-win32-static/bin/ffmpeg.exe",
-                    Arguments = $"-f lavfi -i anullsrc=r=11025:cl=mono -t " +
-                                $"{numMins.Value * 60 + numSecs.Value} " +
-                                $" {TempPath}/{Sequence}.m4a",
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                }
-            };
-            proc.Start();
-            proc.WaitForExit();
-
-            // Set value
-            FilePath = $"{TempPath}/{Sequence}.m4a";
-            AudioLength = Convert.ToInt32(numMins.Value * 60 + numSecs.Value) * 1000;
+            // // Generate audio with ffmpeg
+            // var proc = new Process {
+            //     StartInfo = new ProcessStartInfo {
+            //         FileName = "./ffmpeg-4.3.1-win32-static/bin/ffmpeg.exe",
+            //         Arguments = $"-f lavfi -i anullsrc=r=11025:cl=mono -t " +
+            //                     $"{numMins.Value * 60 + numSecs.Value} " +
+            //                     $" {TempPath}/{Sequence}.m4a",
+            //         UseShellExecute = false,
+            //         CreateNoWindow = true,
+            //     }
+            // };
+            // proc.Start();
+            // proc.WaitForExit();
+            //
+            // // Set value
+            // FilePath = $"{TempPath}/{Sequence}.m4a";
+            // AudioLength = Convert.ToInt32(numMins.Value * 60 + numSecs.Value) * 1000;
+            
+            // Using new classes
+            passInList.Append((long) (numMins.Value * 60000 + numSecs.Value * 1000));
 
             // Close
             DialogResult = DialogResult.OK;

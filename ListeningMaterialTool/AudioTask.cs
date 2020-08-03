@@ -207,7 +207,7 @@ namespace ListeningMaterialTool {
             var item = new AudioTaskItem(length);
             NumberStack++;
 
-            File.Copy($"./built_in_soung/G_{length.ToString()}.mp3",
+            File.Copy($"./built_in_sound/G_{length.ToString()}.mp3",
                 $"{TempDir}/{NumberStack}.mp3");
 
             item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.mp3");
@@ -262,6 +262,7 @@ namespace ListeningMaterialTool {
             for (var i = 0; i < Items.Count; i++) {
                 if (Items[i].Number.ToString() != itemToRemove.Text) continue;
                 totalDuration -= Items[i].Duration;
+                File.Delete(Items[i].FilePathInTemp);
                 Items.RemoveAt(i);
                 return Items;
             }
@@ -304,6 +305,7 @@ namespace ListeningMaterialTool {
         /// <param name="listView">The owner ListView.</param>
         /// <returns>The converted ListViewItemCollection</returns>
         public ListView.ListViewItemCollection ToListViewItemCollection(ListView listView) {
+            listView.Items.Clear();
             var listItems = new ListView.ListViewItemCollection(listView);
             foreach (var audioTaskItem in Items) {
                 listItems.Add(audioTaskItem.ToListViewItem());
