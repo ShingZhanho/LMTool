@@ -279,5 +279,19 @@ namespace ListeningMaterialTool {
         }
 
         #endregion
+
+        /// <summary>
+        ///     Converts the current AudioTaskItemCollection to ListViewItemCollection.
+        /// </summary>
+        /// <param name="listView">The owner ListView.</param>
+        /// <returns>The converted ListViewItemCollection</returns>
+        public ListView.ListViewItemCollection ToListViewItemCollection(ListView listView) {
+            var listItems = new ListView.ListViewItemCollection(listView);
+            foreach (var audioTaskItem in Items) {
+                listItems.Add(audioTaskItem.ToListViewItem());
+            }
+
+            return listItems;
+        }
     }
 }
