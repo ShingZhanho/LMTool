@@ -31,43 +31,28 @@
             this.label3 = new System.Windows.Forms.Label();
             this.chbClose = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
-            // 
-            // lblStatus
-            // 
             this.lblStatus.AutoSize = true;
             this.lblStatus.Location = new System.Drawing.Point(44, 29);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(143, 18);
             this.lblStatus.TabIndex = 0;
             this.lblStatus.Text = "目前狀態：正在匯出";
-            // 
-            // rtbLog
-            // 
             this.rtbLog.Location = new System.Drawing.Point(47, 83);
             this.rtbLog.Name = "rtbLog";
             this.rtbLog.ReadOnly = true;
             this.rtbLog.Size = new System.Drawing.Size(532, 267);
             this.rtbLog.TabIndex = 1;
             this.rtbLog.Text = "";
-            // 
-            // label1
-            // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(44, 62);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 18);
             this.label1.TabIndex = 2;
             this.label1.Text = "程式日誌：";
-            // 
-            // pgbProgress
-            // 
             this.pgbProgress.Location = new System.Drawing.Point(47, 356);
             this.pgbProgress.Name = "pgbProgress";
             this.pgbProgress.Size = new System.Drawing.Size(532, 23);
             this.pgbProgress.TabIndex = 5;
-            // 
-            // chbOpenDir
-            // 
             this.chbOpenDir.AutoSize = true;
             this.chbOpenDir.Checked = true;
             this.chbOpenDir.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -77,18 +62,12 @@
             this.chbOpenDir.TabIndex = 7;
             this.chbOpenDir.Text = "自動開啟資料夾";
             this.chbOpenDir.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(47, 392);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 18);
             this.label3.TabIndex = 8;
             this.label3.Text = "完成後：";
-            // 
-            // chbClose
-            // 
             this.chbClose.AutoSize = true;
             this.chbClose.Location = new System.Drawing.Point(200, 413);
             this.chbClose.Name = "chbClose";
@@ -96,9 +75,6 @@
             this.chbClose.TabIndex = 9;
             this.chbClose.Text = "關閉這個視窗";
             this.chbClose.UseVisualStyleBackColor = true;
-            // 
-            // frmExport
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(628, 451);
