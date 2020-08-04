@@ -13,7 +13,8 @@ namespace ListeningMaterialTool {
         }
         
         // Properties & Variables
-        public int _totalSteps;
+        private int _totalSteps;
+        private int _currentStep;
         private readonly RichTextBox _internalTextBox;
         private readonly ProgressBar _internalProgressBar;
 
@@ -24,7 +25,7 @@ namespace ListeningMaterialTool {
         public void SetTotalSteps(int steps) {
             // Sets the progress bar
             _totalSteps = steps;
-            _internalProgressBar.Maximum = steps;
+            _internalProgressBar.Maximum = _totalSteps;
         }
 
         public void AddLine(string line) {
@@ -32,7 +33,18 @@ namespace ListeningMaterialTool {
             _outputLines += line + "\n";
             _internalTextBox.Text = _outputLines;
         }
-        
-        
+
+        public void MoveOneStep() {
+            // Add one step
+            if (_currentStep + 1 <= _totalSteps) _currentStep++;
+        }
+
+        public int GetTotalSteps() {
+            return _totalSteps;
+        }
+
+        public int GetCurrentStep() {
+            return _currentStep;
+        }
     }
 }
