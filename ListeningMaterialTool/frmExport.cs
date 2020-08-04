@@ -50,7 +50,7 @@ namespace ListeningMaterialTool {
             //Thread thread = new Thread(ExportAudio);
             //thread.Start();
 
-            passInList.ExportToAudio(SavePath);
+            //passInList.ExportToAudio(SavePath);
         }
 
         // private void ExportAudio() {

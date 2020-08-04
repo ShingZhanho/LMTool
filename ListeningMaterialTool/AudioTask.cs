@@ -369,56 +369,56 @@ namespace ListeningMaterialTool {
 
         #endregion
 
-        /// <summary>
-        ///     Exports the whole list to an independent file.
-        /// </summary>
-        /// <param name="destination">The destination path of the exported audio file.</param>
-        public async Task<bool> ExportToAudio(string destination) {
-            // Creates a output dir
-            var dirNum = 0;
-            var outputDir = "";
-            while (!Directory.Exists($"{TempDir}/output{dirNum}")) {
-                dirNum++;
-                outputDir = $"{TempDir}/output{dirNum}";
-                Directory.CreateDirectory(outputDir);
-            }
-
-            // Creates ffmpeg instance
-            var ffmpeg = new Ffmpeg("./ffmpeg/ffmpeg.exe");
-
-            // Trim audio files
-            foreach (var audioTaskItem in Items) {
-                if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_TRIM
-                        .Replace("$FILE_TEMP$", audioTaskItem.FilePathInTemp.Replace("\\","/"))
-                        .Replace("$TIME_IN$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsIn))
-                        .Replace("$TIME_OUT$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsOut))
-                        .Replace("$FILE_OUTPUT$", $"{outputDir}/{Items.IndexOf(audioTaskItem) + 1}.mp3"),
-                    Properties.Settings.Default.ffmpeg_WaitTimeOut) == false) { // failure signal received
-                    //throw new Exception("Error occured while trimming audio. Export ended.");
-                    return false;
-                }
-            }
-
-            // Generates join_list.txt
-            var lines = new List<string>();
-            for (int i = 0; i < Directory.GetFiles(outputDir).Length; i++) {
-                lines.Add($"file ./{i}.mp3");
-            }
-            File.WriteAllLines($"{outputDir}/join_list.txt", lines);
-
-            // Joins audio files
-            if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_JOIN
-                .Replace("$PATH_LIST$", $"{outputDir}/join_list.txt")
-                .Replace("$PATH_OUTPUT$", $"{outputDir}/combine.mp3")) == false) { // failure signal received
-                // throw new Exception("Error occured while joining audio. Export ended.");
-                return false;
-            }
-
-            // Copies to the destination
-            File.Copy($"{outputDir}/combine.mp3", destination);
-
-            return true;
-        }
+        // /// <summary>
+        // ///     Exports the whole list to an independent file.
+        // /// </summary>
+        // /// <param name="destination">The destination path of the exported audio file.</param>
+        // public async Task<bool> ExportToAudio(string destination) {
+        //     // Creates a output dir
+        //     var dirNum = 0;
+        //     var outputDir = "";
+        //     while (!Directory.Exists($"{TempDir}/output{dirNum}")) {
+        //         dirNum++;
+        //         outputDir = $"{TempDir}/output{dirNum}";
+        //         Directory.CreateDirectory(outputDir);
+        //     }
+        //
+        //     // Creates ffmpeg instance
+        //     var ffmpeg = new Ffmpeg("./ffmpeg/ffmpeg.exe");
+        //
+        //     // Trim audio files
+        //     foreach (var audioTaskItem in Items) {
+        //         if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_TRIM
+        //                 .Replace("$FILE_TEMP$", audioTaskItem.FilePathInTemp.Replace("\\","/"))
+        //                 .Replace("$TIME_IN$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsIn))
+        //                 .Replace("$TIME_OUT$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsOut))
+        //                 .Replace("$FILE_OUTPUT$", $"{outputDir}/{Items.IndexOf(audioTaskItem) + 1}.mp3"),
+        //             Properties.Settings.Default.ffmpeg_WaitTimeOut) == false) { // failure signal received
+        //             //throw new Exception("Error occured while trimming audio. Export ended.");
+        //             return false;
+        //         }
+        //     }
+        //
+        //     // Generates join_list.txt
+        //     var lines = new List<string>();
+        //     for (int i = 0; i < Directory.GetFiles(outputDir).Length; i++) {
+        //         lines.Add($"file ./{i}.mp3");
+        //     }
+        //     File.WriteAllLines($"{outputDir}/join_list.txt", lines);
+        //
+        //     // Joins audio files
+        //     if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_JOIN
+        //         .Replace("$PATH_LIST$", $"{outputDir}/join_list.txt")
+        //         .Replace("$PATH_OUTPUT$", $"{outputDir}/combine.mp3")) == false) { // failure signal received
+        //         // throw new Exception("Error occured while joining audio. Export ended.");
+        //         return false;
+        //     }
+        //
+        //     // Copies to the destination
+        //     File.Copy($"{outputDir}/combine.mp3", destination);
+        //
+        //     return true;
+        // }
 
         /// <summary>
         ///     Save the list and configurations to a .lmtproj file.
