@@ -25,7 +25,7 @@ namespace ListeningMaterialTool {
         /// </summary>
         /// <param name="args">Arguments to be passed into ffmpeg.</param>
         /// <param name="timeout">
-        ///     Time to wait.
+        ///     Time to wait (in ms).
         ///     timeout > 0 : Wait for [timeout] seconds until considering failed.
         ///     timeout = 0 : Wait indefinitely. Will not be considered failed.
         /// </param>
@@ -50,17 +50,19 @@ namespace ListeningMaterialTool {
                 });
             ffmpegThread.Start();
 
-            return await waitForResult(timeout,
+            return await WaitForResult(timeout,
                 args.Split(' ')[args.Split(' ').Length - 1],
                 ffmpegThread);
         }
 
         // Async method for getting results
-        private Task<bool> waitForResult(int waitSeconds, string filename, Thread ffmpegThread) {
+        private static Task<bool> WaitForResult(int waitSeconds, string filename, Thread ffmpegThread) {
             var t = Task.Run(() => {
                 if (waitSeconds == 0) {
                     // timeout = 0: Keep waiting until file exported
-                    while (!File.Exists(filename.Replace("\"",""))) { }
+                    while (!File.Exists(filename.Replace("\"", ""))) {
+                        Task.Delay(10000).Wait();
+                    }
                     return true;
                 }
                 

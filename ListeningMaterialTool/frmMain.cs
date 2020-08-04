@@ -108,6 +108,7 @@ namespace ListeningMaterialTool {
         // Remove audio from list
         private void btnRemove_Click(object sender, EventArgs e) {
             // Using new classes
+            _audioList.Remove(listPending.SelectedItems[0]);
             lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             _audioList.ToListViewItemCollection(listPending);
             tsmExport.Enabled = listPending.Items.Count != 0;
@@ -337,7 +338,7 @@ namespace ListeningMaterialTool {
             // Closes if changes not saved
             if (!isExported && e.CloseReason != CloseReason.ApplicationExitCall) { // Changes not saved
                 Alert();
-                DialogResult dialogResult =
+                var dialogResult =
                     MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
                         "警告", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.No) {
@@ -360,8 +361,8 @@ namespace ListeningMaterialTool {
             Application.Exit();
         }
         
-        private void Alert() {
-            WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
+        private static void Alert() {
+            var myplayer = new WindowsMediaPlayer();
             myplayer.URL = "./res/chord.mp3";
             myplayer.controls.play();
         }

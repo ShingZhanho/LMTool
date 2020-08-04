@@ -125,11 +125,28 @@ namespace ListeningMaterialTool {
             FilePathInTemp = filePathInTemp;
         }
 
+        
+        /// <summary>
+        ///     Method for assigning a filename to the object. To be used only when not appending a general audio.
+        /// </summary>
+        /// <param name="filename">Full path of the file.</param>
+        public void AssignFileName(string filename) {
+            FilePath = filename;
+        }
+
         /// <summary>
         ///     Checks if this AudioTaskItem is valid.
         /// </summary>
         /// <returns>true if valid, false instead.</returns>
         public bool ItemIsValid() {
+            // Always return true for built-in sound
+            var arraySpecialAudios = new[] {
+                "$SILENCE_AUDIO$", "$BEEP_SOUND$", "$GREENSLEEVES_"
+            };
+            foreach (var specialAudio in arraySpecialAudios)
+                if (FilePath.Contains(specialAudio))
+                    return true;
+            
             return File.Exists(FilePath);
         }
     }
@@ -173,7 +190,8 @@ namespace ListeningMaterialTool {
         private const string FFMPEG_ARGS_SILENCE = "-f lavfi -i anullsrc=r=11025:cl=mono -t $SECS$ \"$FILE_TEMP$\"";
         private const string FFMPEG_ARGS_TRIM = 
             "-i \"$FILE_TEMP$\" -ss $TIME_IN$ -to $TIME_OUT$ -acodec libmp3lame \"$FILE_OUTPUT$\"";
-        private const string FFMPEG_ARGS_JOIN = "-safe 0 -f concat -i \"$PATH_LIST$\" -acodec -libmp3lame \"$PATH_OUTPUT$\"";
+        private const string FFMPEG_ARGS_JOIN = 
+            "-safe 0 -f concat -i \"$PATH_LIST$\" -acodec -libmp3lame \"$PATH_OUTPUT$\"";
 
         // Methods
 
@@ -194,7 +212,7 @@ namespace ListeningMaterialTool {
                 $"{TempDir}/{NumberStack}{Path.GetExtension(filepath)}");
 
             item.AssignNumber(NumberStack,
-                $"{TempDir}/{NumberStack}.{Path.GetExtension(filepath)}");
+                $"{TempDir}/{NumberStack}{Path.GetExtension(filepath)}");
             Items.Add(item);
             totalDuration += item.Duration;
 
@@ -242,6 +260,10 @@ namespace ListeningMaterialTool {
             return Items;
         }
 
+        /// <summary>
+        ///     Append a beep sound to the list.
+        /// </summary>
+        /// <returns>The modified list.</returns>
         public List<AudioTaskItem> Append() {
             var item = new AudioTaskItem();
             NumberStack++;
@@ -351,7 +373,7 @@ namespace ListeningMaterialTool {
         ///     Exports the whole list to an independent file.
         /// </summary>
         /// <param name="destination">The destination path of the exported audio file.</param>
-        public async Task ExportToAudio(string destination) {
+        public async Task<bool> ExportToAudio(string destination) {
             // Creates a output dir
             var dirNum = 0;
             var outputDir = "";
@@ -372,7 +394,8 @@ namespace ListeningMaterialTool {
                         .Replace("$TIME_OUT$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsOut))
                         .Replace("$FILE_OUTPUT$", $"{outputDir}/{Items.IndexOf(audioTaskItem) + 1}.mp3"),
                     Properties.Settings.Default.ffmpeg_WaitTimeOut) == false) { // failure signal received
-                    throw new Exception("Error occured while trimming audio. Export ended.");
+                    //throw new Exception("Error occured while trimming audio. Export ended.");
+                    return false;
                 }
             }
 
@@ -387,11 +410,14 @@ namespace ListeningMaterialTool {
             if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_JOIN
                 .Replace("$PATH_LIST$", $"{outputDir}/join_list.txt")
                 .Replace("$PATH_OUTPUT$", $"{outputDir}/combine.mp3")) == false) { // failure signal received
-                throw new Exception("Error occured while joining audio. Export ended.");
+                // throw new Exception("Error occured while joining audio. Export ended.");
+                return false;
             }
 
             // Copies to the destination
             File.Copy($"{outputDir}/combine.mp3", destination);
+
+            return true;
         }
 
         /// <summary>
