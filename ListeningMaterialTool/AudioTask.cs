@@ -187,11 +187,9 @@ namespace ListeningMaterialTool {
 
         // Constants
         // DO NOT modify the ffmpeg arguments on the master branch
-        private const string FFMPEG_ARGS_SILENCE = "-f lavfi -i anullsrc=r=11025:cl=mono -t $SECS$ \"$FILE_TEMP$\"";
-        private const string FFMPEG_ARGS_TRIM = 
-            "-i \"$FILE_TEMP$\" -ss $TIME_IN$ -to $TIME_OUT$ -acodec libmp3lame \"$FILE_OUTPUT$\"";
-        private const string FFMPEG_ARGS_JOIN = 
-            "-safe 0 -f concat -i \"$PATH_LIST$\" -acodec -libmp3lame \"$PATH_OUTPUT$\"";
+        private const string FFMPEG_ARGS_SILENCE = "-f lavfi -i anullsrc=r=11025:cl=mono -t {0} \"{1}\"";
+        private const string FFMPEG_ARGS_TRIM = "-i \"{0}\" -ss {1} -to {2} -acodec libmp3lame \"{3}\"";
+        private const string FFMPEG_ARGS_JOIN = "-safe 0 -f concat -i \"{0}\" -acodec -libmp3lame \"{1}\"";
 
         // Methods
 
@@ -419,6 +417,80 @@ namespace ListeningMaterialTool {
         //
         //     return true;
         // }
+
+        public bool ExportFile(Output output, string destination) {
+            output.AddLine("開始匯出");
+            output.SetTotalSteps(Items.Count + 2);
+            
+            // Creates temp dir
+            output.AddLine("正在建立暫存檔案...");
+            var dirNum = 0;
+            var outputDir = "";
+            while (!Directory.Exists($"{TempDir}/output{dirNum}")) {
+                dirNum++;
+                outputDir = $"{TempDir}/output{dirNum}";
+                Directory.CreateDirectory(outputDir);
+            }
+            output.AddLine($"暫存資料夾位置：{outputDir}");
+            
+            // Creates ffmpeg
+            var ffmpeg = new Ffmpeg("./ffmpeg/ffmpeg.exe");
+            
+            // Trim
+            output.AddLine("準備裁剪音訊");
+            foreach (var taskItem in Items) {
+                output.AddLine($"開始剪接第{taskItem.Number}段音訊，名稱：{taskItem.Name}");
+                output.MoveOneStep();
+                var taskTrim = ffmpeg.StartFfmpeg(string.Format(FFMPEG_ARGS_TRIM,
+                    taskItem.FilePathInTemp,
+                    taskItem.MsIn,
+                    taskItem.MsOut,
+                    $"{outputDir}/{Items.IndexOf(taskItem) + 1}.mp3"));
+                // Check status
+                if (taskTrim.Result) {
+                    // Success
+                    output.AddLine("成功");
+                } else {
+                    // Fail
+                    output.AddLine("出現未知錯誤，已停止作業");
+                    return false; // Terminates work
+                }
+            }
+            
+            // Generate join_list.txt
+            output.AddLine("正在產生合併清單");
+            var listLines = new List<string>();
+            var index = 1;
+            while (File.Exists($"{outputDir}/{index}.mp3")) {
+                listLines.Add($"file ./{index}.mp3");
+                output.AddLine(listLines[index - 1]);
+                index++;
+            }
+            File.WriteAllLines($"{outputDir}/join_list.txt", listLines);
+            
+            // Join audios
+            output.AddLine("開始合併");
+            output.MoveOneStep();
+            var taskCombine = ffmpeg.StartFfmpeg(string.Format(FFMPEG_ARGS_JOIN,
+                $"{outputDir}/join_list.txt",
+                $"{outputDir}/Output.mp3"));
+            // Check for failure
+            if (taskCombine.Result) {
+                // Success
+                output.AddLine("成功合併");
+            }
+            else {
+                output.AddLine("出現未知錯誤，已停止作業");
+                return false;
+            }
+            
+            // Copies the file
+            File.Copy($"{outputDir}/Output.mp3", destination);
+            output.AddLine("正在儲存檔案");
+            output.MoveOneStep();
+
+            return true;
+        }
 
         /// <summary>
         ///     Save the list and configurations to a .lmtproj file.
