@@ -61,7 +61,7 @@ namespace ListeningMaterialTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
         public int ffmpeg_WaitTimeOut {
             get {
                 return ((int)(this["ffmpeg_WaitTimeOut"]));

@@ -187,9 +187,10 @@ namespace ListeningMaterialTool {
 
         // Constants
         // DO NOT modify the ffmpeg arguments on the master branch
-        private const string FFMPEG_ARGS_SILENCE = "-f lavfi -i anullsrc=r=11025:cl=mono -t {0} \"{1}\"";
+        private const string FFMPEG_ARGS_SILENCE = 
+            "-f lavfi -i anullsrc=r=44100:cl=mono -t {0} -q:a 9 -acodec libmp3lame \"{1}\"";
         private const string FFMPEG_ARGS_TRIM = "-i \"{0}\" -ss {1} -to {2} -acodec libmp3lame \"{3}\"";
-        private const string FFMPEG_ARGS_JOIN = "-safe 0 -f concat -i \"{0}\" -acodec -libmp3lame \"{1}\"";
+        private const string FFMPEG_ARGS_JOIN = "-safe 0 -f concat -i \"{0}\" -acodec libmp3lame \"{1}\"";
 
         // Methods
 
@@ -229,7 +230,7 @@ namespace ListeningMaterialTool {
             File.Copy($"./built_in_sound/G_{length.ToString()}.mp3",
                 $"{TempDir}/{NumberStack}.mp3");
 
-            item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.mp3");
+            item.AssignNumber(NumberStack, $"{TempDir}\\{NumberStack}.mp3");
             Items.Add(item);
             totalDuration += item.Duration;
 
@@ -247,11 +248,16 @@ namespace ListeningMaterialTool {
 
             // Generate silence audio with ffmpeg
             var ffmpeg = new Ffmpeg("./ffmpeg/ffmpeg.exe");
-            ffmpeg.StartFfmpeg(FFMPEG_ARGS_SILENCE
-                .Replace("$SECS$", (length * 1000).ToString()
-                    .Replace("$FILE_TEMP$", $"{TempDir}/{NumberStack}.m4a")));
+            // var taskBeep = ffmpeg.StartFfmpeg(FFMPEG_ARGS_SILENCE
+            //     .Replace("$SECS$", (length * 1000).ToString()
+            //         .Replace("$FILE_TEMP$", $"{TempDir}\\{NumberStack}.m4a")), 1000);
+            var taskBeep = ffmpeg.StartFfmpeg(string.Format(FFMPEG_ARGS_SILENCE,
+                length / 1000,
+                $"{TempDir}\\{NumberStack}.mp3"), 1500);
+            if (!taskBeep.Result)
+                return null;
 
-            item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.m4a");
+            item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.mp3");
             Items.Add(item);
             totalDuration += item.Duration;
 
@@ -426,11 +432,9 @@ namespace ListeningMaterialTool {
             output.AddLine("正在建立暫存檔案...");
             var dirNum = 0;
             var outputDir = "";
-            while (!Directory.Exists($"{TempDir}/output{dirNum}")) {
-                dirNum++;
-                outputDir = $"{TempDir}/output{dirNum}";
-                Directory.CreateDirectory(outputDir);
-            }
+            while (Directory.Exists($"{TempDir}/output{dirNum}")) dirNum++;
+            outputDir = $"{TempDir}/output{dirNum}".Replace("\\","/");
+            Directory.CreateDirectory(outputDir);
             output.AddLine($"暫存資料夾位置：{outputDir}");
             
             // Creates ffmpeg
@@ -462,7 +466,7 @@ namespace ListeningMaterialTool {
             var listLines = new List<string>();
             var index = 1;
             while (File.Exists($"{outputDir}/{index}.mp3")) {
-                listLines.Add($"file ./{index}.mp3");
+                listLines.Add($"file {outputDir}/{index}.mp3");
                 output.AddLine(listLines[index - 1]);
                 index++;
             }
@@ -472,8 +476,8 @@ namespace ListeningMaterialTool {
             output.AddLine("開始合併");
             output.MoveOneStep();
             var taskCombine = ffmpeg.StartFfmpeg(string.Format(FFMPEG_ARGS_JOIN,
-                $"{outputDir}/join_list.txt",
-                $"{outputDir}/Output.mp3"));
+                $"{outputDir.Replace("/","\\")}\\join_list.txt",
+                $"{outputDir.Replace("/", "\\")}\\Output.mp3"));
             // Check for failure
             if (taskCombine.Result) {
                 // Success

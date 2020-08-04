@@ -29,9 +29,6 @@ namespace ListeningMaterialTool {
         public ListView.ListViewItemCollection ProcessList { get; set; } // Trimming queue
         private AudioTaskItemsCollection passInList;
 
-        // private values
-        private int _currentStep = 1;
-
         // for playing alert
         WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
 
@@ -51,6 +48,16 @@ namespace ListeningMaterialTool {
             //thread.Start();
 
             //passInList.ExportToAudio(SavePath);
+            
+            // Creates output object
+            var outputObj = new Output(rtbLog, pgbProgress);
+            
+            // Export (works in a new thread)
+            var exportThread = new Thread(
+                () => {
+                    var isSuccess = passInList.ExportFile(outputObj, SavePath);
+                });
+            exportThread.Start();
         }
 
         // private void ExportAudio() {

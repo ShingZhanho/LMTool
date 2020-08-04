@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -83,8 +84,8 @@ namespace ListeningMaterialTool {
 
         // Rebuilt methods:
 
-        public async Task<bool> StartFfmpeg(string args) {
-            var task = InternalFfmpeg(args, Properties.Settings.Default.ffmpeg_WaitTimeOut);
+        public async Task<bool> StartFfmpeg(string args, int timeout = 0) {
+            var task = InternalFfmpeg(args, timeout);
             var isSuccess = await task;
             return isSuccess;
         }
@@ -103,11 +104,12 @@ namespace ListeningMaterialTool {
             // Wait for time
             if (timeout >= 0) {
                 Thread.Sleep(timeout);
-                return File.Exists(args.Split(' ')[args.Split(' ').Length - 1]);
+                return File.Exists(args.Split(' ')[args.Split(' ').Length - 1]
+                    .Replace("\"", ""));
             }
             
             // Wait indefinitely
-            while (!File.Exists(args.Split(' ')[args.Split(' ').Length - 1]));
+            while (!File.Exists(args.Split(' ')[args.Split(' ').Length - 1])) { }
             return true;
         }
     }

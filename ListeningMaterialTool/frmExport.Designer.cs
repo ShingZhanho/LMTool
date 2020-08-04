@@ -27,7 +27,6 @@
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pgbProgress = new System.Windows.Forms.ProgressBar();
-            this.lblProgress = new System.Windows.Forms.Label();
             this.chbOpenDir = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.chbClose = new System.Windows.Forms.CheckBox();
@@ -67,21 +66,12 @@
             this.pgbProgress.Size = new System.Drawing.Size(532, 23);
             this.pgbProgress.TabIndex = 5;
             // 
-            // lblProgress
-            // 
-            this.lblProgress.Location = new System.Drawing.Point(306, 382);
-            this.lblProgress.Name = "lblProgress";
-            this.lblProgress.Size = new System.Drawing.Size(273, 18);
-            this.lblProgress.TabIndex = 6;
-            this.lblProgress.Text = "正在進行第1步，共2步";
-            this.lblProgress.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // chbOpenDir
             // 
             this.chbOpenDir.AutoSize = true;
             this.chbOpenDir.Checked = true;
             this.chbOpenDir.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbOpenDir.Location = new System.Drawing.Point(47, 427);
+            this.chbOpenDir.Location = new System.Drawing.Point(50, 413);
             this.chbOpenDir.Name = "chbOpenDir";
             this.chbOpenDir.Size = new System.Drawing.Size(132, 22);
             this.chbOpenDir.TabIndex = 7;
@@ -91,7 +81,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(44, 406);
+            this.label3.Location = new System.Drawing.Point(47, 392);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 18);
             this.label3.TabIndex = 8;
@@ -100,7 +90,7 @@
             // chbClose
             // 
             this.chbClose.AutoSize = true;
-            this.chbClose.Location = new System.Drawing.Point(197, 427);
+            this.chbClose.Location = new System.Drawing.Point(200, 413);
             this.chbClose.Name = "chbClose";
             this.chbClose.Size = new System.Drawing.Size(117, 22);
             this.chbClose.TabIndex = 9;
@@ -111,22 +101,21 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 469);
+            this.ClientSize = new System.Drawing.Size(628, 451);
             this.ControlBox = false;
             this.Controls.Add(this.chbClose);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.chbOpenDir);
-            this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.pgbProgress);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.rtbLog);
             this.Controls.Add(this.lblStatus);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(644, 508);
+            this.MaximumSize = new System.Drawing.Size(644, 490);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(644, 508);
+            this.MinimumSize = new System.Drawing.Size(644, 490);
             this.Name = "frmExport";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -136,18 +125,16 @@
             this.Load += new System.EventHandler(this.frmExport_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
-        #endregion
-
-        private System.Windows.Forms.Label lblStatus;
-        private System.Windows.Forms.RichTextBox rtbLog;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ProgressBar pgbProgress;
-        private System.Windows.Forms.Label lblProgress;
-        private System.Windows.Forms.CheckBox chbOpenDir;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chbClose;
+        private System.Windows.Forms.CheckBox chbOpenDir;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.ProgressBar pgbProgress;
+        private System.Windows.Forms.RichTextBox rtbLog;
+
+        #endregion
     }
 }

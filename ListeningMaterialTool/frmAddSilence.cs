@@ -64,7 +64,11 @@ namespace ListeningMaterialTool {
             // AudioLength = Convert.ToInt32(numMins.Value * 60 + numSecs.Value) * 1000;
             
             // Using new classes
-            passInList.Append((long) (numMins.Value * 60000 + numSecs.Value * 1000));
+            if (passInList.Append((long) (numMins.Value * 60000 + numSecs.Value * 1000)) == null) {
+                MessageBox.Show("無法新增音訊，程式遇到錯誤。", "失敗", MessageBoxButtons.OK);
+                DialogResult = DialogResult.Cancel;
+                Close();
+            }
 
             // Close
             DialogResult = DialogResult.OK;

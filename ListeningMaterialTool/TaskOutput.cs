@@ -32,11 +32,16 @@ namespace ListeningMaterialTool {
             // Sets the text box
             _outputLines += line + "\n";
             _internalTextBox.Text = _outputLines;
+            
+            // Make log visible
+            _internalTextBox.SelectionStart = _internalTextBox.Text.Length;
+            _internalTextBox.ScrollToCaret();
         }
 
         public void MoveOneStep() {
             // Add one step
             if (_currentStep + 1 <= _totalSteps) _currentStep++;
+            _internalProgressBar.Value = _currentStep;
         }
 
         public int GetTotalSteps() {
