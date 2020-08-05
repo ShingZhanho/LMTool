@@ -122,8 +122,13 @@ namespace ListeningMaterialTool {
             // listPending.Items.Insert(index - 1, lstItem);
             
             // Using new classes
-            _audioList.MoveItem(listPending.SelectedItems[0], 1);
+            var item = listPending.SelectedItems[0];
+            var index = listPending.Items.IndexOf(item);
+            _audioList.MoveItem(item, 1);
             _audioList.ToListViewItemCollection(listPending);
+            
+            // Select the item
+            listPending.Items[index - 1].Selected = true;
             
             isExported = false;
         }
@@ -135,8 +140,13 @@ namespace ListeningMaterialTool {
             // listPending.Items.Insert(index + 1, lstItem);
             
             // Using new classes 
-            _audioList.MoveItem(listPending.SelectedItems[0], 0);
+            var item = listPending.SelectedItems[0];
+            var index = listPending.Items.IndexOf(item);
+            _audioList.MoveItem(item, 0);
             _audioList.ToListViewItemCollection(listPending);
+            
+            // Select the item again
+            listPending.Items[index + 1].Selected = true;
             
             isExported = false;
         }

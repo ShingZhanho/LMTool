@@ -465,8 +465,8 @@ namespace ListeningMaterialTool {
             output.AddLine("正在產生合併清單");
             var listLines = new List<string>();
             var index = 1;
-            while (File.Exists($"{outputDir}/{index}.mp3")) {
-                listLines.Add($"file {outputDir}/{index}.mp3");
+            while (File.Exists($"{outputDir.Replace("/","\\")}\\{index}.mp3")) {
+                listLines.Add($"file {outputDir.Replace("/","\\\\")}\\\\{index}.mp3");
                 output.AddLine(listLines[index - 1]);
                 index++;
             }
@@ -477,7 +477,7 @@ namespace ListeningMaterialTool {
             output.MoveOneStep();
             var taskCombine = ffmpeg.StartFfmpeg(string.Format(FFMPEG_ARGS_JOIN,
                 $"{outputDir.Replace("/","\\")}\\join_list.txt",
-                $"{outputDir.Replace("/", "\\")}\\Output.mp3"));
+                $"{outputDir.Replace("/","\\")}\\Output.mp3"));
             // Check for failure
             if (taskCombine.Result) {
                 // Success
