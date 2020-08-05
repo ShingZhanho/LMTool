@@ -231,19 +231,6 @@ namespace ListeningMaterialTool {
         }
 
         private void smtBeep_Click(object sender, EventArgs e) {
-            // append beep sound
-            // ListViewItem lstItem = new ListViewItem();
-            // sequence++;
-            // lstItem.Text = sequence.ToString();
-            // lstItem.SubItems.Add("Beep音效");
-            // lstItem.SubItems.Add(MsToTime(0));
-            // lstItem.SubItems.Add(MsToTime(839));
-            // lstItem.SubItems.Add(MsToTime(839));
-            // File.Copy(Path.GetFullPath($"./built_in_sound/Beep.mp3"),
-            //     $"{tempPath}/{lstItem.Text}.mp3");
-            // lstItem.SubItems.Add($"{tempPath}/{lstItem.Text}.mp3");
-            // listPending.Items.Add(lstItem);
-            
             // Using new classes
             _audioList.Append();
             _audioList.ToListViewItemCollection(listPending);
