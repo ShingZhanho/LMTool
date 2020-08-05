@@ -28,7 +28,6 @@ namespace ListeningMaterialTool {
 
         // Return values:
         public string FilePath { get; set; } // Audio file location
-        public string RealPath { get; set; } // Real file path inside temp dir
         public long SecIn { get; set; } // In position in milliseconds
         public long SecOut { get; set; } // Out position in milliseconds
         public long AudioDuration { get; set; } // Duration of audio
@@ -39,8 +38,8 @@ namespace ListeningMaterialTool {
 
         private void btnConfirm_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.OK;
-            RealPath = $@"{TempDir}\{seq.ToString()}{Path.GetExtension(FilePath)}";
-            File.Copy(FilePath, RealPath);
+            //RealPath = $@"{TempDir}\{seq.ToString()}{Path.GetExtension(FilePath)}";
+            //File.Copy(FilePath, RealPath);
             Close();
         }
 
@@ -124,8 +123,7 @@ namespace ListeningMaterialTool {
 
         private string MsToTime(long ms) {
             TimeSpan ts = TimeSpan.FromMilliseconds(ms);
-            return string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D3}",
-                ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
+            return $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}.{ts.Milliseconds:D3}";
         }
 
         private void UpdateSummary() {

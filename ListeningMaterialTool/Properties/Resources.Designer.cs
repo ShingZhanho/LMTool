@@ -91,16 +91,6 @@ namespace ListeningMaterialTool.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ffmpeg_utilities {
-            get {
-                object obj = ResourceManager.GetObject("ffmpeg-utilities", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap LMTool_512 {
