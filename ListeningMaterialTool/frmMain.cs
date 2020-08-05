@@ -20,7 +20,7 @@ namespace ListeningMaterialTool {
             InitializeComponent();
         }
 
-        public const string VersionCode = "v1.2-b";
+        public const string VersionCode = "v1.3-b";
 
         private bool isExported = true; // Indicates if all the changes are exported to a file
         private string tempPath;
@@ -88,9 +88,7 @@ namespace ListeningMaterialTool {
         #region Buttons Event Handler
         // Add audio to list
         private void btnAppend_Click(object sender, EventArgs e) {
-            frmNewAudio newAudio = new frmNewAudio();
-            newAudio.TempDir = tempPath;
-            //TODO: Delete sequence property in the form
+            var newAudio = new frmNewAudio {TempDir = tempPath};
             if (newAudio.ShowDialog() == DialogResult.OK) { // Clicks on OK, add item
                 // Use new class
                 _audioList.Append(newAudio.FilePath, newAudio.SecIn, newAudio.SecOut);
@@ -116,10 +114,6 @@ namespace ListeningMaterialTool {
         }
         // Move item up
         private void btnUp_Click(object sender, EventArgs e) {
-            // ListViewItem lstItem = listPending.SelectedItems[0];
-            // int index = listPending.Items.IndexOf(listPending.SelectedItems[0]);
-            // listPending.Items.Remove(listPending.SelectedItems[0]);
-            // listPending.Items.Insert(index - 1, lstItem);
             
             // Using new classes
             var item = listPending.SelectedItems[0];
@@ -134,10 +128,6 @@ namespace ListeningMaterialTool {
         }
         // Move item down
         private void btnDown_Click(object sender, EventArgs e) {
-            // ListViewItem lstItem = listPending.SelectedItems[0];
-            // int index = listPending.Items.IndexOf(listPending.SelectedItems[0]);
-            // listPending.Items.Remove(listPending.SelectedItems[0]);
-            // listPending.Items.Insert(index + 1, lstItem);
             
             // Using new classes 
             var item = listPending.SelectedItems[0];

@@ -123,8 +123,7 @@ namespace ListeningMaterialTool {
 
         private string MsToTime(long ms) {
             TimeSpan ts = TimeSpan.FromMilliseconds(ms);
-            return string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D3}",
-                ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
+            return $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}.{ts.Milliseconds:D3}";
         }
 
         private void UpdateSummary() {
