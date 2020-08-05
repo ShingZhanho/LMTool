@@ -29,11 +29,6 @@ namespace ListeningMaterialTool {
         public ListView.ListViewItemCollection ProcessList { get; set; } // Trimming queue
         private AudioTaskItemsCollection passInList;
 
-        // private values
-        private string _outputPath;
-        private int _totalSteps;
-        private int _currentStep = 1;
-
         // for playing alert
         WindowsMediaPlayer myplayer = new WindowsMediaPlayer();
 
@@ -52,89 +47,99 @@ namespace ListeningMaterialTool {
             //Thread thread = new Thread(ExportAudio);
             //thread.Start();
 
-            await passInList.ExportToAudio(SavePath);
+            //passInList.ExportToAudio(SavePath);
+            
+            // Creates output object
+            var outputObj = new Output(rtbLog, pgbProgress);
+            
+            // Export (works in a new thread)
+            var exportThread = new Thread(
+                () => {
+                    var isSuccess = passInList.ExportFile(outputObj, SavePath);
+                });
+            exportThread.Start();
         }
 
-        private void ExportAudio() {
-            foreach (ListViewItem item in ProcessList) {
-                _currentStep = ProcessList.IndexOf(item) + 1;
-                pgbProgress.Value = _currentStep;
-                lblProgress.Text = $"正在進行第{_currentStep}步，共{_totalSteps}步";
-                Log($"正在裁剪第{_currentStep}段音訊（編號{item.Text}）");
+        // private void ExportAudio() {
+        //     foreach (ListViewItem item in ProcessList) {
+        //         _currentStep = ProcessList.IndexOf(item) + 1;
+        //         pgbProgress.Value = _currentStep;
+        //         lblProgress.Text = $"正在進行第{_currentStep}步，共{_totalSteps}步";
+        //         Log($"正在裁剪第{_currentStep}段音訊（編號{item.Text}）");
+        //
+        //         // start ffmpeg
+        //         StartFfmpeg($"-i {item.SubItems[5].Text.Replace("\\","/")} " +
+        //                         $"-ss {item.SubItems[2].Text} -to {item.SubItems[3].Text} " + 
+        //                         $"-acodec libmp3lame {_outputPath}/{_currentStep}.mp3");
+        //         while (!File.Exists($"{_outputPath}/{_currentStep}.mp3")) { int a = 0; }
+        //     }
+        //
+        //     // generate audio_join.txt
+        //     Log("正在準備合併清單");
+        //     List<string> join_txt = new List<string>();
+        //     int i = 1;
+        //     while (File.Exists($"{_outputPath}/{i}.mp3")) {
+        //         join_txt.Add($"file ./{i}.mp3");
+        //         i++;
+        //     }
+        //     File.WriteAllLines($"{_outputPath}/audio_join.txt", join_txt.ToArray());
+        //
+        //     // start to join files
+        //     Log("開始合併檔案");
+        //     Debug.Print("ARGS: " +
+        //         $"-safe 0 -f concat -i \"{_outputPath}/audio_join.txt\" " +
+        //         $"-c copy \"{_outputPath}/Output.mp3\"");
+        //     StartFfmpeg($"-safe 0 -f concat -i \"{_outputPath}/audio_join.txt\" " +
+        //                 $"-acodec libmp3lame \"{_outputPath}/Output.mp3\"");
+        //     while (!File.Exists($"{_outputPath}/Output.mp3")) { int a = 0; }
+        //
+        //     // Copy file to destination
+        //     File.Copy($"{_outputPath}/Output.mp3", SavePath);
+        //     Log("正在儲存檔案");
+        //
+        //     // Wait
+        //     Thread.Sleep(5000);
+        //
+        //     // Done
+        //     Log("合併完成。請試聽匯出的檔案，如果發現內容有誤，請關閉匯出視窗，然後重試。");
+        //     pgbProgress.Value = pgbProgress.Maximum;
+        //     lblStatus.Text = "目前狀態：全部完成。";
+        //     lblProgress.Text = "完成";
+        //
+        //     myplayer.URL = "./res/chord.mp3";
+        //     myplayer.controls.play();
+        //     MessageBox.Show("所有作業完成！", "完成", MessageBoxButtons.OK);
+        //
+        //     if (chbOpenDir.Checked)
+        //         Process.Start(new ProcessStartInfo("explorer.exe", 
+        //             $"{Path.GetDirectoryName(SavePath)}"));
+        //
+        //     if (chbClose.Checked) Close();
+        //
+        //     ControlBox = true;
+        // }
 
-                // start ffmpeg
-                StartFfmpeg($"-i {item.SubItems[5].Text.Replace("\\","/")} " +
-                                $"-ss {item.SubItems[2].Text} -to {item.SubItems[3].Text} " + 
-                                $"-acodec libmp3lame {_outputPath}/{_currentStep}.mp3");
-                while (!File.Exists($"{_outputPath}/{_currentStep}.mp3")) { int a = 0; }
-            }
-
-            // generate audio_join.txt
-            Log("正在準備合併清單");
-            List<string> join_txt = new List<string>();
-            int i = 1;
-            while (File.Exists($"{_outputPath}/{i}.mp3")) {
-                join_txt.Add($"file ./{i}.mp3");
-                i++;
-            }
-            File.WriteAllLines($"{_outputPath}/audio_join.txt", join_txt.ToArray());
-
-            // start to join files
-            Log("開始合併檔案");
-            Debug.Print("ARGS: " +
-                $"-safe 0 -f concat -i \"{_outputPath}/audio_join.txt\" " +
-                $"-c copy \"{_outputPath}/Output.mp3\"");
-            StartFfmpeg($"-safe 0 -f concat -i \"{_outputPath}/audio_join.txt\" " +
-                        $"-acodec libmp3lame \"{_outputPath}/Output.mp3\"");
-            while (!File.Exists($"{_outputPath}/Output.mp3")) { int a = 0; }
-
-            // Copy file to destination
-            File.Copy($"{_outputPath}/Output.mp3", SavePath);
-            Log("正在儲存檔案");
-
-            // Wait
-            Thread.Sleep(5000);
-
-            // Done
-            Log("合併完成。請試聽匯出的檔案，如果發現內容有誤，請關閉匯出視窗，然後重試。");
-            pgbProgress.Value = pgbProgress.Maximum;
-            lblStatus.Text = "目前狀態：全部完成。";
-            lblProgress.Text = "完成";
-
-            myplayer.URL = "./res/chord.mp3";
-            myplayer.controls.play();
-            MessageBox.Show("所有作業完成！", "完成", MessageBoxButtons.OK);
-
-            if (chbOpenDir.Checked)
-                Process.Start(new ProcessStartInfo("explorer.exe", 
-                    $"{Path.GetDirectoryName(SavePath)}"));
-
-            if (chbClose.Checked) Close();
-
-            ControlBox = true;
-        }
-
-        private void StartFfmpeg(string args) {
-            Debug.Print(args);
-            var proc = new Process {
-                StartInfo = new ProcessStartInfo {
-                    FileName = Path.GetFullPath("./ffmpeg-4.3.1-win32-static/bin/ffmpeg.exe"),
-                    Arguments = args,
-                    CreateNoWindow = true,
-                    UseShellExecute = false
-                }
-            };
-            proc.Start();
-            //Log($"Start ffmpeg with arguments {args}");  // Uncomment this line for debug purposes
-            proc.WaitForExit();
-            Debug.Print("FFMPEG DONE");
-        }
-
-        private void Log(string text) {
-            rtbLog.Text += text + "\n";
-            rtbLog.SelectionStart = rtbLog.Text.Length;
-            rtbLog.ScrollToCaret();
-        }
+        // private void StartFfmpeg(string args) {
+        //     Debug.Print(args);
+        //     var proc = new Process {
+        //         StartInfo = new ProcessStartInfo {
+        //             FileName = Path.GetFullPath("./ffmpeg-4.3.1-win32-static/bin/ffmpeg.exe"),
+        //             Arguments = args,
+        //             CreateNoWindow = true,
+        //             UseShellExecute = false
+        //         }
+        //     };
+        //     proc.Start();
+        //     //Log($"Start ffmpeg with arguments {args}");  // Uncomment this line for debug purposes
+        //     proc.WaitForExit();
+        //     Debug.Print("FFMPEG DONE");
+        // }
+        //
+        // private void Log(string text) {
+        //     rtbLog.Text += text + "\n";
+        //     rtbLog.SelectionStart = rtbLog.Text.Length;
+        //     rtbLog.ScrollToCaret();
+        // }
 
         private void frmExport_FormClosing(object sender, FormClosingEventArgs e) {
             myplayer.close();

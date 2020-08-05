@@ -125,11 +125,28 @@ namespace ListeningMaterialTool {
             FilePathInTemp = filePathInTemp;
         }
 
+        
+        /// <summary>
+        ///     Method for assigning a filename to the object. To be used only when not appending a general audio.
+        /// </summary>
+        /// <param name="filename">Full path of the file.</param>
+        public void AssignFileName(string filename) {
+            FilePath = filename;
+        }
+
         /// <summary>
         ///     Checks if this AudioTaskItem is valid.
         /// </summary>
         /// <returns>true if valid, false instead.</returns>
         public bool ItemIsValid() {
+            // Always return true for built-in sound
+            var arraySpecialAudios = new[] {
+                "$SILENCE_AUDIO$", "$BEEP_SOUND$", "$GREENSLEEVES_"
+            };
+            foreach (var specialAudio in arraySpecialAudios)
+                if (FilePath.Contains(specialAudio))
+                    return true;
+            
             return File.Exists(FilePath);
         }
     }
@@ -170,10 +187,10 @@ namespace ListeningMaterialTool {
 
         // Constants
         // DO NOT modify the ffmpeg arguments on the master branch
-        private const string FFMPEG_ARGS_SILENCE = "-f lavfi -i anullsrc=r=11025:cl=mono -t $SECS$ \"$FILE_TEMP$\"";
-        private const string FFMPEG_ARGS_TRIM = 
-            "-i \"$FILE_TEMP$\" -ss $TIME_IN$ -to $TIME_OUT$ -acodec libmp3lame \"$FILE_OUTPUT$\"";
-        private const string FFMPEG_ARGS_JOIN = "-safe 0 -f concat -i \"$PATH_LIST$\" -acodec -libmp3lame \"$PATH_OUTPUT$\"";
+        private const string FFMPEG_ARGS_SILENCE = 
+            "-f lavfi -i anullsrc=r=44100:cl=mono -t {0} -q:a 9 -acodec libmp3lame \"{1}\"";
+        private const string FFMPEG_ARGS_TRIM = "-i \"{0}\" -ss {1} -to {2} -acodec libmp3lame \"{3}\"";
+        private const string FFMPEG_ARGS_JOIN = "-safe 0 -f concat -i \"{0}\" -acodec libmp3lame \"{1}\"";
 
         // Methods
 
@@ -194,7 +211,7 @@ namespace ListeningMaterialTool {
                 $"{TempDir}/{NumberStack}{Path.GetExtension(filepath)}");
 
             item.AssignNumber(NumberStack,
-                $"{TempDir}/{NumberStack}.{Path.GetExtension(filepath)}");
+                $"{TempDir}/{NumberStack}{Path.GetExtension(filepath)}");
             Items.Add(item);
             totalDuration += item.Duration;
 
@@ -213,7 +230,7 @@ namespace ListeningMaterialTool {
             File.Copy($"./built_in_sound/G_{length.ToString()}.mp3",
                 $"{TempDir}/{NumberStack}.mp3");
 
-            item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.mp3");
+            item.AssignNumber(NumberStack, $"{TempDir}\\{NumberStack}.mp3");
             Items.Add(item);
             totalDuration += item.Duration;
 
@@ -231,17 +248,26 @@ namespace ListeningMaterialTool {
 
             // Generate silence audio with ffmpeg
             var ffmpeg = new Ffmpeg("./ffmpeg/ffmpeg.exe");
-            ffmpeg.StartFfmpeg(FFMPEG_ARGS_SILENCE
-                .Replace("$SECS$", (length * 1000).ToString()
-                    .Replace("$FILE_TEMP$", $"{TempDir}/{NumberStack}.m4a")));
+            // var taskBeep = ffmpeg.StartFfmpeg(FFMPEG_ARGS_SILENCE
+            //     .Replace("$SECS$", (length * 1000).ToString()
+            //         .Replace("$FILE_TEMP$", $"{TempDir}\\{NumberStack}.m4a")), 1000);
+            var taskBeep = ffmpeg.StartFfmpeg(string.Format(FFMPEG_ARGS_SILENCE,
+                length / 1000,
+                $"{TempDir}\\{NumberStack}.mp3"), 1500);
+            if (!taskBeep.Result)
+                return null;
 
-            item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.m4a");
+            item.AssignNumber(NumberStack, $"{TempDir}/{NumberStack}.mp3");
             Items.Add(item);
             totalDuration += item.Duration;
 
             return Items;
         }
 
+        /// <summary>
+        ///     Append a beep sound to the list.
+        /// </summary>
+        /// <returns>The modified list.</returns>
         public List<AudioTaskItem> Append() {
             var item = new AudioTaskItem();
             NumberStack++;
@@ -347,51 +373,127 @@ namespace ListeningMaterialTool {
 
         #endregion
 
-        /// <summary>
-        ///     Exports the whole list to an independent file.
-        /// </summary>
-        /// <param name="destination">The destination path of the exported audio file.</param>
-        public async Task ExportToAudio(string destination) {
-            // Creates a output dir
+        // /// <summary>
+        // ///     Exports the whole list to an independent file.
+        // /// </summary>
+        // /// <param name="destination">The destination path of the exported audio file.</param>
+        // public async Task<bool> ExportToAudio(string destination) {
+        //     // Creates a output dir
+        //     var dirNum = 0;
+        //     var outputDir = "";
+        //     while (!Directory.Exists($"{TempDir}/output{dirNum}")) {
+        //         dirNum++;
+        //         outputDir = $"{TempDir}/output{dirNum}";
+        //         Directory.CreateDirectory(outputDir);
+        //     }
+        //
+        //     // Creates ffmpeg instance
+        //     var ffmpeg = new Ffmpeg("./ffmpeg/ffmpeg.exe");
+        //
+        //     // Trim audio files
+        //     foreach (var audioTaskItem in Items) {
+        //         if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_TRIM
+        //                 .Replace("$FILE_TEMP$", audioTaskItem.FilePathInTemp.Replace("\\","/"))
+        //                 .Replace("$TIME_IN$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsIn))
+        //                 .Replace("$TIME_OUT$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsOut))
+        //                 .Replace("$FILE_OUTPUT$", $"{outputDir}/{Items.IndexOf(audioTaskItem) + 1}.mp3"),
+        //             Properties.Settings.Default.ffmpeg_WaitTimeOut) == false) { // failure signal received
+        //             //throw new Exception("Error occured while trimming audio. Export ended.");
+        //             return false;
+        //         }
+        //     }
+        //
+        //     // Generates join_list.txt
+        //     var lines = new List<string>();
+        //     for (int i = 0; i < Directory.GetFiles(outputDir).Length; i++) {
+        //         lines.Add($"file ./{i}.mp3");
+        //     }
+        //     File.WriteAllLines($"{outputDir}/join_list.txt", lines);
+        //
+        //     // Joins audio files
+        //     if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_JOIN
+        //         .Replace("$PATH_LIST$", $"{outputDir}/join_list.txt")
+        //         .Replace("$PATH_OUTPUT$", $"{outputDir}/combine.mp3")) == false) { // failure signal received
+        //         // throw new Exception("Error occured while joining audio. Export ended.");
+        //         return false;
+        //     }
+        //
+        //     // Copies to the destination
+        //     File.Copy($"{outputDir}/combine.mp3", destination);
+        //
+        //     return true;
+        // }
+
+        public bool ExportFile(Output output, string destination) {
+            output.AddLine("開始匯出");
+            output.SetTotalSteps(Items.Count + 2);
+            
+            // Creates temp dir
+            output.AddLine("正在建立暫存檔案...");
             var dirNum = 0;
             var outputDir = "";
-            while (!Directory.Exists($"{TempDir}/output{dirNum}")) {
-                dirNum++;
-                outputDir = $"{TempDir}/output{dirNum}";
-                Directory.CreateDirectory(outputDir);
-            }
-
-            // Creates ffmpeg instance
+            while (Directory.Exists($"{TempDir}/output{dirNum}")) dirNum++;
+            outputDir = $"{TempDir}/output{dirNum}".Replace("\\","/");
+            Directory.CreateDirectory(outputDir);
+            output.AddLine($"暫存資料夾位置：{outputDir}");
+            
+            // Creates ffmpeg
             var ffmpeg = new Ffmpeg("./ffmpeg/ffmpeg.exe");
-
-            // Trim audio files
-            foreach (var audioTaskItem in Items) {
-                if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_TRIM
-                        .Replace("$FILE_TEMP$", audioTaskItem.FilePathInTemp.Replace("\\","/"))
-                        .Replace("$TIME_IN$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsIn))
-                        .Replace("$TIME_OUT$", audioTaskItem.MsToTimeSpan(audioTaskItem.MsOut))
-                        .Replace("$FILE_OUTPUT$", $"{outputDir}/{Items.IndexOf(audioTaskItem) + 1}.mp3"),
-                    Properties.Settings.Default.ffmpeg_WaitTimeOut) == false) { // failure signal received
-                    throw new Exception("Error occured while trimming audio. Export ended.");
+            
+            // Trim
+            output.AddLine("準備裁剪音訊");
+            foreach (var taskItem in Items) {
+                output.AddLine($"開始剪接第{taskItem.Number}段音訊，名稱：{taskItem.Name}");
+                output.MoveOneStep();
+                var taskTrim = ffmpeg.StartFfmpeg(string.Format(FFMPEG_ARGS_TRIM,
+                    taskItem.FilePathInTemp,
+                    taskItem.MsIn,
+                    taskItem.MsOut,
+                    $"{outputDir}/{Items.IndexOf(taskItem) + 1}.mp3"));
+                // Check status
+                if (taskTrim.Result) {
+                    // Success
+                    output.AddLine("成功");
+                } else {
+                    // Fail
+                    output.AddLine("出現未知錯誤，已停止作業");
+                    return false; // Terminates work
                 }
             }
-
-            // Generates join_list.txt
-            var lines = new List<string>();
-            for (int i = 0; i < Directory.GetFiles(outputDir).Length; i++) {
-                lines.Add($"file ./{i}.mp3");
+            
+            // Generate join_list.txt
+            output.AddLine("正在產生合併清單");
+            var listLines = new List<string>();
+            var index = 1;
+            while (File.Exists($"{outputDir.Replace("/","\\")}\\{index}.mp3")) {
+                listLines.Add($"file {outputDir.Replace("/","\\\\")}\\\\{index}.mp3");
+                output.AddLine(listLines[index - 1]);
+                index++;
             }
-            File.WriteAllLines($"{outputDir}/join_list.txt", lines);
-
-            // Joins audio files
-            if (await ffmpeg.StartFfmpeg(FFMPEG_ARGS_JOIN
-                .Replace("$PATH_LIST$", $"{outputDir}/join_list.txt")
-                .Replace("$PATH_OUTPUT$", $"{outputDir}/combine.mp3")) == false) { // failure signal received
-                throw new Exception("Error occured while joining audio. Export ended.");
+            File.WriteAllLines($"{outputDir}/join_list.txt", listLines);
+            
+            // Join audios
+            output.AddLine("開始合併");
+            output.MoveOneStep();
+            var taskCombine = ffmpeg.StartFfmpeg(string.Format(FFMPEG_ARGS_JOIN,
+                $"{outputDir.Replace("/","\\")}\\join_list.txt",
+                $"{outputDir.Replace("/","\\")}\\Output.mp3"));
+            // Check for failure
+            if (taskCombine.Result) {
+                // Success
+                output.AddLine("成功合併");
             }
+            else {
+                output.AddLine("出現未知錯誤，已停止作業");
+                return false;
+            }
+            
+            // Copies the file
+            File.Copy($"{outputDir}/Output.mp3", destination);
+            output.AddLine("正在儲存檔案");
+            output.MoveOneStep();
 
-            // Copies to the destination
-            File.Copy($"{outputDir}/combine.mp3", destination);
+            return true;
         }
 
         /// <summary>
