@@ -103,6 +103,16 @@ namespace ListeningMaterialTool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LMTool_Banner {
+            get {
+                object obj = ResourceManager.GetObject("LMTool_Banner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pause {
             get {
                 object obj = ResourceManager.GetObject("pause", resourceCulture);
