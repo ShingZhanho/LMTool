@@ -13,7 +13,9 @@ namespace ListeningMaterialTool {
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmStart());
+            var main_form = new frmMain();
+            main_form.Show();
+            Application.Run();
         }
     }
 }

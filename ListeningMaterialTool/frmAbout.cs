@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ListeningMaterialTool.Properties;
+
 // ReSharper Disable LocalizableElement
 
 namespace ListeningMaterialTool {
@@ -21,7 +23,7 @@ namespace ListeningMaterialTool {
         }
 
         private void frmAbout_Load(object sender, EventArgs e) {
-            label2.Text = $"版本：{frmMain.VersionCode}";
+            label2.Text = $"版本：{Settings.Default.App_VersionName}";
         }
     }
 }

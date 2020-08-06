@@ -30,9 +30,10 @@ namespace ListeningMaterialTool {
             this.lblVersion = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.chbFfmpeg = new System.Windows.Forms.CheckBox();
-            this.chbSound = new System.Windows.Forms.CheckBox();
             this.btnStart = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.lblFfmpeg = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,28 +82,6 @@ namespace ListeningMaterialTool {
             this.label2.TabIndex = 3;
             this.label2.Text = "初次使用，需要下載必要的檔案，你需要連接到網際網路。（如果你不是初次使用仍看見此畫面，表示某些必要的檔案丟失，你必需重新下載。）";
             // 
-            // chbFfmpeg
-            // 
-            this.chbFfmpeg.AutoSize = true;
-            this.chbFfmpeg.Enabled = false;
-            this.chbFfmpeg.Location = new System.Drawing.Point(67, 221);
-            this.chbFfmpeg.Name = "chbFfmpeg";
-            this.chbFfmpeg.Size = new System.Drawing.Size(132, 22);
-            this.chbFfmpeg.TabIndex = 4;
-            this.chbFfmpeg.Text = "下載ffmpeg套件";
-            this.chbFfmpeg.UseVisualStyleBackColor = true;
-            // 
-            // chbSound
-            // 
-            this.chbSound.AutoSize = true;
-            this.chbSound.Enabled = false;
-            this.chbSound.Location = new System.Drawing.Point(67, 249);
-            this.chbSound.Name = "chbSound";
-            this.chbSound.Size = new System.Drawing.Size(117, 22);
-            this.chbSound.TabIndex = 5;
-            this.chbSound.Text = "解壓內置音效";
-            this.chbSound.UseVisualStyleBackColor = true;
-            // 
             // btnStart
             // 
             this.btnStart.Location = new System.Drawing.Point(473, 299);
@@ -112,15 +91,41 @@ namespace ListeningMaterialTool {
             this.btnStart.Text = "開始";
             this.btnStart.UseVisualStyleBackColor = true;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(17, 299);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(450, 27);
+            this.progressBar1.TabIndex = 7;
+            // 
+            // lblFfmpeg
+            // 
+            this.lblFfmpeg.AutoSize = true;
+            this.lblFfmpeg.Location = new System.Drawing.Point(84, 216);
+            this.lblFfmpeg.Name = "lblFfmpeg";
+            this.lblFfmpeg.Size = new System.Drawing.Size(143, 18);
+            this.lblFfmpeg.TabIndex = 8;
+            this.lblFfmpeg.Text = "下載ffmpeg實用工具";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(84, 247);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(98, 18);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "解壓內建音效";
+            // 
             // frmStart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(706, 338);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblFfmpeg);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.btnStart);
-            this.Controls.Add(this.chbSound);
-            this.Controls.Add(this.chbFfmpeg);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblVersion);
@@ -132,6 +137,8 @@ namespace ListeningMaterialTool {
             this.Name = "frmStart";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Load += new System.EventHandler(this.frmStart_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -145,8 +152,9 @@ namespace ListeningMaterialTool {
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox chbFfmpeg;
-        private System.Windows.Forms.CheckBox chbSound;
         private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label lblFfmpeg;
+        private System.Windows.Forms.Label label3;
     }
 }

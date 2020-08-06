@@ -20,8 +20,6 @@ namespace ListeningMaterialTool {
             InitializeComponent();
         }
 
-        public const string VersionCode = "v1.3-b";
-
         private bool isExported = true; // Indicates if all the changes are exported to a file
         private string tempPath;
 
@@ -29,7 +27,8 @@ namespace ListeningMaterialTool {
 
         private void frmMain_Load(object sender, EventArgs e) {
             // Shows version code if this is a beta version
-            if (VersionCode.Contains("b")) Text = $"{Text} {VersionCode}";
+            if (Properties.Settings.Default.App_VersionName.Contains("b")) 
+                Text = $"{Text} {Settings.Default.App_VersionName}";
             
             // Creates dirs
             if (!Directory.Exists("./res/")) Directory.CreateDirectory("./res/");
