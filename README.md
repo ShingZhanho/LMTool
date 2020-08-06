@@ -8,7 +8,7 @@
 
 <p align="center">
           <a href="https://github.com/ShingZhanho/LMTool/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/ShingZhanho/LMTool?color=lighgreen"></a>
-          <a href="https://github.com/ShingZhanho/LMTool/releases/latest"><img alt="GitHub release" src="https://img.shields.io/static/v1?label=latest-release&message=v1%2E0-r&color=blue"></a>
+          <a href="https://github.com/ShingZhanho/LMTool/releases/latest"><img alt="GitHub release" src="https://img.shields.io/static/v1?label=latest-release&message=v1%2E4%2E1-r&color=blue"></a>
           <img alt="GitHub release" src="https://img.shields.io/static/v1?label=latest-pre-release&message=v1%2E3-b&color=red">
 </p>
 
