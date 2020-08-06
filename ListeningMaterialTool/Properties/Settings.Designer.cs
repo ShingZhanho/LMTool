@@ -73,7 +73,7 @@ namespace ListeningMaterialTool.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("v1.3-b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("v1.4.1-r")]
         public string App_VersionName {
             get {
                 return ((string)(this["App_VersionName"]));

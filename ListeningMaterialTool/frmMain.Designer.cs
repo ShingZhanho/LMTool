@@ -39,8 +39,6 @@ namespace ListeningMaterialTool {
             this.clmLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmExport = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.smtReset = new System.Windows.Forms.ToolStripMenuItem();
             this.smtExit = new System.Windows.Forms.ToolStripMenuItem();
             this.smtSequence = new System.Windows.Forms.ToolStripMenuItem();
@@ -147,26 +145,11 @@ namespace ListeningMaterialTool {
             // menuFile
             // 
             this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmExport,
-            this.toolStripSeparator1,
             this.smtReset,
             this.smtExit});
             this.menuFile.Name = "menuFile";
             this.menuFile.Size = new System.Drawing.Size(45, 20);
             this.menuFile.Text = "檔案";
-            // 
-            // tsmExport
-            // 
-            this.tsmExport.Enabled = false;
-            this.tsmExport.Name = "tsmExport";
-            this.tsmExport.Size = new System.Drawing.Size(180, 22);
-            this.tsmExport.Text = "匯出檔案";
-            this.tsmExport.Click += new System.EventHandler(this.tsmExport_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // smtReset
             // 
@@ -429,6 +412,7 @@ namespace ListeningMaterialTool {
             this.btnExport.TabIndex = 9;
             this.btnExport.Text = "匯出檔案";
             this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // frmMain
             // 
@@ -473,10 +457,8 @@ namespace ListeningMaterialTool {
         private ColumnHeader clmNum;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem menuFile;
-        private ToolStripMenuItem tsmExport;
         private ToolStripMenuItem smtReset;
         private ToolStripMenuItem smtExit;
-        private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem smtSequence;
         private ToolStripMenuItem tsmAdd;
         private ToolStripMenuItem smtGreen;

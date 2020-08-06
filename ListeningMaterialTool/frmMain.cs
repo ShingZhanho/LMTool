@@ -38,46 +38,9 @@ namespace ListeningMaterialTool {
                 .Replace("/", "").Replace(":","").Replace(" ","")}";
             Directory.CreateDirectory(tempPath);
 
-            //// finds the ffmpeg
-            //if (!Directory.Exists($"./ffmpeg-4.3.1-win32-static"))
-            //    UnzipFfmpeg();
-
-            // Code moved to frmStart
-            //// finds built in sounds
-            //if (!Directory.Exists($"./built_in_sounds"))
-            //    UnzipSounds();
-
-            //// finds sound file
-            //if (!File.Exists("./res/chord.mp3"))
-            //    File.WriteAllBytes("./res/chord.mp3", Resources.chord);
-            
             // Initialize AudioTaskItemsCollection
             _audioList = new AudioTaskItemsCollection(tempPath);
         }
-
-        #region Resources
-
-         private void UnzipFfmpeg() {
-            if (Directory.Exists("./ffmpeg-4.3.1-win32-static"))
-                Directory.Delete("./ffmpeg-4.3.1-win32-static", true);
-            // unzip ffmpeg dependency
-            //File.WriteAllBytes($@"{tempPath}/ffmpeg.zip", Resources.ffmpeg_utilities);
-            ZipFile.ExtractToDirectory($@"{tempPath}/ffmpeg.zip",
-                Application.StartupPath);
-            File.Delete($@"{tempPath}/ffmpeg.zip");
-        }
-
-        private void UnzipSounds() {
-            if (Directory.Exists("./built_in_sound"))
-                Directory.Delete("./built_in_sound", true);
-            // unzip ffmpeg dependency
-            File.WriteAllBytes($@"{tempPath}/built_in_sound.zip", Resources.built_in_sound);
-            ZipFile.ExtractToDirectory($@"{tempPath}/built_in_sound.zip",
-                Application.StartupPath);
-            File.Delete($@"{tempPath}/built_in_sound.zip");
-        }
-
-        #endregion
 
         private void listPending_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e) {
             // Prevent columns width from being changed
@@ -97,7 +60,7 @@ namespace ListeningMaterialTool {
                 lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
                 
             }
-            tsmExport.Enabled = listPending.Items.Count != 0;
+            btnExport.Enabled = listPending.Items.Count != 0;
 
             // Scroll to bottom
             if (listPending.Items.Count != 0)
@@ -109,7 +72,7 @@ namespace ListeningMaterialTool {
             _audioList.Remove(listPending.SelectedItems[0]);
             lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             _audioList.ToListViewItemCollection(listPending);
-            tsmExport.Enabled = listPending.Items.Count != 0;
+            btnExport.Enabled = listPending.Items.Count != 0;
             isExported = false;
         }
         // Move item up
@@ -140,7 +103,31 @@ namespace ListeningMaterialTool {
             
             isExported = false;
         }
+        // Export
+        private void btnExport_Click(object sender, EventArgs e) {
+            if (!_audioList.ListIsValid()) {
+                // List is invalid (files are missing)
+                Alert();
+                var s = "";
+                foreach (var invalidItem in _audioList.GetInvalidItems())
+                    s += $"音訊編號{invalidItem.Number.ToString()}，{invalidItem.Name}，檔案\n" +
+                         $"　　{invalidItem.FilePath}已丟失 / 已被移動。\n\n";
+                MessageBox.Show("警告：清單中的某些項目已經失效，程式沒有找到這些檔案。\n" +
+                                "以下為失效的項目：\n\n" +
+                                $"{s}在你從清單中刪除他們之前，程式將不能匯出檔案。",
+                    "錯誤");
+                return;
+            }
+            if (svfDialog.ShowDialog() == DialogResult.Cancel) return;
+            var exportForm = new frmExport(_audioList);
 
+            // TODO: Rebuild frmExport and rebuild these codes:
+            exportForm.TempPath = tempPath;
+            exportForm.ProcessList = listPending.Items;
+            exportForm.SavePath = svfDialog.FileName;
+            exportForm.ShowDialog();
+            isExported = true;
+        }
         #endregion
 
         #region TimeConversion Related
@@ -233,33 +220,8 @@ namespace ListeningMaterialTool {
             
             lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             isExported = false;
-            tsmExport.Enabled = true;
+            btnExport.Enabled = true;
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();
-        }
-
-        private void tsmExport_Click(object sender, EventArgs e) {
-            if (!_audioList.ListIsValid()) {
-                // List is invalid (files are missing)
-                Alert();
-                var s = "";
-                foreach (var invalidItem in _audioList.GetInvalidItems())
-                    s += $"音訊編號{invalidItem.Number.ToString()}，{invalidItem.Name}，檔案\n" +
-                         $"　　{invalidItem.FilePath}已丟失 / 已被移動。\n\n";
-                MessageBox.Show("警告：清單中的某些項目已經失效，程式沒有找到這些檔案。\n" +
-                                "以下為失效的項目：\n\n" +
-                                $"{s}在你從清單中刪除他們之前，程式將不能匯出檔案。",
-                                "錯誤");
-                return;
-            }
-            if (svfDialog.ShowDialog() == DialogResult.Cancel) return;
-            var exportForm = new frmExport(_audioList);
-            
-            // TODO: Rebuild frmExport and rebuild these codes:
-            exportForm.TempPath = tempPath;
-            exportForm.ProcessList = listPending.Items;
-            exportForm.SavePath = svfDialog.FileName;
-            exportForm.ShowDialog();
-            isExported = true;
         }
 
         private void smtClearCache_Click(object sender, EventArgs e) {
@@ -279,7 +241,7 @@ namespace ListeningMaterialTool {
                 
             lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             isExported = false;
-            tsmExport.Enabled = true;
+            btnExport.Enabled = true;
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
 
@@ -300,7 +262,7 @@ namespace ListeningMaterialTool {
             
             lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             isExported = false;
-            tsmExport.Enabled = true;
+            btnExport.Enabled = true;
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
 
@@ -349,5 +311,6 @@ namespace ListeningMaterialTool {
             myplayer.URL = "./res/chord.mp3";
             myplayer.controls.play();
         }
+
     }
 }
