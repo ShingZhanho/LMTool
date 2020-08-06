@@ -36,10 +36,8 @@
             this.btnTrimOut = new System.Windows.Forms.Button();
             this.btnTenForward = new System.Windows.Forms.Button();
             this.btnTogglePlay = new System.Windows.Forms.Button();
-            this.audioPlayer = new LibVLCSharp.WinForms.VideoView();
             this.opfDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.audioProgress)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.audioPlayer)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSelectFile
@@ -187,17 +185,6 @@
             this.btnTogglePlay.UseVisualStyleBackColor = true;
             this.btnTogglePlay.Click += new System.EventHandler(this.btnTogglePlay_Click);
             // 
-            // audioPlayer
-            // 
-            this.audioPlayer.BackColor = System.Drawing.Color.Black;
-            this.audioPlayer.Location = new System.Drawing.Point(295, 266);
-            this.audioPlayer.MediaPlayer = null;
-            this.audioPlayer.Name = "audioPlayer";
-            this.audioPlayer.Size = new System.Drawing.Size(75, 23);
-            this.audioPlayer.TabIndex = 13;
-            this.audioPlayer.Text = "videoView1";
-            this.audioPlayer.Visible = false;
-            // 
             // opfDialog
             // 
             this.opfDialog.Filter = "常見音訊檔類型|*.m4a;*.flac;*.mp3;*.wav;*.wma;*.aac";
@@ -209,7 +196,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 321);
             this.ControlBox = false;
-            this.Controls.Add(this.audioPlayer);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.lblSummary);
@@ -235,7 +221,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmNewAudio_FormClosing);
             this.Load += new System.EventHandler(this.frmNewAudio_Load);
             ((System.ComponentModel.ISupportInitialize)(this.audioProgress)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.audioPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,7 +241,6 @@
         private System.Windows.Forms.Label lblSummary;
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Button btnCancel;
-        private LibVLCSharp.WinForms.VideoView audioPlayer;
         private System.Windows.Forms.OpenFileDialog opfDialog;
     }
 }
