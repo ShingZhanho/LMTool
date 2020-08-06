@@ -16,7 +16,7 @@ namespace ListeningMaterialTool {
             lblVersion.Text += Settings.Default.App_VersionName.Contains("b") ? "（測試版本）" : "";
 
             // Skip this form
-            if (CheckFiles()) {
+            if (!CheckFiles()) {
                 new frmMain().Show();
                 Close();
             }
