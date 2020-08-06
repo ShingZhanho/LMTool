@@ -51,10 +51,9 @@ namespace ListeningMaterialTool {
         #region Buttons Event Handler
         // Add audio to list
         private void btnAppend_Click(object sender, EventArgs e) {
-            var newAudio = new frmNewAudio {TempDir = tempPath};
+            var newAudio = new frmNewAudio (_audioList);
             if (newAudio.ShowDialog() == DialogResult.OK) { // Clicks on OK, add item
                 // Use new class
-                _audioList.Append(newAudio.FilePath, newAudio.SecIn, newAudio.SecOut);
                 _audioList.ToListViewItemCollection(listPending);
                 isExported = false;
                 lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";

@@ -32,7 +32,7 @@ namespace ListeningMaterialTool {
         // for playing alert
         private readonly WindowsMediaPlayer _myPlayer = new WindowsMediaPlayer();
 
-        private async void frmExport_Load(object sender, EventArgs e) {
+        private void frmExport_Load(object sender, EventArgs e) {
             TempPath = TempPath.Replace("\\", "/");
 
             // Creates output object

@@ -10,15 +10,15 @@ using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using LibVLCSharp.Shared;
 using ListeningMaterialTool.Properties;
 
 // ReSharper disable LocalizableElement
 
 namespace ListeningMaterialTool {
     public partial class frmNewAudio : Form {
-        public frmNewAudio() {
+        public frmNewAudio(AudioTaskItemsCollection audioTaskItemsCollection) {
             InitializeComponent();
+            _taskList = audioTaskItemsCollection;
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {
@@ -26,15 +26,7 @@ namespace ListeningMaterialTool {
             Close();
         }
 
-        // Return values:
-        public string FilePath { get; set; } // Audio file location
-        public long SecIn { get; set; } // In position in milliseconds
-        public long SecOut { get; set; } // Out position in milliseconds
-        public long AudioDuration { get; set; } // Duration of audio
-
-        // Needed values when start up:
-        public string TempDir { get; set; } // Identifies where to store the audio file
-        public int seq { get; set; } // sequence of the current file
+        private AudioTaskItemsCollection _taskList;
 
         private void btnConfirm_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.OK;
@@ -44,8 +36,8 @@ namespace ListeningMaterialTool {
         private void btnSelectFile_Click(object sender, EventArgs e) {
             // Open file
             if (opfDialog.ShowDialog() != DialogResult.OK) return;
-            FilePath = opfDialog.FileName;
-            lblFileName.Text = FilePath;
+            //FilePath = opfDialog.FileName;
+            //lblFileName.Text = FilePath;
         }
 
         private string MsToTime(long ms) {
@@ -54,11 +46,11 @@ namespace ListeningMaterialTool {
         }
 
         private void UpdateSummary() {
-            lblSummary.Text = $"裁剪撮要：\n" +
-                              $"檔案：{Path.GetFileName(FilePath)}\n" +
-                              $"從：{MsToTime(SecIn)}\n" +
-                              $"至：{MsToTime(SecOut)}\n" +
-                              $"長度：{MsToTime(SecOut - SecIn)}";
+            //lblSummary.Text = $"裁剪撮要：\n" +
+            //                  $"檔案：{Path.GetFileName(FilePath)}\n" +
+            //                  $"從：{MsToTime(SecIn)}\n" +
+            //                  $"至：{MsToTime(SecOut)}\n" +
+            //                  $"長度：{MsToTime(SecOut - SecIn)}";
         }
     }
 }

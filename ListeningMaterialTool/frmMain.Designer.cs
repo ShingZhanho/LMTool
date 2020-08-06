@@ -93,7 +93,6 @@ namespace ListeningMaterialTool {
             this.clmOut,
             this.clmLength});
             this.listPending.FullRowSelect = true;
-            this.listPending.GridLines = true;
             this.listPending.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listPending.HideSelection = false;
             this.listPending.Location = new System.Drawing.Point(12, 60);
