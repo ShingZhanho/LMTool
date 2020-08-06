@@ -17,5 +17,8 @@
     <Setting Name="App_VersionName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">v1.3-b</Value>
     </Setting>
+    <Setting Name="URL_DownloadFfmpeg" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://drive.google.com/uc?export=download&amp;id=1_3d9AOGmRFNJsOkM4JF31KAYeIunEOeO</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -79,5 +79,14 @@ namespace ListeningMaterialTool.Properties {
                 return ((string)(this["App_VersionName"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://drive.google.com/uc?export=download&id=1_3d9AOGmRFNJsOkM4JF31KAYeIunEOeO")]
+        public string URL_DownloadFfmpeg {
+            get {
+                return ((string)(this["URL_DownloadFfmpeg"]));
+            }
+        }
     }
 }

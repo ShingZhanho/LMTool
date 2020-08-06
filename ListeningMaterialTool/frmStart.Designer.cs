@@ -33,7 +33,7 @@ namespace ListeningMaterialTool {
             this.btnStart = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.lblFfmpeg = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblSound = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,6 +90,7 @@ namespace ListeningMaterialTool {
             this.btnStart.TabIndex = 6;
             this.btnStart.Text = "開始";
             this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // progressBar1
             // 
@@ -107,14 +108,14 @@ namespace ListeningMaterialTool {
             this.lblFfmpeg.TabIndex = 8;
             this.lblFfmpeg.Text = "下載ffmpeg實用工具";
             // 
-            // label3
+            // lblSound
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(84, 247);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(98, 18);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "解壓內建音效";
+            this.lblSound.AutoSize = true;
+            this.lblSound.Location = new System.Drawing.Point(84, 247);
+            this.lblSound.Name = "lblSound";
+            this.lblSound.Size = new System.Drawing.Size(98, 18);
+            this.lblSound.TabIndex = 9;
+            this.lblSound.Text = "解壓內建音效";
             // 
             // frmStart
             // 
@@ -122,7 +123,7 @@ namespace ListeningMaterialTool {
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(706, 338);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblSound);
             this.Controls.Add(this.lblFfmpeg);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.btnStart);
@@ -138,6 +139,7 @@ namespace ListeningMaterialTool {
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmStart_FormClosing);
             this.Load += new System.EventHandler(this.frmStart_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -155,6 +157,6 @@ namespace ListeningMaterialTool {
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label lblFfmpeg;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblSound;
     }
 }

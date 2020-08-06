@@ -42,13 +42,14 @@ namespace ListeningMaterialTool {
             //if (!Directory.Exists($"./ffmpeg-4.3.1-win32-static"))
             //    UnzipFfmpeg();
 
-            // finds built in sounds
-            if (!Directory.Exists($"./built_in_sounds"))
-                UnzipSounds();
+            // Code moved to frmStart
+            //// finds built in sounds
+            //if (!Directory.Exists($"./built_in_sounds"))
+            //    UnzipSounds();
 
-            // finds sound file
-            if (!File.Exists("./res/chord.mp3"))
-                File.WriteAllBytes("./res/chord.mp3", Resources.chord);
+            //// finds sound file
+            //if (!File.Exists("./res/chord.mp3"))
+            //    File.WriteAllBytes("./res/chord.mp3", Resources.chord);
             
             // Initialize AudioTaskItemsCollection
             _audioList = new AudioTaskItemsCollection(tempPath);
@@ -70,10 +71,10 @@ namespace ListeningMaterialTool {
             if (Directory.Exists("./built_in_sound"))
                 Directory.Delete("./built_in_sound", true);
             // unzip ffmpeg dependency
-            File.WriteAllBytes($@"{tempPath}/greensleeves.zip", Resources.built_in_sound);
-            ZipFile.ExtractToDirectory($@"{tempPath}/greensleeves.zip",
+            File.WriteAllBytes($@"{tempPath}/built_in_sound.zip", Resources.built_in_sound);
+            ZipFile.ExtractToDirectory($@"{tempPath}/built_in_sound.zip",
                 Application.StartupPath);
-            File.Delete($@"{tempPath}/greensleeves.zip");
+            File.Delete($@"{tempPath}/built_in_sound.zip");
         }
 
         #endregion
@@ -211,10 +212,8 @@ namespace ListeningMaterialTool {
                 "此工具部分功能依賴ffmpeg運行。" +
                 "如果你在使用應用程式的過程中遇到錯誤，重新安裝有關套件可能有助" +
                 "解決有關問題。", "即將進行修復", MessageBoxButtons.OK);
-            UnzipFfmpeg();
-            Alert();
-            MessageBox.Show(
-                "已經重新安裝ffmpeg，現在請再次嘗試", "修復完成", MessageBoxButtons.OK);
+            Directory.Delete("./ffmpeg/", true);
+            Application.Restart();
         }
 
         private void smtRIGreensleeves_Click(object sender, EventArgs e) {
@@ -223,10 +222,8 @@ namespace ListeningMaterialTool {
                 "此工具內置Greensleeves音樂及Beep聲效。" +
                 "如果你在使用應用程式的過程中遇到錯誤，重置有關檔案可能有助" +
                 "解決問題。", "即將進行修復", MessageBoxButtons.OK);
-            UnzipSounds();
-            Alert();
-            MessageBox.Show(
-                "已經重置音效檔，現在請再次嘗試", "修復完成", MessageBoxButtons.OK);
+            Directory.Delete("./built_in_sound/", true);
+            Application.Restart();
         }
 
         private void smtBeep_Click(object sender, EventArgs e) {
