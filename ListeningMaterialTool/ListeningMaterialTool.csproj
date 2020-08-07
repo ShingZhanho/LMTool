@@ -87,10 +87,6 @@
     <ApplicationIcon>LMtool-256.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibVLCSharp, Version=3.4.6.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\LibVLCSharp.3.4.6\lib\net40\LibVLCSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="NAudio, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.10.0\lib\net35\NAudio.dll</HintPath>
     </Reference>
