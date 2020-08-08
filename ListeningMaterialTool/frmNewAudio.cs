@@ -17,19 +17,20 @@ using ListeningMaterialTool.Properties;
 
 namespace ListeningMaterialTool {
     public partial class frmNewAudio : Form {
-        public frmNewAudio(AudioTaskItemsCollection audioTaskItemsCollection) {
+        public frmNewAudio(AudioTaskItemsCollection audioTaskItemsCollection, string filename) {
             InitializeComponent();
             _taskList = audioTaskItemsCollection;
         }
 
+        private AudioTaskItemsCollection _taskList;
+        
         private void btnCancel_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.Cancel;
             Close();
         }
-
-        private AudioTaskItemsCollection _taskList;
-
+        
         private void btnConfirm_Click(object sender, EventArgs e) {
+            // TODO: Append selected item
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -42,7 +43,7 @@ namespace ListeningMaterialTool {
         }
 
         private string MsToTime(long ms) {
-            TimeSpan ts = TimeSpan.FromMilliseconds(ms);
+            var ts = TimeSpan.FromMilliseconds(ms);
             return $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}.{ts.Milliseconds:D3}";
         }
 

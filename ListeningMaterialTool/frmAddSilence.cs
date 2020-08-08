@@ -45,24 +45,6 @@ namespace ListeningMaterialTool {
         }
 
         private void btnOK_Click(object sender, EventArgs e) {
-            // // Generate audio with ffmpeg
-            // var proc = new Process {
-            //     StartInfo = new ProcessStartInfo {
-            //         FileName = "./ffmpeg-4.3.1-win32-static/bin/ffmpeg.exe",
-            //         Arguments = $"-f lavfi -i anullsrc=r=11025:cl=mono -t " +
-            //                     $"{numMins.Value * 60 + numSecs.Value} " +
-            //                     $" {TempPath}/{Sequence}.m4a",
-            //         UseShellExecute = false,
-            //         CreateNoWindow = true,
-            //     }
-            // };
-            // proc.Start();
-            // proc.WaitForExit();
-            //
-            // // Set value
-            // FilePath = $"{TempPath}/{Sequence}.m4a";
-            // AudioLength = Convert.ToInt32(numMins.Value * 60 + numSecs.Value) * 1000;
-            
             // Using new classes
             if (passInList.Append((long) (numMins.Value * 60000 + numSecs.Value * 1000)) == null) {
                 MessageBox.Show("無法新增音訊，程式遇到錯誤。", "失敗", MessageBoxButtons.OK);

@@ -23,7 +23,6 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.btnSelectFile = new System.Windows.Forms.Button();
             this.lblFileName = new System.Windows.Forms.Label();
             this.audioProgress = new System.Windows.Forms.TrackBar();
             this.lblCurrentTime = new System.Windows.Forms.Label();
@@ -37,18 +36,8 @@
             this.btnTenForward = new System.Windows.Forms.Button();
             this.btnTogglePlay = new System.Windows.Forms.Button();
             this.opfDialog = new System.Windows.Forms.OpenFileDialog();
-            ((System.ComponentModel.ISupportInitialize)(this.audioProgress)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.audioProgress)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnSelectFile
-            // 
-            this.btnSelectFile.Location = new System.Drawing.Point(12, 12);
-            this.btnSelectFile.Name = "btnSelectFile";
-            this.btnSelectFile.Size = new System.Drawing.Size(98, 28);
-            this.btnSelectFile.TabIndex = 0;
-            this.btnSelectFile.Text = "選取檔案";
-            this.btnSelectFile.UseVisualStyleBackColor = true;
-            this.btnSelectFile.Click += new System.EventHandler(this.btnSelectFile_Click);
             // 
             // lblFileName
             // 
@@ -61,7 +50,7 @@
             // audioProgress
             // 
             this.audioProgress.Enabled = false;
-            this.audioProgress.Location = new System.Drawing.Point(12, 81);
+            this.audioProgress.Location = new System.Drawing.Point(12, 38);
             this.audioProgress.Maximum = 1;
             this.audioProgress.Name = "audioProgress";
             this.audioProgress.Size = new System.Drawing.Size(666, 45);
@@ -72,7 +61,7 @@
             // lblCurrentTime
             // 
             this.lblCurrentTime.AutoSize = true;
-            this.lblCurrentTime.Location = new System.Drawing.Point(12, 60);
+            this.lblCurrentTime.Location = new System.Drawing.Point(12, 17);
             this.lblCurrentTime.Name = "lblCurrentTime";
             this.lblCurrentTime.Size = new System.Drawing.Size(92, 18);
             this.lblCurrentTime.TabIndex = 8;
@@ -82,7 +71,7 @@
             // lblTotalTime
             // 
             this.lblTotalTime.AutoSize = true;
-            this.lblTotalTime.Location = new System.Drawing.Point(586, 60);
+            this.lblTotalTime.Location = new System.Drawing.Point(586, 17);
             this.lblTotalTime.Name = "lblTotalTime";
             this.lblTotalTime.Size = new System.Drawing.Size(92, 18);
             this.lblTotalTime.TabIndex = 9;
@@ -92,7 +81,7 @@
             // lblSummary
             // 
             this.lblSummary.AutoSize = true;
-            this.lblSummary.Location = new System.Drawing.Point(12, 219);
+            this.lblSummary.Location = new System.Drawing.Point(12, 163);
             this.lblSummary.Name = "lblSummary";
             this.lblSummary.Size = new System.Drawing.Size(83, 90);
             this.lblSummary.TabIndex = 10;
@@ -101,7 +90,7 @@
             // btnConfirm
             // 
             this.btnConfirm.Enabled = false;
-            this.btnConfirm.Location = new System.Drawing.Point(548, 282);
+            this.btnConfirm.Location = new System.Drawing.Point(548, 267);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(130, 27);
             this.btnConfirm.TabIndex = 11;
@@ -111,7 +100,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(548, 249);
+            this.btnCancel.Location = new System.Drawing.Point(12, 267);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(130, 27);
             this.btnCancel.TabIndex = 12;
@@ -121,11 +110,10 @@
             // 
             // btnTrimIn
             // 
-            this.btnTrimIn.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.trim_in;
             this.btnTrimIn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnTrimIn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTrimIn.Enabled = false;
-            this.btnTrimIn.Location = new System.Drawing.Point(133, 137);
+            this.btnTrimIn.Location = new System.Drawing.Point(132, 94);
             this.btnTrimIn.Name = "btnTrimIn";
             this.btnTrimIn.Size = new System.Drawing.Size(40, 40);
             this.btnTrimIn.TabIndex = 7;
@@ -133,11 +121,10 @@
             // 
             // btnTenBackward
             // 
-            this.btnTenBackward.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.rewind_10;
             this.btnTenBackward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnTenBackward.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTenBackward.Enabled = false;
-            this.btnTenBackward.Location = new System.Drawing.Point(226, 137);
+            this.btnTenBackward.Location = new System.Drawing.Point(225, 94);
             this.btnTenBackward.Name = "btnTenBackward";
             this.btnTenBackward.Size = new System.Drawing.Size(40, 40);
             this.btnTenBackward.TabIndex = 6;
@@ -145,11 +132,10 @@
             // 
             // btnTrimOut
             // 
-            this.btnTrimOut.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.trim_out;
             this.btnTrimOut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnTrimOut.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTrimOut.Enabled = false;
-            this.btnTrimOut.Location = new System.Drawing.Point(515, 137);
+            this.btnTrimOut.Location = new System.Drawing.Point(514, 94);
             this.btnTrimOut.Name = "btnTrimOut";
             this.btnTrimOut.Size = new System.Drawing.Size(40, 40);
             this.btnTrimOut.TabIndex = 5;
@@ -157,11 +143,10 @@
             // 
             // btnTenForward
             // 
-            this.btnTenForward.BackgroundImage = global::ListeningMaterialTool.Properties.Resources.fast_forward_10;
             this.btnTenForward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnTenForward.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTenForward.Enabled = false;
-            this.btnTenForward.Location = new System.Drawing.Point(422, 137);
+            this.btnTenForward.Location = new System.Drawing.Point(421, 94);
             this.btnTenForward.Name = "btnTenForward";
             this.btnTenForward.Size = new System.Drawing.Size(40, 40);
             this.btnTenForward.TabIndex = 4;
@@ -171,8 +156,7 @@
             // 
             this.btnTogglePlay.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTogglePlay.Enabled = false;
-            this.btnTogglePlay.Image = global::ListeningMaterialTool.Properties.Resources.pause;
-            this.btnTogglePlay.Location = new System.Drawing.Point(319, 132);
+            this.btnTogglePlay.Location = new System.Drawing.Point(318, 89);
             this.btnTogglePlay.Name = "btnTogglePlay";
             this.btnTogglePlay.Size = new System.Drawing.Size(50, 50);
             this.btnTogglePlay.TabIndex = 3;
@@ -201,8 +185,7 @@
             this.Controls.Add(this.btnTogglePlay);
             this.Controls.Add(this.audioProgress);
             this.Controls.Add(this.lblFileName);
-            this.Controls.Add(this.btnSelectFile);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(706, 360);
@@ -211,27 +194,25 @@
             this.Name = "frmNewAudio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "新增音訊";
-            ((System.ComponentModel.ISupportInitialize)(this.audioProgress)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.audioProgress)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
-        #endregion
-
-        private System.Windows.Forms.Button btnSelectFile;
-        private System.Windows.Forms.Label lblFileName;
         private System.Windows.Forms.TrackBar audioProgress;
-        private System.Windows.Forms.Button btnTogglePlay;
-        private System.Windows.Forms.Button btnTenForward;
-        private System.Windows.Forms.Button btnTrimOut;
-        private System.Windows.Forms.Button btnTenBackward;
-        private System.Windows.Forms.Button btnTrimIn;
-        private System.Windows.Forms.Label lblCurrentTime;
-        private System.Windows.Forms.Label lblTotalTime;
-        private System.Windows.Forms.Label lblSummary;
-        private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnConfirm;
+        private System.Windows.Forms.Button btnTenBackward;
+        private System.Windows.Forms.Button btnTenForward;
+        private System.Windows.Forms.Button btnTogglePlay;
+        private System.Windows.Forms.Button btnTrimIn;
+        private System.Windows.Forms.Button btnTrimOut;
+        private System.Windows.Forms.Label lblCurrentTime;
+        private System.Windows.Forms.Label lblFileName;
+        private System.Windows.Forms.Label lblSummary;
+        private System.Windows.Forms.Label lblTotalTime;
         private System.Windows.Forms.OpenFileDialog opfDialog;
+
+        #endregion
     }
 }
