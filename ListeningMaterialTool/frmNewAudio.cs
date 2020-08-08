@@ -16,32 +16,35 @@ using ListeningMaterialTool.Properties;
 
 namespace ListeningMaterialTool {
     public partial class frmNewAudio : Form {
-        public frmNewAudio() {
+        public frmNewAudio(AudioTaskItemsCollection audioList, string filename) {
             InitializeComponent();
+            _audioList = audioList;
+            _filename = filename;
+            CheckForIllegalCrossThreadCalls = false;
         }
+
+        private AudioTaskItemsCollection _audioList;
+        private string _filename;
 
         private void btnCancel_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
-        // Return values:
-        public string FilePath { get; set; } // Audio file location
-        public long SecIn { get; set; } // In position in milliseconds
-        public long SecOut { get; set; } // Out position in milliseconds
-        public long AudioDuration { get; set; } // Duration of audio
-
-        // Needed values when start up:
-        public string TempDir { get; set; } // Identifies where to store the audio file
-        public int seq { get; set; } // sequence of the current file
-
         private void btnConfirm_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.OK;
-            //RealPath = $@"{TempDir}\{seq.ToString()}{Path.GetExtension(FilePath)}";
-            //File.Copy(FilePath, RealPath);
             Close();
         }
 
+        private void OnTextBoxesTextChange(object sender, EventArgs e) {
+            var textBox = (TextBox) sender;
+            if (new []{2,5,8}.Contains(textBox.Text.Length)) textBox.AppendText(textBox.Text.Length == 8 ? "." : ":");
+        }
+
+        private void OnTextBoxesClicked(object sender, EventArgs e) {
+            var textBox = (TextBox) sender;
+            textBox.SelectAll();
+        }
         
         private string MsToTime(long ms) {
             TimeSpan ts = TimeSpan.FromMilliseconds(ms);
@@ -56,15 +59,5 @@ namespace ListeningMaterialTool {
         //                      $"長度：{MsToTime(SecOut - SecIn)}";
         //}
 
-
-        private void frmNewAudio_Load(object sender, EventArgs e) {
-            CheckForIllegalCrossThreadCalls = false;
-        }
-
-        
-        private void frmNewAudio_FormClosing(object sender, FormClosingEventArgs e) {
-            // Dispose and stop playback
-            
-        }
     }
 }

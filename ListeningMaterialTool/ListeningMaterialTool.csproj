@@ -196,24 +196,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\fast-forward-10.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\pause.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\play.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\rewind-10.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\trim-in.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\trim-out.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\chord.mp3" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +218,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LMtool-256.ico" />
+    <None Include="Resources\ok-icon.png" />
+    <Resource Include="Resources\error-icon.png" />
     <None Include="Resources\LMTool_Banner.png" />
     <None Include="Resources\LMTool-512.png" />
   </ItemGroup>

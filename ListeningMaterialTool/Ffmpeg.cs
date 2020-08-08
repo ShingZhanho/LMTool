@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+#pragma warning disable 1998
 
 namespace ListeningMaterialTool {
     public class Ffmpeg {
