@@ -82,6 +82,7 @@ namespace ListeningMaterialTool {
             this.trbIn.TabIndex = 13;
             this.trbIn.TickFrequency = 1000;
             this.trbIn.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trbIn.ValueChanged += new System.EventHandler(this.OnTrackBarValueChange);
             // 
             // label1
             // 
@@ -101,6 +102,7 @@ namespace ListeningMaterialTool {
             this.trbOut.TickFrequency = 1000;
             this.trbOut.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
             this.trbOut.Value = 10;
+            this.trbOut.ValueChanged += new System.EventHandler(this.OnTrackBarValueChange);
             // 
             // label2
             // 

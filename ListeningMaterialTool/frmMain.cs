@@ -58,7 +58,8 @@ namespace ListeningMaterialTool {
             };
             if (opfDialog.ShowDialog() != DialogResult.OK) return;
             var newAudio = new frmNewAudio(_audioList, opfDialog.FileName);
-            newAudio.ShowDialog();
+            if (newAudio.ShowDialog() != DialogResult.OK) return;
+            _audioList.ToListViewItemCollection(listPending);
             //if (newAudio.ShowDialog() == DialogResult.OK) { // Clicks on OK, add item
             //    // Use new class
             //    _audioList.ToListViewItemCollection(listPending);

@@ -37,6 +37,10 @@ namespace ListeningMaterialTool {
 
         private void btnConfirm_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.OK;
+            
+            // Add new item to list
+            _audioList.Append(_filename, trbIn.Value, trbOut.Value);
+            
             Close();
         }
 
@@ -44,7 +48,16 @@ namespace ListeningMaterialTool {
         
         // TrackBar values change
         private void OnTrackBarValueChange(object sender, EventArgs e) {
-            
+            if (trbIn.Value >= trbOut.Value) { // In time is later than Out time
+                btnConfirm.Enabled = false;
+                lblTrimInfo.Text = "開始時間不應比結束時間遲，或與結束時間相同。";
+            }
+            else {
+                btnConfirm.Enabled = true;
+                lblTrimInfo.Text = $"由 {MsToTime(trbIn.Value)} 開始" +
+                                   $"至 {MsToTime(trbOut.Value)} 結束，" +
+                                   $"中間時長 {MsToTime(trbOut.Value - trbIn.Value)} 。";
+            }
         }
 
         private void OnFormLoad(object sender, EventArgs e) {
