@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+#pragma warning disable 1998
 
 namespace ListeningMaterialTool {
     public class Ffmpeg {
@@ -16,7 +19,7 @@ namespace ListeningMaterialTool {
         }
 
         // Properties
-        private string ExePath { get; set; }
+        private string ExePath { get; }
 
         // Methods
         
@@ -26,6 +29,12 @@ namespace ListeningMaterialTool {
             var task = InternalFfmpeg(args, timeout);
             var isSuccess = await task;
             return isSuccess;
+        }
+
+        public async Task<List<string>> StartFfmpegWithOutput(string args) {
+            var task = InternalFfmpegWithOutput(args);
+            var lines = await task;
+            return lines;
         }
 
         private async Task<bool> InternalFfmpeg(string args, int timeout) {
@@ -48,8 +57,31 @@ namespace ListeningMaterialTool {
             
             // Wait indefinitely
             while (!File.Exists(args.Split(' ')[args.Split(' ').Length - 1]
-                .Replace("\"", ""))) { }
+                .Replace("\"", ""))) {}
+
             return true;
+        }
+
+        private async Task<List<string>> InternalFfmpegWithOutput(string args) {
+            var outputLines = new List<string> { };
+            var proc = new Process {
+                StartInfo = {
+                    FileName = ExePath,
+                    Arguments = args,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                }
+            };
+            proc.Start();
+
+            string line;
+            while ((line = proc.StandardError.ReadLine()) != null) {
+                outputLines.Add(line);
+            }
+
+            return outputLines;
         }
     }
 }

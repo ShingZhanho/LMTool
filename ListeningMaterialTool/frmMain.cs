@@ -51,15 +51,19 @@ namespace ListeningMaterialTool {
         #region Buttons Event Handler
         // Add audio to list
         private void btnAppend_Click(object sender, EventArgs e) {
-            var newAudio = new frmNewAudio {TempDir = tempPath};
-            if (newAudio.ShowDialog() == DialogResult.OK) { // Clicks on OK, add item
-                // Use new class
-                _audioList.Append(newAudio.FilePath, newAudio.SecIn, newAudio.SecOut);
-                _audioList.ToListViewItemCollection(listPending);
-                isExported = false;
-                lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
-                
-            }
+            var opfDialog = new OpenFileDialog {
+                Title = "選取音訊檔案",
+                Filter = "音訊檔案|*.m4a;*.mp3;*.wav;*.wma;*.aac",
+                RestoreDirectory = true
+            };
+            if (opfDialog.ShowDialog() != DialogResult.OK) return;
+            var newAudio = new frmNewAudio(_audioList, opfDialog.FileName);
+            if (newAudio.ShowDialog() != DialogResult.OK) return;
+            
+            // Update controls
+            _audioList.ToListViewItemCollection(listPending);
+            isExported = false;
+            lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             btnExport.Enabled = listPending.Items.Count != 0;
 
             // Scroll to bottom
