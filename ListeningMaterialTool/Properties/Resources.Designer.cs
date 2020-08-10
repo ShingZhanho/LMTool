@@ -83,9 +83,9 @@ namespace ListeningMaterialTool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fast_forward_10 {
+        internal static System.Drawing.Bitmap error_icon {
             get {
-                object obj = ResourceManager.GetObject("fast-forward-10", resourceCulture);
+                object obj = ResourceManager.GetObject("error_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,49 +113,9 @@ namespace ListeningMaterialTool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pause {
+        internal static System.Drawing.Bitmap ok_icon {
             get {
-                object obj = ResourceManager.GetObject("pause", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap play {
-            get {
-                object obj = ResourceManager.GetObject("play", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap rewind_10 {
-            get {
-                object obj = ResourceManager.GetObject("rewind-10", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap trim_in {
-            get {
-                object obj = ResourceManager.GetObject("trim-in", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap trim_out {
-            get {
-                object obj = ResourceManager.GetObject("trim-out", resourceCulture);
+                object obj = ResourceManager.GetObject("ok-icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
