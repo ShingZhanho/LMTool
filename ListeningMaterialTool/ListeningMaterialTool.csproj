@@ -102,6 +102,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioFile.cs" />
     <Compile Include="AudioTask.cs" />
     <Compile Include="Ffmpeg.cs" />
     <Compile Include="frmAbout.cs">
