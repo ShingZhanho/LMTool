@@ -51,7 +51,13 @@ namespace ListeningMaterialTool {
         #region Buttons Event Handler
         // Add audio to list
         private void btnAppend_Click(object sender, EventArgs e) {
-            var newAudio = new frmNewAudio(_audioList, "");
+            var opfDialog = new OpenFileDialog {
+                Title = "選取音訊檔案",
+                Filter = "音訊檔案|*.m4a;*.mp3;*.wav;*.wma;*.aac",
+                RestoreDirectory = true
+            };
+            if (opfDialog.ShowDialog() != DialogResult.OK) return;
+            var newAudio = new frmNewAudio(_audioList, opfDialog.FileName);
             newAudio.ShowDialog();
             //if (newAudio.ShowDialog() == DialogResult.OK) { // Clicks on OK, add item
             //    // Use new class

@@ -21,10 +21,14 @@ namespace ListeningMaterialTool {
             _audioList = audioList;
             _filename = filename;
             CheckForIllegalCrossThreadCalls = false;
+            _audioFile = new AudioFile(filename);
         }
 
         private AudioTaskItemsCollection _audioList;
-        private string _filename;
+        private readonly string _filename;
+        private readonly AudioFile _audioFile;
+
+        #region Buttons events handler
 
         private void btnCancel_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.Cancel;
@@ -36,14 +40,24 @@ namespace ListeningMaterialTool {
             Close();
         }
 
-        private void OnTextBoxesTextChange(object sender, EventArgs e) {
-            var textBox = (TextBox) sender;
-            if (new []{2,5,8}.Contains(textBox.Text.Length)) textBox.AppendText(textBox.Text.Length == 8 ? "." : ":");
+        #endregion
+        
+        // TrackBar values change
+        private void OnTrackBarValueChange(object sender, EventArgs e) {
+            
         }
 
-        private void OnTextBoxesClicked(object sender, EventArgs e) {
-            var textBox = (TextBox) sender;
-            textBox.SelectAll();
+        private void OnFormLoad(object sender, EventArgs e) {
+            // Set track bars
+            trbIn.Maximum = Convert.ToInt32(_audioFile.Duration);
+            trbOut.Maximum = Convert.ToInt32(_audioFile.Duration);
+            trbOut.Value = trbOut.Maximum;
+            
+            // Set labels
+            lblFileInfo.Text = $"檔案名稱：{_filename}\n長度：{MsToTime(_audioFile.Duration)}";
+            lblTrimInfo.Text = $"由 {MsToTime(trbIn.Value)} 開始" +
+                               $"至 {MsToTime(trbOut.Value)} 結束，" +
+                               $"中間時長 {MsToTime(trbOut.Value - trbIn.Value)} 。";
         }
         
         private string MsToTime(long ms) {
@@ -58,6 +72,5 @@ namespace ListeningMaterialTool {
         //                      $"至：{MsToTime(SecOut)}\n" +
         //                      $"長度：{MsToTime(SecOut - SecIn)}";
         //}
-
     }
 }

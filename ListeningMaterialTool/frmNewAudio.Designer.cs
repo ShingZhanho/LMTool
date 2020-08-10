@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace ListeningMaterialTool {
     partial class frmNewAudio {
@@ -29,13 +30,14 @@ namespace ListeningMaterialTool {
             this.btnConfirm = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.opfDialog = new System.Windows.Forms.OpenFileDialog();
+            this.trbIn = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtTimeIn = new System.Windows.Forms.TextBox();
+            this.trbOut = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtTimeOut = new System.Windows.Forms.TextBox();
-            this.lblCutInfo = new System.Windows.Forms.Label();
-            this.picIcon = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblTrimInfo = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize) (this.trbIn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trbOut)).BeginInit();
             this.SuspendLayout();
             // 
             // lblFileInfo
@@ -44,12 +46,12 @@ namespace ListeningMaterialTool {
             this.lblFileInfo.Name = "lblFileInfo";
             this.lblFileInfo.Size = new System.Drawing.Size(666, 46);
             this.lblFileInfo.TabIndex = 1;
-            this.lblFileInfo.Text = "檔案位置：\r\n長度：";
+            this.lblFileInfo.Text = "檔案位置：\r\n總長度：";
             // 
             // btnConfirm
             // 
             this.btnConfirm.Enabled = false;
-            this.btnConfirm.Location = new System.Drawing.Point(548, 282);
+            this.btnConfirm.Location = new System.Drawing.Point(548, 195);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(130, 27);
             this.btnConfirm.TabIndex = 11;
@@ -59,7 +61,7 @@ namespace ListeningMaterialTool {
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(12, 282);
+            this.btnCancel.Location = new System.Drawing.Point(12, 195);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(130, 27);
             this.btnCancel.TabIndex = 12;
@@ -72,107 +74,104 @@ namespace ListeningMaterialTool {
             this.opfDialog.Filter = "常見音訊檔類型|*.m4a;*.mp3;*.wav;*.wma;*.aac";
             this.opfDialog.Title = "選取音訊檔";
             // 
+            // trbIn
+            // 
+            this.trbIn.Location = new System.Drawing.Point(95, 86);
+            this.trbIn.Name = "trbIn";
+            this.trbIn.Size = new System.Drawing.Size(583, 45);
+            this.trbIn.TabIndex = 13;
+            this.trbIn.TickFrequency = 1000;
+            this.trbIn.TickStyle = System.Windows.Forms.TickStyle.None;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(238, 85);
+            this.label1.Location = new System.Drawing.Point(12, 55);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 18);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "開始時間";
+            this.label1.Size = new System.Drawing.Size(143, 18);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "選取要分割的範圍：";
             // 
-            // txtTimeIn
+            // trbOut
             // 
-            this.txtTimeIn.Location = new System.Drawing.Point(205, 106);
-            this.txtTimeIn.MaxLength = 12;
-            this.txtTimeIn.Name = "txtTimeIn";
-            this.txtTimeIn.Size = new System.Drawing.Size(138, 24);
-            this.txtTimeIn.TabIndex = 14;
-            this.txtTimeIn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtTimeIn.TextChanged += new System.EventHandler(this.OnTextBoxesTextChange);
-            this.txtTimeIn.Click += new EventHandler(this.OnTextBoxesClicked);
+            this.trbOut.Location = new System.Drawing.Point(95, 107);
+            this.trbOut.Name = "trbOut";
+            this.trbOut.Size = new System.Drawing.Size(583, 45);
+            this.trbOut.TabIndex = 15;
+            this.trbOut.TickFrequency = 1000;
+            this.trbOut.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.trbOut.Value = 10;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(409, 85);
+            this.label2.Location = new System.Drawing.Point(12, 86);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 18);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "結束時間";
+            this.label2.Size = new System.Drawing.Size(83, 18);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "開始時間：";
             // 
-            // txtTimeOut
+            // label3
             // 
-            this.txtTimeOut.Location = new System.Drawing.Point(376, 106);
-            this.txtTimeOut.MaxLength = 12;
-            this.txtTimeOut.Name = "txtTimeOut";
-            this.txtTimeOut.Size = new System.Drawing.Size(138, 24);
-            this.txtTimeOut.TabIndex = 14;
-            this.txtTimeOut.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtTimeOut.TextChanged += new System.EventHandler(this.OnTextBoxesTextChange);
-            this.txtTimeOut.Click += new EventHandler(this.OnTextBoxesClicked);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 113);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(83, 18);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "結束時間：";
             // 
-            // lblCutInfo
+            // lblTrimInfo
             // 
-            this.lblCutInfo.Location = new System.Drawing.Point(94, 144);
-            this.lblCutInfo.Name = "lblCutInfo";
-            this.lblCutInfo.Size = new System.Drawing.Size(584, 46);
-            this.lblCutInfo.TabIndex = 1;
-            this.lblCutInfo.Text = "中間長度：\r\n完成後按「確定」來新增。";
-            // 
-            // picIcon
-            // 
-            this.picIcon.Image = global::ListeningMaterialTool.Properties.Resources.ok_icon;
-            this.picIcon.Location = new System.Drawing.Point(53, 147);
-            this.picIcon.Name = "picIcon";
-            this.picIcon.Size = new System.Drawing.Size(30, 30);
-            this.picIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picIcon.TabIndex = 15;
-            this.picIcon.TabStop = false;
+            this.lblTrimInfo.AutoSize = true;
+            this.lblTrimInfo.Location = new System.Drawing.Point(12, 155);
+            this.lblTrimInfo.Name = "lblTrimInfo";
+            this.lblTrimInfo.Size = new System.Drawing.Size(464, 18);
+            this.lblTrimInfo.TabIndex = 18;
+            this.lblTrimInfo.Text = "由 00:00:00.000 開始至 00:00:00.000 結束，中間時長 00:00:00.000 。";
             // 
             // frmNewAudio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 321);
+            this.ClientSize = new System.Drawing.Size(690, 238);
             this.ControlBox = false;
-            this.Controls.Add(this.picIcon);
-            this.Controls.Add(this.txtTimeOut);
-            this.Controls.Add(this.txtTimeIn);
+            this.Controls.Add(this.lblTrimInfo);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.trbOut);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.trbIn);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
-            this.Controls.Add(this.lblCutInfo);
             this.Controls.Add(this.lblFileInfo);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(706, 360);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(706, 360);
             this.Name = "frmNewAudio";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "新增音訊";
-            ((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();
+            this.Load += new System.EventHandler(this.OnFormLoad);
+            ((System.ComponentModel.ISupportInitialize) (this.trbIn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trbOut)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
-        #endregion
-
-        private System.Windows.Forms.Label lblFileInfo;
-        private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.OpenFileDialog opfDialog;
+        private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtTimeIn;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtTimeOut;
-        private System.Windows.Forms.Label lblCutInfo;
-        private System.Windows.Forms.PictureBox picIcon;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblFileInfo;
+        private System.Windows.Forms.Label lblTrimInfo;
+        private System.Windows.Forms.OpenFileDialog opfDialog;
+        private System.Windows.Forms.TrackBar trbIn;
+        private System.Windows.Forms.TrackBar trbOut;
+
+        #endregion
     }
 }
