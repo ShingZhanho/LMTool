@@ -59,19 +59,16 @@ namespace ListeningMaterialTool {
             if (opfDialog.ShowDialog() != DialogResult.OK) return;
             var newAudio = new frmNewAudio(_audioList, opfDialog.FileName);
             if (newAudio.ShowDialog() != DialogResult.OK) return;
+            
+            // Update controls
             _audioList.ToListViewItemCollection(listPending);
-            //if (newAudio.ShowDialog() == DialogResult.OK) { // Clicks on OK, add item
-            //    // Use new class
-            //    _audioList.ToListViewItemCollection(listPending);
-            //    isExported = false;
-            //    lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
+            isExported = false;
+            lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
+            btnExport.Enabled = listPending.Items.Count != 0;
 
-            //}
-            //btnExport.Enabled = listPending.Items.Count != 0;
-
-            //// Scroll to bottom
-            //if (listPending.Items.Count != 0)
-            //    listPending.Items[listPending.Items.Count - 1].EnsureVisible();
+            // Scroll to bottom
+            if (listPending.Items.Count != 0)
+                listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
         // Remove audio from list
         private void btnRemove_Click(object sender, EventArgs e) {
