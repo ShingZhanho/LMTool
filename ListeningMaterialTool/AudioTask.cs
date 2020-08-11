@@ -169,17 +169,78 @@ namespace ListeningMaterialTool {
         }
 
         /// <summary>
-        ///     Load all AudioTaskItems from a file
+        ///     Load all AudioTaskItems from a file.
         /// </summary>
         /// <param name="filename">Path of the file which will be loaded.</param>
         /// <param name="temp_dir">Path of the temp dir.</param>
-        public AudioTaskItemsCollection(string filename, string temp_dir) { }
+        public AudioTaskItemsCollection(string filename, string temp_dir) {
+            TempDir = temp_dir;
+            Items = new List<AudioTaskItem>();
+            
+            // Reads the lmtproj file
+            var project_lines = File.ReadAllLines(filename);
+            foreach (var line in project_lines) {
+                var number = int.Parse(line.Split(';')[0]);
+                var name = line.Split(';')[1];
+                var secIn = (long)int.Parse(line.Split(';')[2]);
+                var secOut = (long) int.Parse(line.Split(';')[3]);
+
+                AudioTaskItem newItem;
+                switch (name) { // Determines beep or silence
+                    case "$BEEP_SOUND$":
+                        // Beep item
+                        newItem = new AudioTaskItem();
+                        newItem.AssignNumber(number, $"{TempDir}/{number}.mp3");
+                        Items.Add(newItem);
+                        File.Copy($"./built_in_sound/Beep.mp3",
+                            $"{TempDir}/{number}.mp3");
+                        return;
+                    case "$SILENCE_AUDIO$":
+                        // Silence audio
+                        this.Append(secOut);
+                        return;
+                }
+
+                // Append Greensleeves music
+                if (name.Contains("GREENSLEEVES")) {
+                    var seconds = "";
+                    foreach (var character in name)
+                        if (char.IsDigit(character))
+                            seconds += character;
+                    newItem = new AudioTaskItem(int.Parse(seconds));
+                    newItem.AssignNumber(number, $"{TempDir}/{number}.mp3");
+                    Items.Add(newItem);
+                    File.Copy($"./built_in_sound/G_{seconds}.mp3",
+                        $"{TempDir}/{number}.mp3");
+                    return;
+                }
+                
+                // Append normal audio
+                newItem = new AudioTaskItem(name, secIn, secOut);
+                newItem.AssignNumber(number, $"{TempDir}/{number}{Path.GetExtension(name)}");
+                Items.Add(newItem);
+                File.Copy(name, $"{TempDir}/{number}{Path.GetExtension(name)}");
+                
+                // Add up total time
+                totalDuration += secOut - secIn;
+
+                NumberStack = number + 1;
+            }
+        }
 
         // Properties
         /// <summary>
         ///     Stores all AudioTaskItems. DO NOT add to this property directly, use AudioTaskItemsCollection.Append().
         /// </summary>
         public List<AudioTaskItem> Items { get; private set; }
+        /// <summary>
+        ///     Gets whether the changes to the list is saved to a file.
+        /// </summary>
+        public bool IsSaved { get; private set; } = true;
+        /// <summary>
+        ///     Gets the path of .lmtproj file. null if file is either not saved or not exist.
+        /// </summary>
+        public string ProjPath { get; private set; }
 
         public long totalDuration { get; private set; }
         private string TempDir { get; set; }
@@ -189,8 +250,10 @@ namespace ListeningMaterialTool {
         // DO NOT modify the ffmpeg arguments on the master branch
         private const string FFMPEG_ARGS_SILENCE = 
             "-f lavfi -i anullsrc=r=44100:cl=mono -t {0} -q:a 9 -acodec libmp3lame \"{1}\"";
-        private const string FFMPEG_ARGS_TRIM = "-i \"{0}\" -ss {1} -to {2} -acodec libmp3lame -b:a 320k \"{3}\"";
-        private const string FFMPEG_ARGS_JOIN = "-safe 0 -f concat -i \"{0}\" -acodec libmp3lame -b:a 320k \"{1}\"";
+        private const string FFMPEG_ARGS_TRIM = 
+            "-i \"{0}\" -ss {1} -to {2} -acodec libmp3lame -ar 44100 -ac 2 \"{3}\"";
+        private const string FFMPEG_ARGS_JOIN =
+            "-safe 0 -f concat -i \"{0}\" -acodec libmp3lame -ar 44100 -ac 2 \"{1}\"";
 
         // Methods
 
@@ -215,6 +278,8 @@ namespace ListeningMaterialTool {
             Items.Add(item);
             totalDuration += item.Duration;
 
+            IsSaved = false;
+
             return Items;
         }
 
@@ -234,6 +299,8 @@ namespace ListeningMaterialTool {
             Items.Add(item);
             totalDuration += item.Duration;
 
+            IsSaved = false;
+            
             return Items;
         }
 
@@ -261,6 +328,8 @@ namespace ListeningMaterialTool {
             Items.Add(item);
             totalDuration += item.Duration;
 
+            IsSaved = false;
+
             return Items;
         }
 
@@ -279,6 +348,8 @@ namespace ListeningMaterialTool {
             Items.Add(item);
             totalDuration += item.Duration;
 
+            IsSaved = false;
+
             return Items;
         }
 
@@ -293,6 +364,7 @@ namespace ListeningMaterialTool {
                 totalDuration -= Items[i].Duration;
                 File.Delete(Items[i].FilePathInTemp);
                 Items.RemoveAt(i);
+                IsSaved = false;
                 return Items;
             }
 
@@ -300,11 +372,11 @@ namespace ListeningMaterialTool {
         }
 
         /// <summary>
-        ///     Moves the passed in item up or down.
+        ///     Moves the passed in item up or down. No effect if upDown is neither 0 nor 1, or item not found.
         /// </summary>
         /// <param name="itemToMoveUp">The item to be moved.</param>
         /// <param name="upDown">0 to move down, 1 to move up.</param>
-        /// <returns>The modified list. No effect if upDown is neither 0 nor 1, or item not found.</returns>
+        /// <returns>The modified list.</returns>
         public List<AudioTaskItem> MoveItem(ListViewItem itemToMoveUp, int upDown) {
             if (upDown != 0 && upDown != 1) return null;
             int? index = null;
@@ -322,6 +394,8 @@ namespace ListeningMaterialTool {
             Items.Insert(upDown == 0
                 ? Convert.ToInt32(index) + 1
                 : Convert.ToInt32(index) - 1, newItem); // Move up if upDown = 1, otherwise move down.
+
+            IsSaved = false;
 
             return Items;
         }
@@ -373,6 +447,12 @@ namespace ListeningMaterialTool {
 
         #endregion
 
+        /// <summary>
+        ///     Export the list to a mp3 file.
+        /// </summary>
+        /// <param name="output">The Output object for modifying frmExport.</param>
+        /// <param name="destination">The full path of the audio file.</param>
+        /// <returns>Returns true if process is successful, false instead.</returns>
         public bool ExportFile(Output output, string destination) {
             output.AddLine("開始匯出");
             output.SetTotalSteps(Items.Count + 2);
@@ -460,10 +540,12 @@ namespace ListeningMaterialTool {
             try {
                 File.WriteAllLines(destination, lines);
             } catch {
-                // ignored
+                return null;
             }
 
-            return File.Exists(destination) ? Path.GetFullPath(destination) : null;
+            IsSaved = true;
+            ProjPath = File.Exists(destination) ? Path.GetFullPath(destination) : null;
+            return ProjPath;
         }
     }
 }

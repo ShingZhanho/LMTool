@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -31,13 +32,18 @@ namespace ListeningMaterialTool {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.label1 = new System.Windows.Forms.Label();
             this.listPending = new System.Windows.Forms.ListView();
-            this.clmNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmIn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmOut = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmNum = new System.Windows.Forms.ColumnHeader();
+            this.clmFileName = new System.Windows.Forms.ColumnHeader();
+            this.clmIn = new System.Windows.Forms.ColumnHeader();
+            this.clmOut = new System.Windows.Forms.ColumnHeader();
+            this.clmLength = new System.Windows.Forms.ColumnHeader();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmNewProject = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmOpenProject = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmSaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.smtReset = new System.Windows.Forms.ToolStripMenuItem();
             this.smtExit = new System.Windows.Forms.ToolStripMenuItem();
             this.smtSequence = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,15 +88,8 @@ namespace ListeningMaterialTool {
             // 
             // listPending
             // 
-            this.listPending.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listPending.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.clmNum,
-            this.clmFileName,
-            this.clmIn,
-            this.clmOut,
-            this.clmLength});
+            this.listPending.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.listPending.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this.clmNum, this.clmFileName, this.clmIn, this.clmOut, this.clmLength});
             this.listPending.FullRowSelect = true;
             this.listPending.GridLines = true;
             this.listPending.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -131,10 +130,7 @@ namespace ListeningMaterialTool {
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuFile,
-            this.smtSequence,
-            this.tsmHelp});
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.menuFile, this.smtSequence, this.tsmHelp});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1022, 24);
@@ -143,56 +139,75 @@ namespace ListeningMaterialTool {
             // 
             // menuFile
             // 
-            this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.smtReset,
-            this.smtExit});
+            this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.tsmNewProject, this.tsmOpenProject, this.tsmSave, this.tsmSaveAs, this.toolStripSeparator1, this.smtReset, this.smtExit});
             this.menuFile.Name = "menuFile";
             this.menuFile.Size = new System.Drawing.Size(45, 20);
             this.menuFile.Text = "檔案";
             // 
+            // tsmNewProject
+            // 
+            this.tsmNewProject.Name = "tsmNewProject";
+            this.tsmNewProject.Size = new System.Drawing.Size(152, 22);
+            this.tsmNewProject.Text = "新建專案";
+            this.tsmNewProject.Click += new System.EventHandler(this.tsmNewProject_Click);
+            // 
+            // tsmOpenProject
+            // 
+            this.tsmOpenProject.Name = "tsmOpenProject";
+            this.tsmOpenProject.Size = new System.Drawing.Size(152, 22);
+            this.tsmOpenProject.Text = "開啟舊檔";
+            this.tsmOpenProject.Click += new System.EventHandler(this.tsmOpenProject_Click);
+            // 
+            // tsmSave
+            // 
+            this.tsmSave.Name = "tsmSave";
+            this.tsmSave.Size = new System.Drawing.Size(152, 22);
+            this.tsmSave.Text = "儲存";
+            this.tsmSave.Click += new System.EventHandler(this.tsmSave_Click);
+            // 
+            // tsmSaveAs
+            // 
+            this.tsmSaveAs.Name = "tsmSaveAs";
+            this.tsmSaveAs.Size = new System.Drawing.Size(152, 22);
+            this.tsmSaveAs.Text = "儲存至...";
+            this.tsmSaveAs.Click += new System.EventHandler(this.tsmSaveAs_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
             // smtReset
             // 
             this.smtReset.Name = "smtReset";
-            this.smtReset.Size = new System.Drawing.Size(180, 22);
+            this.smtReset.Size = new System.Drawing.Size(152, 22);
             this.smtReset.Text = "重設所有內容";
             this.smtReset.Click += new System.EventHandler(this.smtReset_Click);
             // 
             // smtExit
             // 
             this.smtExit.Name = "smtExit";
-            this.smtExit.Size = new System.Drawing.Size(180, 22);
+            this.smtExit.Size = new System.Drawing.Size(152, 22);
             this.smtExit.Text = "結束";
             this.smtExit.Click += new System.EventHandler(this.smtExit_Click);
             // 
             // smtSequence
             // 
-            this.smtSequence.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmAdd,
-            this.tsmRepair});
+            this.smtSequence.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.tsmAdd, this.tsmRepair});
             this.smtSequence.Name = "smtSequence";
             this.smtSequence.Size = new System.Drawing.Size(71, 20);
             this.smtSequence.Text = "實用工具";
             // 
             // tsmAdd
             // 
-            this.tsmAdd.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.smtGreen,
-            this.smtBeep,
-            this.toolStripSeparator4,
-            this.smtAddSilence});
+            this.tsmAdd.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.smtGreen, this.smtBeep, this.toolStripSeparator4, this.smtAddSilence});
             this.tsmAdd.Name = "tsmAdd";
             this.tsmAdd.Size = new System.Drawing.Size(191, 22);
             this.tsmAdd.Text = "加入內建音效";
             // 
             // smtGreen
             // 
-            this.smtGreen.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.smtGreen30,
-            this.smtGreen60,
-            this.smtGreen120,
-            this.smtGreen180,
-            this.smtGreen240,
-            this.smtGreen300});
+            this.smtGreen.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.smtGreen30, this.smtGreen60, this.smtGreen120, this.smtGreen180, this.smtGreen240, this.smtGreen300});
             this.smtGreen.Name = "smtGreen";
             this.smtGreen.Size = new System.Drawing.Size(139, 22);
             this.smtGreen.Text = "綠袖子音樂";
@@ -260,11 +275,7 @@ namespace ListeningMaterialTool {
             // 
             // tsmRepair
             // 
-            this.tsmRepair.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmRIffmpeg,
-            this.smtRIGreensleeves,
-            this.toolStripSeparator3,
-            this.smtClearCache});
+            this.tsmRepair.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.tsmRIffmpeg, this.smtRIGreensleeves, this.toolStripSeparator3, this.smtClearCache});
             this.tsmRepair.Name = "tsmRepair";
             this.tsmRepair.Size = new System.Drawing.Size(191, 22);
             this.tsmRepair.Text = "錯誤修正及提升效能";
@@ -297,11 +308,7 @@ namespace ListeningMaterialTool {
             // 
             // tsmHelp
             // 
-            this.tsmHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmAbout,
-            this.smtChkUpdate,
-            this.toolStripSeparator2,
-            this.tsmTutorial});
+            this.tsmHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.tsmAbout, this.smtChkUpdate, this.toolStripSeparator2, this.tsmTutorial});
             this.tsmHelp.Name = "tsmHelp";
             this.tsmHelp.Size = new System.Drawing.Size(45, 20);
             this.tsmHelp.Text = "幫助";
@@ -334,8 +341,8 @@ namespace ListeningMaterialTool {
             // 
             // btnAppend
             // 
-            this.btnAppend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAppend.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAppend.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAppend.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.btnAppend.Location = new System.Drawing.Point(12, 484);
             this.btnAppend.Name = "btnAppend";
             this.btnAppend.Size = new System.Drawing.Size(242, 28);
@@ -346,9 +353,9 @@ namespace ListeningMaterialTool {
             // 
             // btnRemove
             // 
-            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRemove.Enabled = false;
-            this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.btnRemove.Location = new System.Drawing.Point(260, 484);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(242, 28);
@@ -359,9 +366,9 @@ namespace ListeningMaterialTool {
             // 
             // btnUp
             // 
-            this.btnUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUp.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUp.Enabled = false;
-            this.btnUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.btnUp.Location = new System.Drawing.Point(974, 141);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(35, 35);
@@ -372,9 +379,9 @@ namespace ListeningMaterialTool {
             // 
             // btnDown
             // 
-            this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDown.Enabled = false;
-            this.btnDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.btnDown.Location = new System.Drawing.Point(974, 367);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(35, 35);
@@ -385,7 +392,7 @@ namespace ListeningMaterialTool {
             // 
             // lblTotalTime
             // 
-            this.lblTotalTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTotalTime.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalTime.Location = new System.Drawing.Point(780, 481);
             this.lblTotalTime.Name = "lblTotalTime";
             this.lblTotalTime.Size = new System.Drawing.Size(188, 31);
@@ -402,9 +409,9 @@ namespace ListeningMaterialTool {
             // 
             // btnExport
             // 
-            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnExport.Enabled = false;
-            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.btnExport.Location = new System.Drawing.Point(508, 484);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(242, 28);
@@ -427,8 +434,8 @@ namespace ListeningMaterialTool {
             this.Controls.Add(this.listPending);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(766, 416);
@@ -441,51 +448,54 @@ namespace ListeningMaterialTool {
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
+        private System.Windows.Forms.Button btnAppend;
+        private System.Windows.Forms.Button btnDown;
+        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.ColumnHeader clmFileName;
+        private System.Windows.Forms.ColumnHeader clmIn;
+        private System.Windows.Forms.ColumnHeader clmLength;
+        private System.Windows.Forms.ColumnHeader clmNum;
+        private System.Windows.Forms.ColumnHeader clmOut;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTotalTime;
         private System.Windows.Forms.ListView listPending;
+        private System.Windows.Forms.ToolStripMenuItem menuFile;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem smtAddSilence;
+        private System.Windows.Forms.ToolStripMenuItem smtBeep;
+        private System.Windows.Forms.ToolStripMenuItem smtChkUpdate;
+        private System.Windows.Forms.ToolStripMenuItem smtClearCache;
+        private System.Windows.Forms.ToolStripMenuItem smtExit;
+        private System.Windows.Forms.ToolStripMenuItem smtGreen;
+        private System.Windows.Forms.ToolStripMenuItem smtGreen120;
+        private System.Windows.Forms.ToolStripMenuItem smtGreen180;
+        private System.Windows.Forms.ToolStripMenuItem smtGreen240;
+        private System.Windows.Forms.ToolStripMenuItem smtGreen30;
+        private System.Windows.Forms.ToolStripMenuItem smtGreen300;
+        private System.Windows.Forms.ToolStripMenuItem smtGreen60;
+        private System.Windows.Forms.ToolStripMenuItem smtReset;
+        private System.Windows.Forms.ToolStripMenuItem smtRIGreensleeves;
+        private System.Windows.Forms.ToolStripMenuItem smtSequence;
+        private System.Windows.Forms.SaveFileDialog svfDialog;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem tsmAbout;
+        private System.Windows.Forms.ToolStripMenuItem tsmAdd;
+        private System.Windows.Forms.ToolStripMenuItem tsmHelp;
+        private System.Windows.Forms.ToolStripMenuItem tsmNewProject;
+        private System.Windows.Forms.ToolStripMenuItem tsmOpenProject;
+        private System.Windows.Forms.ToolStripMenuItem tsmRepair;
+        private System.Windows.Forms.ToolStripMenuItem tsmRIffmpeg;
+        private System.Windows.Forms.ToolStripMenuItem tsmSave;
+        private System.Windows.Forms.ToolStripMenuItem tsmSaveAs;
+        private System.Windows.Forms.ToolStripMenuItem tsmTutorial;
 
         #endregion
-
-        private ColumnHeader clmFileName;
-        private ColumnHeader clmIn;
-        private ColumnHeader clmOut;
-        private ColumnHeader clmLength;
-        private ColumnHeader clmNum;
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem menuFile;
-        private ToolStripMenuItem smtReset;
-        private ToolStripMenuItem smtExit;
-        private ToolStripMenuItem smtSequence;
-        private ToolStripMenuItem tsmAdd;
-        private ToolStripMenuItem smtGreen;
-        private ToolStripMenuItem smtGreen30;
-        private ToolStripMenuItem smtGreen60;
-        private ToolStripMenuItem smtGreen120;
-        private ToolStripMenuItem smtGreen180;
-        private ToolStripMenuItem smtGreen240;
-        private ToolStripMenuItem smtGreen300;
-        private ToolStripMenuItem smtBeep;
-        private ToolStripMenuItem tsmHelp;
-        private ToolStripMenuItem smtChkUpdate;
-        private ToolStripSeparator toolStripSeparator2;
-        private ToolStripMenuItem tsmTutorial;
-        private Button btnAppend;
-        private Button btnRemove;
-        private Button btnUp;
-        private Button btnDown;
-        private ToolStripMenuItem tsmAbout;
-        private Label lblTotalTime;
-        private ToolStripMenuItem tsmRepair;
-        private ToolStripMenuItem tsmRIffmpeg;
-        private ToolStripMenuItem smtRIGreensleeves;
-        private SaveFileDialog svfDialog;
-        private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem smtClearCache;
-        private ToolStripSeparator toolStripSeparator4;
-        private ToolStripMenuItem smtAddSilence;
-        private Button btnExport;
     }
 }
