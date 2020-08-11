@@ -215,7 +215,7 @@ namespace ListeningMaterialTool {
                 // Append normal audio
                 newItem = new AudioTaskItem(name, secIn, secOut);
                 Items.Add(newItem);
-                File.Copy(name, $"{TempDir}/{number}.{Path.GetExtension(name)}");
+                File.Copy(name, $"{TempDir}/{number}{Path.GetExtension(name)}");
                 
                 // Add up total time
                 totalDuration += secOut - secIn;
@@ -229,10 +229,11 @@ namespace ListeningMaterialTool {
         ///     Stores all AudioTaskItems. DO NOT add to this property directly, use AudioTaskItemsCollection.Append().
         /// </summary>
         public List<AudioTaskItem> Items { get; private set; }
+
         /// <summary>
         ///     Gets ot sets whether the changes to the list is saved to a file.
         /// </summary>
-        public bool IsSaved { get; private set; }
+        public bool IsSaved { get; private set; } = true;
 
         public long totalDuration { get; private set; }
         private string TempDir { get; set; }

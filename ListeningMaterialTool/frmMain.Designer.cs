@@ -38,6 +38,10 @@ namespace ListeningMaterialTool {
             this.clmLength = new System.Windows.Forms.ColumnHeader();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmNewProject = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmOpenProject = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.smtReset = new System.Windows.Forms.ToolStripMenuItem();
             this.smtExit = new System.Windows.Forms.ToolStripMenuItem();
             this.smtSequence = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,10 +73,6 @@ namespace ListeningMaterialTool {
             this.lblTotalTime = new System.Windows.Forms.Label();
             this.svfDialog = new System.Windows.Forms.SaveFileDialog();
             this.btnExport = new System.Windows.Forms.Button();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsmNewProject = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmOpenProject = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmSave = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -141,6 +141,29 @@ namespace ListeningMaterialTool {
             this.menuFile.Name = "menuFile";
             this.menuFile.Size = new System.Drawing.Size(45, 20);
             this.menuFile.Text = "檔案";
+            // 
+            // tsmNewProject
+            // 
+            this.tsmNewProject.Name = "tsmNewProject";
+            this.tsmNewProject.Size = new System.Drawing.Size(152, 22);
+            this.tsmNewProject.Text = "新建專案";
+            // 
+            // tsmOpenProject
+            // 
+            this.tsmOpenProject.Name = "tsmOpenProject";
+            this.tsmOpenProject.Size = new System.Drawing.Size(152, 22);
+            this.tsmOpenProject.Text = "開啟舊檔";
+            // 
+            // tsmSave
+            // 
+            this.tsmSave.Name = "tsmSave";
+            this.tsmSave.Size = new System.Drawing.Size(152, 22);
+            this.tsmSave.Text = "儲存";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // smtReset
             // 
@@ -384,30 +407,6 @@ namespace ListeningMaterialTool {
             this.btnExport.Text = "匯出檔案";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
-            // 
-            // tsmNewProject
-            // 
-            this.tsmNewProject.Name = "tsmNewProject";
-            this.tsmNewProject.Size = new System.Drawing.Size(152, 22);
-            this.tsmNewProject.Text = "新建專案";
-            // 
-            // tsmOpenProject
-            // 
-            this.tsmOpenProject.Name = "tsmOpenProject";
-            this.tsmOpenProject.Size = new System.Drawing.Size(152, 22);
-            this.tsmOpenProject.Text = "開啟舊檔";
-            this.tsmOpenProject.Click += new System.EventHandler(this.開啟專ToolStripMenuItem_Click);
-            // 
-            // tsmSave
-            // 
-            this.tsmSave.Name = "tsmSave";
-            this.tsmSave.Size = new System.Drawing.Size(152, 22);
-            this.tsmSave.Text = "儲存";
             // 
             // frmMain
             // 

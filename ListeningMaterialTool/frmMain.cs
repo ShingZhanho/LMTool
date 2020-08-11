@@ -20,7 +20,7 @@ namespace ListeningMaterialTool {
             InitializeComponent();
         }
 
-        private bool isExported = true; // Indicates if all the changes are exported to a file
+        //private bool isExported = true; // Indicates if all the changes are exported to a file
         private string tempPath;
 
         private AudioTaskItemsCollection _audioList;
@@ -62,7 +62,6 @@ namespace ListeningMaterialTool {
             
             // Update controls
             _audioList.ToListViewItemCollection(listPending);
-            isExported = false;
             lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             btnExport.Enabled = listPending.Items.Count != 0;
 
@@ -77,7 +76,6 @@ namespace ListeningMaterialTool {
             lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
             _audioList.ToListViewItemCollection(listPending);
             btnExport.Enabled = listPending.Items.Count != 0;
-            isExported = false;
         }
         // Move item up
         private void btnUp_Click(object sender, EventArgs e) {
@@ -90,8 +88,6 @@ namespace ListeningMaterialTool {
             
             // Select the item
             listPending.Items[index - 1].Selected = true;
-            
-            isExported = false;
         }
         // Move item down
         private void btnDown_Click(object sender, EventArgs e) {
@@ -104,8 +100,6 @@ namespace ListeningMaterialTool {
             
             // Select the item again
             listPending.Items[index + 1].Selected = true;
-            
-            isExported = false;
         }
         // Export
         private void btnExport_Click(object sender, EventArgs e) {
@@ -130,7 +124,6 @@ namespace ListeningMaterialTool {
             exportForm.ProcessList = listPending.Items;
             exportForm.SavePath = svfDialog.FileName;
             exportForm.ShowDialog();
-            isExported = true;
         }
         #endregion
 
@@ -176,9 +169,9 @@ namespace ListeningMaterialTool {
 
         private void smtExit_Click(object sender, EventArgs e) {
             // Closes if changes not saved
-            if (!isExported) { // Changes not saved
+            if (!_audioList.IsSaved) { // Changes not saved
                 Alert();
-                DialogResult dialogResult =
+                var dialogResult =
                     MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
                         "警告", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
@@ -223,7 +216,6 @@ namespace ListeningMaterialTool {
             _audioList.ToListViewItemCollection(listPending);
             
             lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
-            isExported = false;
             btnExport.Enabled = true;
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
@@ -244,7 +236,6 @@ namespace ListeningMaterialTool {
             _audioList.ToListViewItemCollection(listPending);
                 
             lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
-            isExported = false;
             btnExport.Enabled = true;
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
@@ -265,7 +256,6 @@ namespace ListeningMaterialTool {
             _audioList.ToListViewItemCollection(listPending);
             
             lblTotalTime.Text = $"總時長：{MsToTime(_audioList.totalDuration)}";
-            isExported = false;
             btnExport.Enabled = true;
             listPending.Items[listPending.Items.Count - 1].EnsureVisible();
         }
@@ -285,7 +275,7 @@ namespace ListeningMaterialTool {
         
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
             // Closes if changes not saved
-            if (!isExported && e.CloseReason != CloseReason.ApplicationExitCall) { // Changes not saved
+            if (!_audioList.IsSaved && e.CloseReason != CloseReason.ApplicationExitCall) { // Changes not saved
                 Alert();
                 var dialogResult =
                     MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
