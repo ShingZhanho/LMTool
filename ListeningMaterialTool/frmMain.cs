@@ -273,7 +273,8 @@ namespace ListeningMaterialTool {
                 Filter = "LMTool專案|*.lmtproj",
                 AddExtension = true,
                 FileName = $"{Path.GetFileName(_projectPath)}",
-                RestoreDirectory = true
+                RestoreDirectory = true,
+                Title = "儲存專案"
             };
             if (saveProjectDialog.ShowDialog() != DialogResult.OK) return;
             _projectPath = _audioList.SaveFile(saveProjectDialog.FileName);
@@ -291,6 +292,7 @@ namespace ListeningMaterialTool {
                 if (dr == DialogResult.Yes) tsmSave_Click(sender, e);
                 if (dr == DialogResult.Cancel) return;
             }
+            
             // Creates new temp dir
             _tempPath = $@"{Path.GetTempPath()}LMTool\{DateTime.Now.ToString()
                 .Replace("/", "").Replace(":", "").Replace(" ", "")}";
@@ -306,6 +308,44 @@ namespace ListeningMaterialTool {
             Text = $"{_formTitle} - {Path.GetFileNameWithoutExtension(_projectPath)}";
             _audioList.SaveFile(_projectPath);
             _firstSaved = false;
+            
+            // Clean up UI
+            _audioList.ToListViewItemCollection(listPending);
+            btnExport.Enabled = false;
+            btnDown.Enabled = false;
+            btnUp.Enabled = false;
+            lblTotalTime.Text = $"總時間：{MsToTime(_audioList.totalDuration)}";
+        }
+
+        // Load list from a project file (.lmtproj)
+        private void tsmOpenProject_Click(object sender, EventArgs e) {
+            // Check if current project saved
+            if (!_audioList.IsSaved) {
+                Alert();
+                var dr = MessageBox.Show(
+                    "現有的專案尚未儲存，你是否要儲存變更？",
+                    "儲存變更",
+                    MessageBoxButtons.YesNoCancel);
+                if (dr == DialogResult.Yes) tsmSave_Click(sender, e);
+                if (dr == DialogResult.Cancel) return;
+            }
+            
+            // Chooses file
+            var openDialog = new OpenFileDialog {
+                Filter = "LMTool專案|*.lmtproj",
+                Title = "開啟舊檔",
+                RestoreDirectory = true
+            };
+            if (openDialog.ShowDialog() != DialogResult.OK) return;
+            _projectPath = openDialog.FileName;
+
+            // Creates new temp dir
+            _tempPath = $@"{Path.GetTempPath()}LMTool\{DateTime.Now.ToString()
+                .Replace("/", "").Replace(":", "").Replace(" ", "")}";
+            Directory.CreateDirectory(_tempPath);
+            
+            // Re-create AudioTaskItemsCollection object
+            _audioList = new AudioTaskItemsCollection(openDialog.FileName, _tempPath);
             
             // Clean up UI
             _audioList.ToListViewItemCollection(listPending);

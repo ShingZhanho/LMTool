@@ -175,6 +175,7 @@ namespace ListeningMaterialTool {
         /// <param name="temp_dir">Path of the temp dir.</param>
         public AudioTaskItemsCollection(string filename, string temp_dir) {
             TempDir = temp_dir;
+            Items = new List<AudioTaskItem>();
             
             // Reads the lmtproj file
             var project_lines = File.ReadAllLines(filename);
@@ -189,6 +190,7 @@ namespace ListeningMaterialTool {
                     case "$BEEP_SOUND$":
                         // Beep item
                         newItem = new AudioTaskItem();
+                        newItem.AssignNumber(number, $"{TempDir}/{number}.mp3");
                         Items.Add(newItem);
                         File.Copy($"./built_in_sound/Beep.mp3",
                             $"{TempDir}/{number}.mp3");
@@ -206,6 +208,7 @@ namespace ListeningMaterialTool {
                         if (char.IsDigit(character))
                             seconds += character;
                     newItem = new AudioTaskItem(int.Parse(seconds));
+                    newItem.AssignNumber(number, $"{TempDir}/{number}.mp3");
                     Items.Add(newItem);
                     File.Copy($"./built_in_sound/G_{seconds}.mp3",
                         $"{TempDir}/{number}.mp3");
@@ -214,6 +217,7 @@ namespace ListeningMaterialTool {
                 
                 // Append normal audio
                 newItem = new AudioTaskItem(name, secIn, secOut);
+                newItem.AssignNumber(number, $"{TempDir}/{number}{Path.GetExtension(name)}");
                 Items.Add(newItem);
                 File.Copy(name, $"{TempDir}/{number}{Path.GetExtension(name)}");
                 
@@ -246,8 +250,10 @@ namespace ListeningMaterialTool {
         // DO NOT modify the ffmpeg arguments on the master branch
         private const string FFMPEG_ARGS_SILENCE = 
             "-f lavfi -i anullsrc=r=44100:cl=mono -t {0} -q:a 9 -acodec libmp3lame \"{1}\"";
-        private const string FFMPEG_ARGS_TRIM = "-i \"{0}\" -ss {1} -to {2} -acodec libmp3lame -b:a 320k \"{3}\"";
-        private const string FFMPEG_ARGS_JOIN = "-safe 0 -f concat -i \"{0}\" -acodec libmp3lame -b:a 320k \"{1}\"";
+        private const string FFMPEG_ARGS_TRIM = 
+            "-i \"{0}\" -ss {1} -to {2} -acodec libmp3lame -ar 44100 -ac 2 \"{3}\"";
+        private const string FFMPEG_ARGS_JOIN =
+            "-safe 0 -f concat -i \"{0}\" -acodec libmp3lame -ar 44100 -ac 2 \"{1}\"";
 
         // Methods
 

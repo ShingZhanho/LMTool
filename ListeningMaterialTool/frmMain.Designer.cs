@@ -156,6 +156,7 @@ namespace ListeningMaterialTool {
             this.tsmOpenProject.Name = "tsmOpenProject";
             this.tsmOpenProject.Size = new System.Drawing.Size(152, 22);
             this.tsmOpenProject.Text = "開啟舊檔";
+            this.tsmOpenProject.Click += new System.EventHandler(this.tsmOpenProject_Click);
             // 
             // tsmSave
             // 
