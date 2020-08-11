@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using ListeningMaterialTool.Properties;
@@ -170,7 +171,7 @@ namespace ListeningMaterialTool {
             // Plays alert sound and show message
             Alert();
             var dialogResult =
-                MessageBox.Show("你確定要重設所有內容？任何未匯出的更改都會丟失。",
+                MessageBox.Show("你確定要重設所有內容？任何尚未儲存的變更都會丟失。",
                     "警告", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes) {
                 Application.Restart();
@@ -182,7 +183,7 @@ namespace ListeningMaterialTool {
             if (!_audioList.IsSaved) { // Changes not saved
                 Alert();
                 var dialogResult =
-                    MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
+                    MessageBox.Show("你確定要退出嗎？你的專案仍有尚未儲存的變更。",
                         "警告", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                     Application.Exit();
@@ -280,7 +281,38 @@ namespace ListeningMaterialTool {
         }
         
         private void tsmNewProject_Click(object sender, EventArgs e) {
+            // Check if current project saved
+            if (!_audioList.IsSaved) {
+                Alert();
+                var dr = MessageBox.Show(
+                    "現有的專案尚未儲存，你是否要儲存變更？",
+                    "儲存變更",
+                    MessageBoxButtons.YesNoCancel);
+                if (dr == DialogResult.Yes) tsmSave_Click(sender, e);
+                if (dr == DialogResult.Cancel) return;
+            }
+            // Creates new temp dir
+            _tempPath = $@"{Path.GetTempPath()}LMTool\{DateTime.Now.ToString()
+                .Replace("/", "").Replace(":", "").Replace(" ", "")}";
+            Directory.CreateDirectory(_tempPath);
             
+            // Re-create AudioTaskItemsCollection object
+            _audioList = new AudioTaskItemsCollection(_tempPath);
+            
+            // Create a new file
+            var i = 0;
+            while (File.Exists($"./ProjectFiles/NewProject({i}).lmtproj")) i++;
+            _projectPath = Path.GetFullPath($"./ProjectFiles/NewProject({i}).lmtproj");
+            Text = $"{_formTitle} - {Path.GetFileNameWithoutExtension(_projectPath)}";
+            _audioList.SaveFile(_projectPath);
+            _firstSaved = false;
+            
+            // Clean up UI
+            _audioList.ToListViewItemCollection(listPending);
+            btnExport.Enabled = false;
+            btnDown.Enabled = false;
+            btnUp.Enabled = false;
+            lblTotalTime.Text = $"總時間：{MsToTime(_audioList.totalDuration)}";
         }
 
         #endregion
@@ -314,7 +346,7 @@ namespace ListeningMaterialTool {
             if (!_audioList.IsSaved && e.CloseReason != CloseReason.ApplicationExitCall) { // Changes not saved
                 Alert();
                 var dialogResult =
-                    MessageBox.Show("你確定要退出嗎？你有尚未匯出的內容。",
+                    MessageBox.Show("你確定要退出嗎？你的專案有尚未儲存的變更。",
                         "警告", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.No) {
                     e.Cancel = true;
@@ -339,9 +371,8 @@ namespace ListeningMaterialTool {
         }
 
         private static void Alert() {
-            var myplayer = new WindowsMediaPlayer();
-            myplayer.URL = "./res/chord.mp3";
-            myplayer.controls.play();
+            // var myPlayer = new WindowsMediaPlayer {URL = "./res/chord.mp3"};
+            // myPlayer.controls.play();
         }
     }
 }
