@@ -216,6 +216,7 @@ namespace ListeningMaterialTool {
                 }
                 
                 // Append normal audio
+                if (!File.Exists(name)) continue; // Skip file if file is not exist
                 newItem = new AudioTaskItem(name, secIn, secOut);
                 newItem.AssignNumber(number, $"{TempDir}/{number}{Path.GetExtension(name)}");
                 Items.Add(newItem);
