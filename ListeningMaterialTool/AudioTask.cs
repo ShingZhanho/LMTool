@@ -248,13 +248,19 @@ namespace ListeningMaterialTool {
         private int NumberStack { get; set; }
 
         // Constants
-        // DO NOT modify the ffmpeg arguments on the master branch
+        /* =============WARNING==============
+         * DO NOT MODIFY THESE FFMPEG 
+         * PARAMETERS DIRECTLY ON THE MASTER
+         * BRANCH. CREATE A NEW BRANCH,
+         * MODIFY, TEST, IF NO BUGS, MERGE.
+         * ==================================
+         */
         private const string FFMPEG_ARGS_SILENCE = 
-            "-f lavfi -i anullsrc=r=44100:cl=mono -t {0} -q:a 9 -acodec libmp3lame \"{1}\"";
+            "-f lavfi -i anullsrc=r=44100:cl=mono -t {0} -b:a 128k -acodec libmp3lame \"{1}\"";
         private const string FFMPEG_ARGS_TRIM = 
-            "-i \"{0}\" -ss {1} -to {2} -acodec libmp3lame -ar 44100 -ac 2 \"{3}\"";
+            "-i \"{0}\" -ss {1} -to {2} -acodec libmp3lame -ar 44100 -ac 2 -b:a 128k \"{3}\"";
         private const string FFMPEG_ARGS_JOIN =
-            "-safe 0 -f concat -i \"{0}\" -acodec libmp3lame -ar 44100 -ac 2 \"{1}\"";
+            "-safe 0 -f concat -i \"{0}\" -acodec libmp3lame -ar 44100 -ac 2 -b:a 128k \"{1}\"";
 
         // Methods
 
