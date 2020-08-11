@@ -9,20 +9,20 @@
 <p align="center">
           <a href="https://github.com/ShingZhanho/LMTool/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/ShingZhanho/LMTool?color=lighgreen"></a>
           <a href="https://github.com/ShingZhanho/LMTool/releases/latest"><img alt="GitHub release" src="https://img.shields.io/static/v1?label=latest-release&message=v1%2E4%2E1-r&color=blue"></a>
-          <img alt="GitHub release" src="https://img.shields.io/static/v1?label=latest-pre-release&message=v1%2E5-b&color=red">
+          <img alt="GitHub release" src="https://img.shields.io/static/v1?label=latest-pre-release&message=v2.0.1-b&color=red">
 </p>
 
 <p align="center" float="left" >
   <img src="/ReadmeRes/preview-image.png" alt="Preview Image of LMTool" width="800px" />
 </p>
 
-## :tada: 正式發行版現已發佈 :tada:
-前往[發行版本頁面](/releases)來下載最新的發行版本。
+## :tada: 專案功能正在測試中
+測試版 v2.0.1-b 已支援將音訊清單儲存為 `.lmtproj` 格式的專案，方便關閉程式後再次編輯。
 
 ## 特色
 * 使用ffmpeg函式庫來合成檔案，增加匯出速度；
 * 簡易、明瞭的使用方式，使用者可以輕鬆掌握使用方法；
-* 內置不同長度的綠袖子等候音樂及[Beep]音效，方便因應實際情況調整錄音長度；
+* 內置不同長度的綠袖子等候音樂及Beep音效，方便因應實際情況調整錄音長度；
 * **完全免費！**
 
 ## 如何使用
