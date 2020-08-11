@@ -229,11 +229,14 @@ namespace ListeningMaterialTool {
         ///     Stores all AudioTaskItems. DO NOT add to this property directly, use AudioTaskItemsCollection.Append().
         /// </summary>
         public List<AudioTaskItem> Items { get; private set; }
-
         /// <summary>
-        ///     Gets ot sets whether the changes to the list is saved to a file.
+        ///     Gets whether the changes to the list is saved to a file.
         /// </summary>
         public bool IsSaved { get; private set; } = true;
+        /// <summary>
+        ///     Gets the path of .lmtproj file. null if file is either not saved or not exist.
+        /// </summary>
+        public string ProjPath { get; private set; }
 
         public long totalDuration { get; private set; }
         private string TempDir { get; set; }
@@ -531,11 +534,12 @@ namespace ListeningMaterialTool {
             try {
                 File.WriteAllLines(destination, lines);
             } catch {
-                // ignored
+                return null;
             }
 
             IsSaved = true;
-            return File.Exists(destination) ? Path.GetFullPath(destination) : null;
+            ProjPath = File.Exists(destination) ? Path.GetFullPath(destination) : null;
+            return ProjPath;
         }
     }
 }
