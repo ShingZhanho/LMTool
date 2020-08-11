@@ -6,12 +6,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using WMPLib;
+using ListeningMaterialTool.Properties;
 
 // ReSharper Disable LocalizableElement
 
@@ -29,8 +30,7 @@ namespace ListeningMaterialTool {
         public ListView.ListViewItemCollection ProcessList { get; set; } // Trimming queue
         private AudioTaskItemsCollection passInList;
 
-        // for playing alert
-        private readonly WindowsMediaPlayer _myPlayer = new WindowsMediaPlayer();
+        private List<SoundPlayer> _usedSoundPlayers;
 
         private void frmExport_Load(object sender, EventArgs e) {
             TempPath = TempPath.Replace("\\", "/");
@@ -72,12 +72,14 @@ namespace ListeningMaterialTool {
         }
 
         private void frmExport_FormClosing(object sender, FormClosingEventArgs e) {
-            _myPlayer.close();
+            foreach (var player in _usedSoundPlayers) player.Dispose(); // Dispose used players
         }
 
         private void Alert() {
-            _myPlayer.URL = "./res/chord.mp3";
-            _myPlayer.controls.play();
+            var player = new SoundPlayer(Resources.chord);
+            _usedSoundPlayers = _usedSoundPlayers ?? new List<SoundPlayer>();
+            player.Play();
+            _usedSoundPlayers.Add(player);
         }
     }
 }

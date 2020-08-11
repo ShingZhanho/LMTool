@@ -71,12 +71,11 @@ namespace ListeningMaterialTool.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static byte[] chord {
+        internal static System.IO.UnmanagedMemoryStream chord {
             get {
-                object obj = ResourceManager.GetObject("chord", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetStream("chord", resourceCulture);
             }
         }
         

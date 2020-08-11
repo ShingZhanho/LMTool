@@ -205,17 +205,6 @@
     <None Include="Resources\chord.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="WMPLib">
-      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1</ProductName>
@@ -224,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LMtool-256.ico" />
+    <EmbeddedResource Include="Resources\chord.wav" />
     <None Include="Resources\ok-icon.png" />
     <Resource Include="Resources\error-icon.png" />
     <None Include="Resources\LMTool_Banner.png" />

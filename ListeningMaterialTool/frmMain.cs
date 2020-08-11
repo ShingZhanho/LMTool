@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Media;
 using System.Windows.Forms;
 using ListeningMaterialTool.Properties;
-using WMPLib;
 
 // ReSharper Disable LocalizableElement
 
@@ -21,6 +22,7 @@ namespace ListeningMaterialTool {
         private bool _firstSaved; // Indicates whether the application-generated project is saved somewhere.
 
         private AudioTaskItemsCollection _audioList;
+        private List<SoundPlayer> _usedSoundPlayers; // Stores used players to be dispose when closing.
 
         private void frmMain_Load(object sender, EventArgs e) {
             // Shows version code if this is a beta version
@@ -29,7 +31,6 @@ namespace ListeningMaterialTool {
             Text = _formTitle;
 
             // Creates dirs
-            if (!Directory.Exists("./res/")) Directory.CreateDirectory("./res/");
             if (!Directory.Exists($@"{Path.GetTempPath()}\LMTool"))
                 Directory.CreateDirectory($@"{Path.GetTempPath()}LMTool");
             _tempPath = $@"{Path.GetTempPath()}LMTool\{DateTime.Now.ToString()
@@ -408,11 +409,16 @@ namespace ListeningMaterialTool {
 
             Settings.Default.Save();
             Application.Exit();
+            
+            // Dispose SoundPlayer
+            foreach (var player in _usedSoundPlayers) player.Dispose();
         }
 
-        private static void Alert() {
-            // var myPlayer = new WindowsMediaPlayer {URL = "./res/chord.mp3"};
-            // myPlayer.controls.play();
+        private void Alert() {
+            var player = new SoundPlayer(Resources.chord);
+            player.Play();
+            _usedSoundPlayers = _usedSoundPlayers ?? new List<SoundPlayer>();
+            _usedSoundPlayers.Add(player);
         }
     }
 }
