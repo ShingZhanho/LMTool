@@ -215,7 +215,7 @@
     <Content Include="LMtool-256.ico" />
     <EmbeddedResource Include="Resources\chord.wav" />
     <None Include="Resources\ok-icon.png" />
-    <Resource Include="Resources\error-icon.png" />
+    <None Include="Resources\error-icon.png" />
     <None Include="Resources\LMTool_Banner.png" />
     <None Include="Resources\LMTool-512.png" />
   </ItemGroup>

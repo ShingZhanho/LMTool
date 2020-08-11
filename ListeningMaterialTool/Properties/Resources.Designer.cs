@@ -82,16 +82,6 @@ namespace ListeningMaterialTool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap error_icon {
-            get {
-                object obj = ResourceManager.GetObject("error_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap LMTool_512 {
             get {
                 object obj = ResourceManager.GetObject("LMTool-512", resourceCulture);
@@ -105,16 +95,6 @@ namespace ListeningMaterialTool.Properties {
         internal static System.Drawing.Bitmap LMTool_Banner {
             get {
                 object obj = ResourceManager.GetObject("LMTool_Banner", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ok_icon {
-            get {
-                object obj = ResourceManager.GetObject("ok-icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
