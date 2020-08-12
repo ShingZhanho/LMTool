@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace ListeningMaterialTool {
     partial class frmNewAudio {
@@ -156,7 +157,7 @@ namespace ListeningMaterialTool {
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "新增音訊";
-            this.Load += new System.EventHandler(this.OnFormLoad);
+            this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);
             ((System.ComponentModel.ISupportInitialize) (this.trbIn)).EndInit();
             ((System.ComponentModel.ISupportInitialize) (this.trbOut)).EndInit();
             this.ResumeLayout(false);

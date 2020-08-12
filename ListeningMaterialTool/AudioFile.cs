@@ -16,7 +16,7 @@ namespace ListeningMaterialTool {
         /// <summary>
         ///     Gets the duration of the audio file.
         /// </summary>
-        public long Duration { get; private set; }
+        public long Duration { get; }
 
     }
 }

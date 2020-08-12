@@ -12,6 +12,18 @@ namespace ListeningMaterialTool {
     public partial class frmMain : Form {
         public frmMain() {
             InitializeComponent();
+
+            // Creates dirs
+            if (!Directory.Exists($@"{Path.GetTempPath()}\LMTool"))
+                Directory.CreateDirectory($@"{Path.GetTempPath()}LMTool");
+            _tempPath = $@"{Path.GetTempPath()}LMTool\{DateTime.Now.ToString()
+                .Replace("/", "").Replace(":", "")
+                .Replace(" ", "")}";
+            Directory.CreateDirectory(_tempPath);
+            if (!Directory.Exists("./ProjectFiles/")) Directory.CreateDirectory("./ProjectFiles/");
+
+            // Initialize AudioTaskItemsCollection
+            _audioList = new AudioTaskItemsCollection(_tempPath);
         }
 
         //private bool isExported = true; // Indicates if all the changes are exported to a file
@@ -28,19 +40,8 @@ namespace ListeningMaterialTool {
             if (Settings.Default.App_VersionName.Contains("b"))
                 _formTitle = $"{Text} {Settings.Default.App_VersionName}";
             Text = _formTitle;
-
-            // Creates dirs
-            if (!Directory.Exists($@"{Path.GetTempPath()}\LMTool"))
-                Directory.CreateDirectory($@"{Path.GetTempPath()}LMTool");
-            _tempPath = $@"{Path.GetTempPath()}LMTool\{DateTime.Now.ToString()
-                .Replace("/", "").Replace(":", "").Replace(" ", "")}";
-            Directory.CreateDirectory(_tempPath);
-            if (!Directory.Exists("./ProjectFiles/")) Directory.CreateDirectory("./ProjectFiles/");
-
-            // Initialize AudioTaskItemsCollection
-            _audioList = new AudioTaskItemsCollection(_tempPath);
-
-            // Save project
+            
+            // Create project
             var i = 0;
             while (File.Exists($"./ProjectFiles/NewProject({i}).lmtproj")) i++;
             _projectPath = Path.GetFullPath($"./ProjectFiles/NewProject({i}).lmtproj");
@@ -280,7 +281,7 @@ namespace ListeningMaterialTool {
             _projectPath = _audioList.SaveFile(saveProjectDialog.FileName);
             _firstSaved = true;
         }
-        
+
         private void tsmNewProject_Click(object sender, EventArgs e) {
             // Check if current project saved
             if (!_audioList.IsSaved) {
@@ -292,15 +293,15 @@ namespace ListeningMaterialTool {
                 if (dr == DialogResult.Yes) tsmSave_Click(sender, e);
                 if (dr == DialogResult.Cancel) return;
             }
-            
+
             // Creates new temp dir
             _tempPath = $@"{Path.GetTempPath()}LMTool\{DateTime.Now.ToString()
                 .Replace("/", "").Replace(":", "").Replace(" ", "")}";
             Directory.CreateDirectory(_tempPath);
-            
+
             // Re-create AudioTaskItemsCollection object
             _audioList = new AudioTaskItemsCollection(_tempPath);
-            
+
             // Create a new file
             var i = 0;
             while (File.Exists($"./ProjectFiles/NewProject({i}).lmtproj")) i++;
@@ -308,7 +309,7 @@ namespace ListeningMaterialTool {
             Text = $"{_formTitle} - {Path.GetFileNameWithoutExtension(_projectPath)}";
             _audioList.SaveFile(_projectPath);
             _firstSaved = false;
-            
+
             // Clean up UI
             _audioList.ToListViewItemCollection(listPending);
             btnExport.Enabled = false;
@@ -329,7 +330,7 @@ namespace ListeningMaterialTool {
                 if (dr == DialogResult.Yes) tsmSave_Click(sender, e);
                 if (dr == DialogResult.Cancel) return;
             }
-            
+
             // Chooses file
             var openDialog = new OpenFileDialog {
                 Filter = "LMTool專案|*.lmtproj",
@@ -343,10 +344,10 @@ namespace ListeningMaterialTool {
             _tempPath = $@"{Path.GetTempPath()}LMTool\{DateTime.Now.ToString()
                 .Replace("/", "").Replace(":", "").Replace(" ", "")}";
             Directory.CreateDirectory(_tempPath);
-            
+
             // Re-create AudioTaskItemsCollection object
             _audioList = new AudioTaskItemsCollection(openDialog.FileName, _tempPath);
-            
+
             // Clean up UI
             _audioList.ToListViewItemCollection(listPending);
             btnExport.Enabled = false;
@@ -408,9 +409,9 @@ namespace ListeningMaterialTool {
 
             Settings.Default.Save();
             Application.Exit();
-            
+
             // Dispose SoundPlayer
-            foreach (var player in _usedSoundPlayers) player.Dispose();
+            if (_usedSoundPlayers != null) foreach (var player in _usedSoundPlayers) player.Dispose();
         }
 
         private void Alert() {
